@@ -118,19 +118,17 @@ class ItemCardState extends State<ItemCardWidget> {
             children: <Widget>[
               //image widget with overlays
               Container(
-                width: 200,
+                decoration: BoxDecoration(
+                    image: DecorationImage(image: AssetImage('assets/banana.jpg'),
+                      )
+                ),
+                width: 300,
                 height: 150,
-                color: Colors.red,
                 padding: EdgeInsets.only(
                   right: 10,
                 ),
-                /*
-                This would enable a image to be displayed as the background for the container
-
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage(assetName),
-                  fit: BoxFit.cover)
-                ), */
+                //This would enable a image to be displayed as the background for the container
+                alignment: Alignment.center,
               ),
               //maybe add another container for padding or increase margins on upper container
               //widget for containing information
@@ -139,11 +137,14 @@ class ItemCardState extends State<ItemCardWidget> {
                 style: TextStyle(fontWeight: FontWeight.bold)),
                 alignment: Alignment.center,
                 width: 300,
-                height: 50,
+                height: 20,
               ),
             ],
           ),
-          width: 200,
+          padding: EdgeInsets.only(
+            top: 20,
+          ),
+          width: 400,
           height: 200,
         ),
         margin: EdgeInsets.symmetric(
