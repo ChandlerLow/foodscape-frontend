@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import '../constants.dart';
 
 class Item {
+  final int id;
   final String name;
   final String photo;
   final int quantity;
@@ -13,11 +14,12 @@ class Item {
   final String userPhoneNumber;
   final String userName;
 
-  Item({this.name, this.photo, this.quantity, this.expiryTime, this.description,
+  Item({this.id, this.name, this.photo, this.quantity, this.expiryTime, this.description,
       this.userLocation, this.userPhoneNumber, this.userName});
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
+      id: json['id'],
       name: json['name'],
       photo: json['photo'],
       quantity: json['quantity'],
