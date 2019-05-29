@@ -1,6 +1,8 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
+import 'item_creation.dart';
+
 class _ItemsWidgetState extends State<ItemsWidget> {
   final List<Item> _items = <Item> [];
   final Set<WordPair> _saved = Set<WordPair>();
@@ -12,9 +14,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Ramsay Hall'),
-        actions: <Widget>[
+        /*actions: <Widget>[
           IconButton(icon: Icon(Icons.favorite), onPressed: _pushSaved),
-        ],
+        ],*/
       ),
       drawer: makeDrawer(),
       floatingActionButton: FloatingActionButton(
@@ -23,11 +25,12 @@ class _ItemsWidgetState extends State<ItemsWidget> {
         child: const Icon(Icons.add),
         //label: const Text('Add an item'),
         onPressed: () {
-          //TODO: navigate to add item view
+          //TODO: pass item as an argument for the widget
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CreationWidget()));
         },
       ),
       floatingActionButtonLocation:
-      FloatingActionButtonLocation.centerFloat, ,
+      FloatingActionButtonLocation.centerFloat,
     );
   }
 
