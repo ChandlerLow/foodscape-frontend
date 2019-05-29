@@ -38,7 +38,8 @@ before_deploy:
 deploy:
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
-  file: build/app/outputs/apk/app.apk
+  file: "build/app/outputs/apk/app.apk"
+  skip_cleanup: true
   on:
     branch: master
 before_cache:
