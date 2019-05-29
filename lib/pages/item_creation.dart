@@ -14,7 +14,7 @@ class _CreatedItemState extends State<CreationWidget> {
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: Colors.grey,
           elevation: 2.0,
-          label: const Text('Submit item!'),
+          label: const Text('Submit Item'),
           onPressed: () {
             // TODO: when we return, we update the home list
             Navigator.pop(context);
