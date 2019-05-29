@@ -1,8 +1,10 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
+import 'item_creation.dart';
+
 class _ItemsWidgetState extends State<ItemsWidget> {
-  final List<WordPair> _suggestions = <WordPair>[];
+  final List<Item> _items = <Item> [];
   final Set<WordPair> _saved = Set<WordPair>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
 
@@ -12,47 +14,58 @@ class _ItemsWidgetState extends State<ItemsWidget> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Ramsay Hall'),
-        actions: <Widget>[ // Add 3 lines from here...
+        /*actions: <Widget>[
           IconButton(icon: Icon(Icons.favorite), onPressed: _pushSaved),
-        ],
-        /*leading: new IconButton(
-          icon: new Icon(Icons.list),
-          onPressed: () {
-            openToggle();
-          },
-        ),*/
-      ),
-      drawer: Drawer(
-        child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              //TODO: get name of
-              new UserAccountsDrawerHeader(
-                accountEmail: new Text("jenny.xu18@bristol.ac.uk"),
-                accountName: new Text(
-                  "Jenny Xu", style: TextStyle(fontSize: 24),),
-                currentAccountPicture: new CircleAvatar(
-                  backgroundColor: Colors.pinkAccent,
-                  child: new Text("JX", style: TextStyle(fontSize: 24),),
-                ),
-              ),
-              ListTile(
-                title: Text('My Items',
-                  style: TextStyle(fontSize: 18),),
-                onTap: () {
-                  //TODO: add action
-                },
-              ),
-              ListTile(
-                title: Text('My Details', style: TextStyle(fontSize: 18),),
-                onTap: () {
-                  //TODO: add action
-                },
-              ),
-            ]
-        ),
+        ],*/
       ),
       body: ItemCardWidget(),
+      drawer: makeDrawer(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.grey,
+        elevation: 2.0,
+        child: const Icon(Icons.add),
+        //label: const Text('Add an item'),
+        onPressed: () {
+          //TODO: pass item as an argument for the widget
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CreationWidget()));
+        },
+      ),
+      floatingActionButtonLocation:
+      FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  Drawer makeDrawer() {
+    return Drawer(
+      child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            //TODO: get name of
+            new UserAccountsDrawerHeader(
+              accountEmail: new Text("jenny.xu18@bristol.ac.uk"),
+              accountName: new Text(
+                "Jenny Xu", style: TextStyle(fontSize: 24),),
+              currentAccountPicture: new CircleAvatar(
+                backgroundColor: Colors.pinkAccent,
+                child: new Text("JX", style: TextStyle(fontSize: 24),),
+              ),
+            ),
+            ListTile(
+              title: Text('My Items',
+                style: TextStyle(fontSize: 18),),
+              onTap: () {
+                //TODO: add action
+              },
+            ),
+            ListTile(
+              title: Text('My Details', style: TextStyle(fontSize: 18),),
+              onTap: () {
+                //TODO: add action
+              },
+            ),
+          ]
+      ),
+
     );
   }
 
@@ -88,23 +101,6 @@ class _ItemsWidgetState extends State<ItemsWidget> {
     );
   }
 
-  Widget _buildSuggestions() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemBuilder: (BuildContext _context, int i) {
-          if (i.isOdd) {
-            return Divider();
-          }
-
-          final int index = i ~/ 2;
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10));
-          }
-          return _buildRow(_suggestions[index]);
-        }
-    );
-  }
-
   Widget _buildRow(WordPair pair) {
     final bool alreadySaved = _saved.contains(pair);
     return ListTile(
@@ -130,10 +126,6 @@ class _ItemsWidgetState extends State<ItemsWidget> {
 
   //constructs card with metadata
 }
-
-
-
-
 
 class ItemListWidget extends StatefulWidget {
   @override
@@ -273,4 +265,8 @@ class _ItemCardsState extends State<ItemCardsWidget>{
 class ItemsWidget extends StatefulWidget {
   @override
   _ItemsWidgetState createState() => _ItemsWidgetState();
+}
+
+class Item {
+
 }
