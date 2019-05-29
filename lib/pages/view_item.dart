@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -19,7 +20,6 @@ class _ViewItemState extends State<ViewItemWidget> {
         label: const Text('Message'),
         onPressed: () {
           // TODO: add contact info or implement message feature
-          Navigator.pop(context);
         },
       ),
       floatingActionButtonLocation:
@@ -30,40 +30,51 @@ class _ViewItemState extends State<ViewItemWidget> {
   Widget makeBody() {
     List<String> labels = ["Quantity", "Owner", "Location"];
     List<String> values = ["5", "Jenny Xu", "Block A"];
-
     return Container(
-      child: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (BuildContext context, int index){
-          return makeCard(labels[index], values[index]);
-        },
+      child: Column(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/banana.jpg')
+              )
+            ),
+            width: 300,
+            height: 270,
+            alignment: Alignment.center,
+          ),
+          Container(
+            child: Text("Banana",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            alignment: Alignment.center,
+            padding: EdgeInsets.fromLTRB(0,10,0,0),
+          ),
+          Container(
+            child: Text("Expires in 3 days",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            alignment: Alignment.center,
+            padding: EdgeInsets.fromLTRB(0,0,0,10),
+          ),
+          new ListTile(
+            leading: Text("Quantity", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            title: new Text("5", textAlign: TextAlign.right,),
+          ),
+          new ListTile(
+            leading: Text("Owner", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            title: new Text("Jenny Xu", textAlign: TextAlign.right,),
+          ),
+          new ListTile(
+            leading: Text("Location", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            title: new Text("Block A", textAlign: TextAlign.right,),
+          ),
+       ],
+      ),
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
       ),
     );
   }
-
-  Card makeCard(String label, String value) => Card(
-    elevation: 8,
-    margin: new EdgeInsets.symmetric(horizontal: 10.0),
-    child: Container(
-      child: makeListTile(label, value),
-    )
-  );
-
-  ListTile makeListTile(String label, String value) => ListTile(
-      contentPadding:
-      EdgeInsets.symmetric(horizontal: 40.0, vertical: 0.0),
-      leading: Container(
-        padding: EdgeInsets.only(right: 12.0),
-        decoration: new BoxDecoration(
-            border: new Border(
-                right: new BorderSide(width: 1.0, color: Colors.white24))),
-        child: Text(label,style: TextStyle(fontSize: 18)),
-      ),
-      title: Text(
-        value,
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-  );
 }
 
 
