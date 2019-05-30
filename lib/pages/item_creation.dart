@@ -36,8 +36,10 @@ class _CreatedItemState extends State<CreationWidget> {
 
   // Function for creating the body of the page
   Widget makeBody(BuildContext context) {
-    return  Container(
-      child: Column(
+    return Scaffold(
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(10),
+        child: Column(
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
@@ -79,11 +81,7 @@ class _CreatedItemState extends State<CreationWidget> {
             onTap:() => _selectDate(context, output),
           )*/
         ],
-      ),
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
-      ),
+      )),
     );
   }
 
@@ -124,12 +122,12 @@ class _CreatedItemState extends State<CreationWidget> {
         content: new Text('Are you sure?'),
         actions: <Widget>[
           new FlatButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: new Text("Yes"),
-          ),
-          new FlatButton(
             onPressed: () => Navigator.of(context).pop(false),
             child: new Text("No"),
+          ),
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: new Text("Yes"),
           )
         ],
       ),
