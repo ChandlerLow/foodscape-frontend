@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/my_items.dart';
 
+/// Utility functions for commonly usable widgets
 
 Drawer makeDrawer(BuildContext context) {
   return Drawer(
@@ -36,6 +37,7 @@ Drawer makeDrawer(BuildContext context) {
   );
 }
 
+// Function for making item cards
 Card makeCard(String name, String daysLeft, String location) {
   return Card(
       child: Container(
@@ -55,27 +57,25 @@ Card makeCard(String name, String daysLeft, String location) {
             //widget for containing information
             Container(
               child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
                     child: Text(name
-                      ,style: TextStyle(fontWeight: FontWeight.bold),),
-                    width: 100,
+                      ,style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.left),
                     alignment: Alignment.centerLeft,
                   ),
                   Container(
                     child: Text(daysLeft
                       ,style: TextStyle(fontWeight: FontWeight.bold),),
-                    width: 100,
                     alignment: Alignment.center,
                   ),
                   Container(
                     child: Text(location
-                      ,style: TextStyle(fontWeight: FontWeight.bold),),
-                    width: 100,
+                      ,style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.right,),
                     alignment: Alignment.centerRight,
                   ),
                 ],
-                mainAxisSize: MainAxisSize.max,
               ),
               alignment: Alignment.center,
               width: 300,

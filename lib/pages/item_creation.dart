@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Class to create a new item to give away
 class _CreatedItemState extends State<CreationWidget> {
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,8 @@ class _CreatedItemState extends State<CreationWidget> {
               style: TextStyle(fontSize: 24)),
         ),
         body: makeBody(context),
+
+        // The button submits the item and returns to the home page
         floatingActionButton: showFab ? FloatingActionButton.extended(
           heroTag: null,
           backgroundColor: Colors.grey,
@@ -30,6 +33,8 @@ class _CreatedItemState extends State<CreationWidget> {
     );
   }
   String output = "Select date";
+
+  // Function for creating the body of the page
   Widget makeBody(BuildContext context) {
     return  Container(
       child: Column(
@@ -46,6 +51,7 @@ class _CreatedItemState extends State<CreationWidget> {
             alignment: Alignment.center,
             padding: EdgeInsets.all(0),
           ),
+          // The button navigates to a new page to take the photo
           FloatingActionButton.extended(
             heroTag: null,
             backgroundColor: Colors.grey,
@@ -81,6 +87,7 @@ class _CreatedItemState extends State<CreationWidget> {
     );
   }
 
+  // Generating function for tiles
   ListTile makeListTile(String hintText) {
     return new ListTile(
       title: new TextField(
@@ -107,6 +114,8 @@ class _CreatedItemState extends State<CreationWidget> {
       });
   }
 
+  // Overwriting the pop function of the page, so it won't jump back to the main
+  // page immediately
   Future<bool> _onWillPop() {
     return showDialog(
       context: context,

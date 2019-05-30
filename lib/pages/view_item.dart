@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
+/// Page to view item information (e.g. owner, location)
 class _ViewItemState extends State<ViewItemWidget> {
   @override
   Widget build(BuildContext context) {
@@ -15,6 +15,7 @@ class _ViewItemState extends State<ViewItemWidget> {
 
       body: makeBody(),
 
+      // With the button we can contact the owner of the item we are looking at
       floatingActionButton: showFab ? FloatingActionButton.extended(
         heroTag: null,
         backgroundColor: Colors.grey,
@@ -29,6 +30,7 @@ class _ViewItemState extends State<ViewItemWidget> {
     );
   }
 
+  // Function for creating the body of the page
   Widget makeBody() {
     return SingleChildScrollView(
       child: Container(
@@ -69,6 +71,7 @@ class _ViewItemState extends State<ViewItemWidget> {
     );
   }
 
+  // Generating function for tiles
   ListTile makeListTile(String leading, String title) {
     return new ListTile(
       leading: Text(leading, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),

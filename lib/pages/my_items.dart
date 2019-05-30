@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/view_item.dart';
 import 'items.dart';
 
+/// Class for showing the items of the user
 class MyItemsWidget extends StatefulWidget {
   @override
   MyItemsState createState() => MyItemsState();
@@ -19,7 +20,6 @@ class MyItemsState extends State<MyItemsWidget> {
     );
   }
 }
-
 
 class ItemListWidget extends StatefulWidget {
   @override
@@ -41,7 +41,7 @@ class ItemListState extends State<ItemListWidget> {
     return Container(
       child :ListView.builder(
         padding: const EdgeInsets.all(16.0),
-        itemBuilder: /*1*/ (context, i) => myItems[i],
+        itemBuilder: (context, i) => myItems[i],
         itemCount: myItems.length,
       ),
       padding: EdgeInsets.only(
@@ -69,15 +69,13 @@ class ItemCardState extends State<ItemCardWidget> {
                 //image widget with overlays
                 Container(
                   decoration: BoxDecoration(
-                      image: DecorationImage(image: AssetImage('assets/banana.jpg'),
-                      )
+                      image: DecorationImage(image: AssetImage('assets/banana.jpg'),)
                   ),
                   width: 300,
                   height: 150,
                   padding: EdgeInsets.only(
                     right: 10,
                   ),
-                  //This would enable a image to be displayed as the background for the container
                   alignment: Alignment.center,
                 ),
                 //maybe add another container for padding or increase margins on upper container
