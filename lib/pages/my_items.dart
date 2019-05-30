@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/utils/item_utils.dart';
+import 'items.dart';
 
 class MyItemsWidget extends StatefulWidget {
   @override
