@@ -82,21 +82,22 @@ class ItemListState extends State<ItemListWidget> {
   //constructs a list view of cards
   // need to modify instead of containing the widget will hold data then constructs card with data
   final cards = <ItemCardWidget>[];
+
+  //rerenders? unsure how updating will work
+  @override
+  // ignore: must_call_super
+  void initState() {
+    cards.add(ItemCardWidget());
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       child :ListView.builder(
           padding: const EdgeInsets.all(16.0),
-          itemBuilder: /*1*/ (context, i) {
-            if (i.isOdd) return Divider(); /*2*/
-
-            final index = i ~/ 2; /*3*/
-            if (index >= cards.length) {
-              cards.add(ItemCardWidget()); /*4*/
-            }
-            return cards[index];
-          }),
+          itemBuilder: (context, i) => cards[i],
+          itemCount: cards.length,
+      ),
       padding: EdgeInsets.only(
         bottom: 100,
       ),
@@ -132,7 +133,6 @@ class ItemCardState extends State<ItemCardWidget> {
                   padding: EdgeInsets.only(
                     right: 10,
                   ),
-                  //This would enable a image to be displayed as the background for the container
                   alignment: Alignment.center,
                 ),
                 //maybe add another container for padding or increase margins on upper container
