@@ -11,6 +11,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -18,7 +19,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
       ),
       body: ItemListWidget(),
       drawer: makeDrawer(),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: showFab ? FloatingActionButton(
         backgroundColor: Colors.grey,
         elevation: 2.0,
         child: const Icon(Icons.add),
@@ -27,7 +28,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
           //TODO: pass item as an argument for the widget
           Navigator.push(context, MaterialPageRoute(builder: (context) => CreationWidget()));
         },
-      ),
+      ) : null,
       floatingActionButtonLocation:
       FloatingActionButtonLocation.centerFloat,
     );

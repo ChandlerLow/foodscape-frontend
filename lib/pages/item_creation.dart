@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 class _CreatedItemState extends State<CreationWidget> {
   @override
   Widget build(BuildContext context) {
+    final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
+        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           centerTitle: true,
           title: Text('Add Item',
               style: TextStyle(fontSize: 24)),
         ),
-        floatingActionButton: FloatingActionButton.extended(
+        body: makeBody(),
+        floatingActionButton: showFab ? FloatingActionButton.extended(
           backgroundColor: Colors.grey,
           elevation: 2.0,
           label: const Text('Submit Item'),
@@ -19,10 +22,57 @@ class _CreatedItemState extends State<CreationWidget> {
             // TODO: when we return, we update the home list
             Navigator.pop(context);
           },
-        ),
+        ) : null,
         floatingActionButtonLocation:
         FloatingActionButtonLocation.centerFloat,
       )
+    );
+  }
+
+  Widget makeBody() {
+    return  Container(
+      child: Column(
+        children: <Widget>[
+          Container(
+            /*decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/banana.jpg')
+                )
+            ),*/
+            color: Colors.red,
+            width: 300,
+            height: 270,
+            alignment: Alignment.center,
+          ),
+          new ListTile(
+            title: new TextField(
+              decoration: new InputDecoration(
+                hintText: "Item Name"
+              ),
+            ),
+          ),
+
+          new ListTile(
+            title: new TextField(
+              decoration: new InputDecoration(
+                  hintText: "Quantity (eg. 1/2 pint, 5 pieces)"
+              ),
+            ),
+          ),
+
+          new ListTile(
+            title: new TextField(
+              decoration: new InputDecoration(
+                  hintText: "Location"
+              ),
+            ),
+          ),
+        ],
+      ),
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
     );
   }
 
