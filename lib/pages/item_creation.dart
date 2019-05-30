@@ -13,7 +13,7 @@ class _CreatedItemState extends State<CreationWidget> {
           title: Text('Add Item',
               style: TextStyle(fontSize: 24)),
         ),
-        body: makeBody(),
+        body: makeBody(context),
         floatingActionButton: showFab ? FloatingActionButton.extended(
           backgroundColor: Colors.grey,
           elevation: 2.0,
@@ -28,21 +28,27 @@ class _CreatedItemState extends State<CreationWidget> {
       )
     );
   }
-
-  Widget makeBody() {
+  String output = "Select date";
+  Widget makeBody(BuildContext context) {
     return  Container(
       child: Column(
         children: <Widget>[
           Container(
-            /*decoration: BoxDecoration(
+            decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/banana.jpg')
+                    image: AssetImage('assets/camera.png')
                 )
-            ),*/
-            color: Colors.red,
-            width: 300,
-            height: 270,
+            ),
+            //TODO remove magic numbers
+            width: 270,
+            height: 250,
             alignment: Alignment.center,
+            padding: EdgeInsets.all(0),
+          ),
+          FloatingActionButton.extended(
+            backgroundColor: Colors.grey,
+            onPressed: () => {},
+            label: const Text('Take a photo'),
           ),
           new ListTile(
             title: new TextField(
@@ -67,6 +73,22 @@ class _CreatedItemState extends State<CreationWidget> {
               ),
             ),
           ),
+
+          //TODO: expiration date
+          /*Container(
+            child: FlatButton(
+              onPressed: () => _selectDate(context),
+              child: Text(output),
+            )
+          ),*/
+          /*new ListTile(
+            title: new TextField(
+              decoration: new InputDecoration(
+                hintText: output,
+              ),
+            ),
+            onTap:() => _selectDate(context, output),
+          )*/
         ],
       ),
       margin: EdgeInsets.symmetric(
@@ -74,6 +96,22 @@ class _CreatedItemState extends State<CreationWidget> {
         vertical: 20,
       ),
     );
+  }
+
+  Future<Null> _selectDate(BuildContext context) async {
+    DateTime selectedDate;
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+        output = "${selectedDate.year.toString()}/"
+            "${selectedDate.month.toString().padLeft(2,'0')}/"
+            "${selectedDate.day.toString().padLeft(2, '0')}";
+      });
   }
 
   Future<bool> _onWillPop() {
