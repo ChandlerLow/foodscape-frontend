@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/view_item.dart';
-import 'items.dart';
 
 /// Class for showing the items of the user
 class MyItemsWidget extends StatefulWidget {
@@ -14,8 +12,8 @@ class MyItemsState extends State<MyItemsWidget> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('My Items',),
-    ),
+        title: const Text('My Items'),
+      ),
       body: ItemListWidget(),
     );
   }
@@ -29,27 +27,26 @@ class ItemListWidget extends StatefulWidget {
 class ItemListState extends State<ItemListWidget> {
   //constructs a list view of cards
   // need to modify instead of containing the widget will hold data then constructs card with data
-  final myItems = <ItemCardWidget>[];
+  final List<ItemCardWidget> myItems = <ItemCardWidget>[];
 
   @override
   void initState() {
+    super.initState();
     myItems.add(ItemCardWidget());
   }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    // TODO(x): implement build
     return Container(
-      child :ListView.builder(
+      child: ListView.builder(
         padding: const EdgeInsets.all(16.0),
-        itemBuilder: (context, i) => myItems[i],
+        itemBuilder: (BuildContext context, int i) => myItems[i],
         itemCount: myItems.length,
       ),
-      padding: EdgeInsets.only(
-        bottom: 100,
-      ),
+      padding: const EdgeInsets.only(bottom: 100),
     );
   }
-
 }
 
 class ItemCardWidget extends StatefulWidget {
@@ -61,44 +58,40 @@ class ItemCardState extends State<ItemCardWidget> {
   //constructor an item card with Data Class
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    // TODO(x): implement build
+
     return Card(
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                //image widget with overlays
-                Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(image: AssetImage('assets/banana.jpg'),)
-                  ),
-                  width: 300,
-                  height: 150,
-                  padding: EdgeInsets.only(
-                    right: 10,
-                  ),
-                  alignment: Alignment.center,
-                ),
-                //maybe add another container for padding or increase margins on upper container
-                //widget for containing information
-                Container(
-                  child: Text("ITEM TITLE",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  alignment: Alignment.centerLeft,
-                  width: 300,
-                  height: 20,
-                ),
-              ],
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            //image widget with overlays
+            Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: const AssetImage('assets/banana.jpg'))),
+              width: 300,
+              height: 150,
+              padding: const EdgeInsets.only(
+                right: 10,
+              ),
+              alignment: Alignment.center,
             ),
-            padding: EdgeInsets.only(
-              top: 20,
+            //maybe add another container for padding or increase margins on upper container
+            //widget for containing information
+            Container(
+              child: const Text('ITEM TITLE',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              alignment: Alignment.centerLeft,
+              width: 300,
+              height: 20,
             ),
-            width: 400,
-            height: 200,
-          ),
-          margin: EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 10,
-          ),
+          ],
+        ),
+        padding: const EdgeInsets.only(top: 20),
+        width: 400,
+        height: 200,
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
     );
   }
 }

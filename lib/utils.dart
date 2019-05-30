@@ -1,39 +1,37 @@
 import 'package:flutter/material.dart';
+
 import 'pages/my_items.dart';
 
 /// Utility functions for commonly usable widgets
 
 Drawer makeDrawer(BuildContext context) {
   return Drawer(
-    child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          //TODO: get name of
-          new UserAccountsDrawerHeader(
-            accountEmail: new Text("jenny.xu18@bristol.ac.uk"),
-            accountName: new Text(
-              "Jenny Xu", style: TextStyle(fontSize: 24),),
-            currentAccountPicture: new CircleAvatar(
-              backgroundColor: Colors.pinkAccent,
-              child: new Text("JX", style: TextStyle(fontSize: 24),),
-            ),
-          ),
-          ListTile(
-            title: Text('My Items',
-              style: TextStyle(fontSize: 18),),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MyItemsWidget()));
-            },
-          ),
-          ListTile(
-            title: Text('My Details', style: TextStyle(fontSize: 18),),
-            onTap: () {
-              //TODO: add action
-            },
-          ),
-        ]
-    ),
-
+    child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+      // TODO(x): get name of
+      const UserAccountsDrawerHeader(
+        accountEmail: Text('jenny.xu18@bristol.ac.uk'),
+        accountName: Text('Jenny Xu', style: TextStyle(fontSize: 24)),
+        currentAccountPicture: CircleAvatar(
+          backgroundColor: Colors.pinkAccent,
+          child: Text('JX', style: TextStyle(fontSize: 24)),
+        ),
+      ),
+      ListTile(
+        title: const Text('My Items', style: TextStyle(fontSize: 18)),
+        onTap: () {
+          Navigator.push<dynamic>(
+              context,
+              MaterialPageRoute<dynamic>(
+                  builder: (BuildContext context) => MyItemsWidget()));
+        },
+      ),
+      ListTile(
+        title: const Text('My Details', style: TextStyle(fontSize: 18)),
+        onTap: () {
+          // TODO(x): add action
+        },
+      ),
+    ]),
   );
 }
 
@@ -47,10 +45,11 @@ Card makeCard(String name, String daysLeft, String location) {
             Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/banana.jpg'),)),
+                image: const AssetImage('assets/banana.jpg'),
+              )),
               width: 300,
               height: 150,
-              padding: EdgeInsets.only(right: 10,),
+              padding: const EdgeInsets.only(right: 10),
               alignment: Alignment.center,
             ),
             //maybe add another container for padding or increase margins on upper container
@@ -59,20 +58,26 @@ Card makeCard(String name, String daysLeft, String location) {
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
+                children: <Container>[
                   Container(
-                    child: Text(name
-                      ,style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    child: Text(name,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left),
                     alignment: Alignment.centerLeft,
                   ),
                   Container(
-                    child: Text(daysLeft
-                      ,style: TextStyle(fontWeight: FontWeight.bold),),
+                    child: Text(
+                      daysLeft,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     alignment: Alignment.center,
                   ),
                   Container(
-                    child: Text(location
-                      ,style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.right,),
+                    child: Text(
+                      location,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.right,
+                    ),
                     alignment: Alignment.centerRight,
                   ),
                 ],
@@ -83,12 +88,9 @@ Card makeCard(String name, String daysLeft, String location) {
             ),
           ],
         ),
-        padding: EdgeInsets.only(top: 20, ),
+        padding: const EdgeInsets.only(top: 20),
         width: 400,
         height: 200,
       ),
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ));
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10));
 }
