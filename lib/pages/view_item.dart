@@ -30,8 +30,6 @@ class _ViewItemState extends State<ViewItemWidget> {
   }
 
   Widget makeBody() {
-    List<String> labels = ["Quantity", "Owner", "Location"];
-    List<String> values = ["5", "Jenny Xu", "Block A"];
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -58,18 +56,9 @@ class _ViewItemState extends State<ViewItemWidget> {
               alignment: Alignment.center,
               padding: EdgeInsets.fromLTRB(0,0,0,10),
             ),
-            new ListTile(
-              leading: Text("Quantity", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              title: new Text("5", textAlign: TextAlign.right,),
-            ),
-            new ListTile(
-              leading: Text("Owner", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              title: new Text("Jenny Xu", textAlign: TextAlign.right,),
-            ),
-            new ListTile(
-              leading: Text("Location", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              title: new Text("Block A", textAlign: TextAlign.right,),
-            ),
+            makeListTile("Quantity", "5"),
+            makeListTile("Onwer", "Jenny Xu"),
+            makeListTile("Location", "Block A"),
          ],
         ),
         margin: EdgeInsets.symmetric(
@@ -77,6 +66,13 @@ class _ViewItemState extends State<ViewItemWidget> {
           vertical: 20,
         ),
       )
+    );
+  }
+
+  ListTile makeListTile(String leading, String title) {
+    return new ListTile(
+      leading: Text(leading, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+      title: new Text(title, textAlign: TextAlign.right,),
     );
   }
 }

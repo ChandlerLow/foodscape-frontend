@@ -1,8 +1,7 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/view_item.dart';
 import 'item_creation.dart';
-import 'my_items.dart';
+import 'package:frontend/utils.dart';
 
 class ItemsWidget extends StatefulWidget {
   @override
@@ -10,8 +9,6 @@ class ItemsWidget extends StatefulWidget {
 }
 
 class _ItemsWidgetState extends State<ItemsWidget> {
-  final List<Item> _items = <Item> [];
-  //final Set<WordPair> _saved = Set<WordPair>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
@@ -22,8 +19,11 @@ class _ItemsWidgetState extends State<ItemsWidget> {
         centerTitle: true,
         title: Text('Ramsay Hall'),
       ),
+
       body: ItemListWidget(),
-      drawer: makeDrawer(),
+
+      drawer: makeDrawer(context),
+
       floatingActionButton: showFab ? FloatingActionButton(
         heroTag: null,
         backgroundColor: Colors.grey,
@@ -40,39 +40,6 @@ class _ItemsWidgetState extends State<ItemsWidget> {
     );
   }
 
-  Drawer makeDrawer() {
-    return Drawer(
-      child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            //TODO: get name of
-            new UserAccountsDrawerHeader(
-              accountEmail: new Text("jenny.xu18@bristol.ac.uk"),
-              accountName: new Text(
-                "Jenny Xu", style: TextStyle(fontSize: 24),),
-              currentAccountPicture: new CircleAvatar(
-                backgroundColor: Colors.pinkAccent,
-                child: new Text("JX", style: TextStyle(fontSize: 24),),
-              ),
-            ),
-            ListTile(
-              title: Text('My Items',
-                style: TextStyle(fontSize: 18),),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MyItemsWidget()));
-              },
-            ),
-            ListTile(
-              title: Text('My Details', style: TextStyle(fontSize: 18),),
-              onTap: () {
-                //TODO: add action
-              },
-            ),
-          ]
-      ),
-
-    );
-  }
 }
 
 class ItemListWidget extends StatefulWidget {
@@ -117,52 +84,9 @@ class ItemCardState extends State<ItemCardWidget> {
   //constructor an item card with Data Class
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return GestureDetector(
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ViewItemWidget())),
-        child: Card(
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                //image widget with overlays
-                Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(image: AssetImage('assets/banana.jpg'),
-                      )
-                  ),
-                  width: 300,
-                  height: 150,
-                  padding: EdgeInsets.only(
-                    right: 10,
-                  ),
-                  alignment: Alignment.center,
-                ),
-                //maybe add another container for padding or increase margins on upper container
-                //widget for containing information
-                Container(
-                  child: Text("ITEM TITLE",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  alignment: Alignment.center,
-                  width: 300,
-                  height: 20,
-                ),
-              ],
-            ),
-            padding: EdgeInsets.only(
-              top: 20,
-            ),
-            width: 400,
-            height: 200,
-          ),
-          margin: EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 10,
-          ),
-        )
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ViewItemWidget())),
+      child: makeCard(),
     );
   }
-}
-
-class Item {
-
 }

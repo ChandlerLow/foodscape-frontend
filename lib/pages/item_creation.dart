@@ -52,37 +52,10 @@ class _CreatedItemState extends State<CreationWidget> {
             onPressed: () => {},
             label: const Text('Take a photo'),
           ),
-          new ListTile(
-            title: new TextField(
-              decoration: new InputDecoration(
-                hintText: "Item Name"
-              ),
-            ),
-          ),
-
-          new ListTile(
-            title: new TextField(
-              decoration: new InputDecoration(
-                hintText: "Quantity (eg. 1/2 pint, 5 pieces)"
-              ),
-            ),
-          ),
-
-          new ListTile(
-            title: new TextField(
-              decoration: new InputDecoration(
-                hintText: "Location"
-              ),
-            ),
-          ),
-
-          new ListTile(
-            title: new TextField(
-              decoration: new InputDecoration(
-                hintText: "Days remaining"
-              ),
-            )
-          )
+          makeListTile("Item Name"),
+          makeListTile("Quantity (eg. 1/2 pint, 5 pieces)"),
+          makeListTile("Location"),
+          makeListTile("Days reamining"),
 
           //TODO: expiration date
           /*Container(
@@ -104,6 +77,16 @@ class _CreatedItemState extends State<CreationWidget> {
       margin: EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 20,
+      ),
+    );
+  }
+
+  ListTile makeListTile(String hintText) {
+    return new ListTile(
+      title: new TextField(
+        decoration: new InputDecoration(
+          hintText: hintText,
+        ),
       ),
     );
   }
