@@ -16,7 +16,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
         centerTitle: true,
         title: Text('Ramsay Hall'),
       ),
-      body: ItemCardWidget(),
+      body: ItemListWidget(),
       drawer: makeDrawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.grey,
@@ -75,10 +75,27 @@ class ItemListWidget extends StatefulWidget {
 
 class ItemListState extends State<ItemListWidget> {
   //constructs a list view of cards
+  // need to modify instead of containing the widget will hold data then constructs card with data
+  final cards = <ItemCardWidget>[];
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return null;
+    return Container(
+        child :ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemBuilder: /*1*/ (context, i) {
+          if (i.isOdd) return Divider(); /*2*/
+
+          final index = i ~/ 2; /*3*/
+          if (index >= cards.length) {
+            cards.add(ItemCardWidget()); /*4*/
+          }
+          return cards[index];
+        }),
+      padding: EdgeInsets.only(
+        bottom: 100,
+      ),
+    );
   }
 
 }
@@ -101,29 +118,17 @@ class ItemCardState extends State<ItemCardWidget> {
             children: <Widget>[
               //image widget with overlays
               Container(
-                child: Column(
-                  children: <Widget>[
-                    Text("Days Left",
-                      style: TextStyle(fontWeight: FontWeight.bold),),
-                    Text("Location",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                decoration: BoxDecoration(
+                    image: DecorationImage(image: AssetImage('assets/banana.jpg'),
+                      )
                 ),
-                width: 200,
+                width: 300,
                 height: 150,
-                color: Colors.red,
                 padding: EdgeInsets.only(
                   right: 10,
                 ),
-                /*
-                This would enable a image to be displayed as the background for the container
-
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage(assetName),
-                  fit: BoxFit.cover)
-                ), */
+                //This would enable a image to be displayed as the background for the container
+                alignment: Alignment.center,
               ),
               //maybe add another container for padding or increase margins on upper container
               //widget for containing information
@@ -131,12 +136,15 @@ class ItemCardState extends State<ItemCardWidget> {
                 child: Text("ITEM TITLE",
                 style: TextStyle(fontWeight: FontWeight.bold)),
                 alignment: Alignment.center,
-                width: 200,
-                height: 50,
+                width: 300,
+                height: 20,
               ),
             ],
           ),
-          width: 200,
+          padding: EdgeInsets.only(
+            top: 20,
+          ),
+          width: 400,
           height: 200,
         ),
         margin: EdgeInsets.symmetric(
@@ -148,63 +156,6 @@ class ItemCardState extends State<ItemCardWidget> {
   }
 }
 
-
-
-
-
-
-class ItemCardsWidget extends StatefulWidget {
-  @override
-  _ItemCardsState createState() => _ItemCardsState();
-}
-
-class _ItemCardsState extends State<ItemCardsWidget>{
-
-  //data passed into constructor
-  @override
-  Widget build(BuildContext context) {
-    return
-    Container(
-      padding: EdgeInsets.only(
-          top: 20 ),
-      child: ListView(
-        children: <Widget>[
-          Card(
-            child: InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-              onTap: () {
-                print('Card tapped.');
-              },
-              child: Container(
-                width: 300,
-                height: 100,
-                child: Text('A card that can be tapped'),
-              ),
-            ),
-            margin: EdgeInsets.symmetric(
-              horizontal: 25,
-              vertical: 10,
-            ),
-          ),
-
-          Card(
-            child: InkWell(
-              splashColor: Colors.red.withAlpha(30),
-              onTap: () {
-                print('Card tapped.');
-              },
-              child: Container(
-                width: 300,
-                height: 100,
-                child: Text('A card that can be tapped'),
-              ),
-            ),
-          ),
-         ]
-        )
-    );
-  }
-}
 class ItemsWidget extends StatefulWidget {
   @override
   _ItemsWidgetState createState() => _ItemsWidgetState();
