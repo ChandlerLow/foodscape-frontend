@@ -43,20 +43,25 @@ class _ItemsWidgetState extends State<ItemsWidget> {
 }
 
 class ItemListWidget extends StatefulWidget {
+  final items = <Widget>[];
+
   @override
-  ItemListState createState() => ItemListState();
+  ItemListState createState() {
+    for(int i = 0; i < 10; i++) {
+      items.add(ItemCardWidget());
+    }
+    return ItemListState(items);
+  }
 }
 
 class ItemListState extends State<ItemListWidget> {
-  //constructs a list view of cards
-  // need to modify instead of containing the widget will hold data then constructs card with data
-  final cards = <ItemCardWidget>[];
 
-  //rerenders? unsure how updating will work
-  @override
-  // ignore: must_call_super
-  void initState() {
-    cards.add(ItemCardWidget());
+  //Constructs a item list parse in the items through the constructor
+  //TODO modify items type
+  var items = <Widget>[];
+
+  ItemListState(List<Widget> widgets) {
+    this.items = widgets;
   }
 
   @override
@@ -64,8 +69,8 @@ class ItemListState extends State<ItemListWidget> {
     return Container(
       child :ListView.builder(
           padding: const EdgeInsets.all(16.0),
-          itemBuilder: (context, i) => cards[i],
-          itemCount: cards.length,
+          itemBuilder: (context, i) => items[i],
+          itemCount: items.length,
       ),
       padding: EdgeInsets.only(
         bottom: 100,
@@ -76,6 +81,7 @@ class ItemListState extends State<ItemListWidget> {
 }
 
 class ItemCardWidget extends StatefulWidget {
+  //TODO parse in data to construct cards
   @override
   ItemCardState createState() => ItemCardState();
 }
