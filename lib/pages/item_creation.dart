@@ -15,6 +15,7 @@ class _CreatedItemState extends State<CreationWidget> {
         ),
         body: makeBody(context),
         floatingActionButton: showFab ? FloatingActionButton.extended(
+          heroTag: null,
           backgroundColor: Colors.grey,
           elevation: 2.0,
           label: const Text('Submit Item'),
@@ -46,6 +47,7 @@ class _CreatedItemState extends State<CreationWidget> {
             padding: EdgeInsets.all(0),
           ),
           FloatingActionButton.extended(
+            heroTag: null,
             backgroundColor: Colors.grey,
             onPressed: () => {},
             label: const Text('Take a photo'),
@@ -61,7 +63,7 @@ class _CreatedItemState extends State<CreationWidget> {
           new ListTile(
             title: new TextField(
               decoration: new InputDecoration(
-                  hintText: "Quantity (eg. 1/2 pint, 5 pieces)"
+                hintText: "Quantity (eg. 1/2 pint, 5 pieces)"
               ),
             ),
           ),
@@ -69,10 +71,18 @@ class _CreatedItemState extends State<CreationWidget> {
           new ListTile(
             title: new TextField(
               decoration: new InputDecoration(
-                  hintText: "Location"
+                hintText: "Location"
               ),
             ),
           ),
+
+          new ListTile(
+            title: new TextField(
+              decoration: new InputDecoration(
+                hintText: "Days remaining"
+              ),
+            )
+          )
 
           //TODO: expiration date
           /*Container(

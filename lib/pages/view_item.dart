@@ -16,6 +16,7 @@ class _ViewItemState extends State<ViewItemWidget> {
       body: makeBody(),
 
       floatingActionButton: showFab ? FloatingActionButton.extended(
+        heroTag: null,
         backgroundColor: Colors.grey,
         elevation: 2.0,
         label: const Text('Message'),

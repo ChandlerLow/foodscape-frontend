@@ -20,6 +20,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
       body: ItemListWidget(),
       drawer: makeDrawer(),
       floatingActionButton: showFab ? FloatingActionButton(
+        heroTag: null,
         backgroundColor: Colors.grey,
         elevation: 2.0,
         child: const Icon(Icons.add),
