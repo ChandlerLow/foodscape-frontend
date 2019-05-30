@@ -36,7 +36,7 @@ Drawer makeDrawer(BuildContext context) {
   );
 }
 
-Card makeCard() {
+Card makeCard(String name, String daysLeft, String location) {
   return Card(
       child: Container(
         child: Column(
@@ -54,8 +54,29 @@ Card makeCard() {
             //maybe add another container for padding or increase margins on upper container
             //widget for containing information
             Container(
-              child: Text("ITEM TITLE",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              child: Row(
+                children: [
+                  Container(
+                    child: Text(name
+                      ,style: TextStyle(fontWeight: FontWeight.bold),),
+                    width: 100,
+                    alignment: Alignment.centerLeft,
+                  ),
+                  Container(
+                    child: Text(daysLeft
+                      ,style: TextStyle(fontWeight: FontWeight.bold),),
+                    width: 100,
+                    alignment: Alignment.center,
+                  ),
+                  Container(
+                    child: Text(location
+                      ,style: TextStyle(fontWeight: FontWeight.bold),),
+                    width: 100,
+                    alignment: Alignment.centerRight,
+                  ),
+                ],
+                mainAxisSize: MainAxisSize.max,
+              ),
               alignment: Alignment.center,
               width: 300,
               height: 20,

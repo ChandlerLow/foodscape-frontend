@@ -48,7 +48,7 @@ class ItemListWidget extends StatefulWidget {
   @override
   ItemListState createState() {
     for(int i = 0; i < 10; i++) {
-      items.add(ItemCardWidget());
+      items.add(ItemCardWidget('Banana', '1 Day', 'Block A'));
     }
     return ItemListState(items);
   }
@@ -81,18 +81,37 @@ class ItemListState extends State<ItemListWidget> {
 }
 
 class ItemCardWidget extends StatefulWidget {
-  //TODO parse in data to construct cards
+  //TODO modify to pass in data/item class
+  String name;
+  String daysLeft;
+  String location;
+
+  ItemCardWidget(String name, String daysLeft, String location) {
+    this.name = name;
+    this.daysLeft = daysLeft;
+    this.location = location;
+  }
   @override
-  ItemCardState createState() => ItemCardState();
+  ItemCardState createState() => ItemCardState(name, daysLeft, location);
 }
 
 class ItemCardState extends State<ItemCardWidget> {
   //constructor an item card with Data Class
+  String name;
+  String daysLeft;
+  String location;
+
+  ItemCardState(String name, String daysLeft, String location) {
+    this.name = name;
+    this.daysLeft = daysLeft;
+    this.location = location;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ViewItemWidget())),
-      child: makeCard(),
+      child: makeCard(name, daysLeft, location),
     );
   }
 }
