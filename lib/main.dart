@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/items.dart';
+import 'package:frontend/locator.dart';
 
-void main() => runApp(MyApp());
+import 'ui/router.dart';
+
+void main() {
+  setupLocator();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -12,7 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.grey,
       ),
-      home: ItemsWidget(),
+      initialRoute: '/items',
+      onGenerateRoute: Router.generateRoute,
     );
   }
 }
