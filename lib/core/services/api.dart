@@ -21,4 +21,24 @@ class Api {
       throw Exception('Failed to load items');
     }
   }
+
+  Future<void> createItem(
+    String itemName,
+    String quantity,
+    String expiry,
+    String description,
+  ) async {
+    final Response response = await client.post(
+      '$endpoint/items',
+      body: {
+        'name': itemName,
+        'quantity': quantity,
+        'expiry_date': expiry,
+        'description': description,
+      },
+    );
+    if (response.statusCode != 201) {
+      throw Exception('Failed to create items');
+    }
+  }
 }
