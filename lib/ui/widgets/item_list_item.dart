@@ -14,6 +14,7 @@ class ItemListItem extends StatelessWidget {
       child: Card(
           child: Container(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 // Item image
                 Container(
@@ -28,9 +29,6 @@ class ItemListItem extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 10),
                   alignment: Alignment.center,
                 ),
-                // TODO(Viet): maybe add another container for padding or
-                // increase margins on upper container widget for containing
-                // information
                 Container(
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
@@ -44,7 +42,7 @@ class ItemListItem extends StatelessWidget {
                       ),
                       Container(
                         child: Text(
-                          getDaysLeft(item.expiryDate),
+                          '${getDaysLeft(item.expiryDate)} days',
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         alignment: Alignment.center,
@@ -67,7 +65,7 @@ class ItemListItem extends StatelessWidget {
             ),
             padding: const EdgeInsets.only(top: 20),
             width: 400,
-            height: 200,
+            height: 210,
           ),
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
     );

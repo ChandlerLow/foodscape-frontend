@@ -26,26 +26,8 @@ class _ItemCreationViewState extends State<ItemCreationView> {
           WillPopScope(
             // Overwriting the pop function of the page, so it won't jump back to
             // the main page immediately
-//            onWillPop: showDialog<dynamic>(
-//                  context: context,
-//                  builder: (BuildContext context) => AlertDialog(
-//                        title: const Text('Deleting Item Addition'),
-//                        content: const Text('Are you sure?'),
-//                        actions: <Widget>[
-//                          FlatButton(
-//                            onPressed: () => Navigator.of(context).pop(false),
-//                            child: const Text('No'),
-//                          ),
-//                          FlatButton(
-//                            onPressed: () => Navigator.of(context).pop(true),
-//                            child: const Text('Yes'),
-//                          )
-//                        ],
-//                      ),
-//                ) ??
-//                false,
+            onWillPop: _onWillPop,
             child: Scaffold(
-              resizeToAvoidBottomPadding: false,
               appBar: AppBar(
                 centerTitle: true,
                 title: const Text('Add Item', style: TextStyle(fontSize: 24)),
@@ -123,5 +105,25 @@ class _ItemCreationViewState extends State<ItemCreationView> {
         controller: controller,
       ),
     );
+  }
+
+  Future<bool> _onWillPop() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Deleting Item Addition'),
+        content: const Text('Are you sure?'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('No'),
+          ),
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Yes'),
+          )
+        ],
+      ),
+    ) ?? false;
   }
 }

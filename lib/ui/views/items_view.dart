@@ -39,7 +39,6 @@ class ItemsView extends StatelessWidget {
                   elevation: 2.0,
                   child: const Icon(Icons.add),
                   onPressed: () {
-                    // TODO(x): pass item as an argument for the widget
                     Navigator.pushNamed(context, '/items/add');
                   },
                 )
@@ -62,7 +61,7 @@ class ItemsView extends StatelessWidget {
               ),
           itemCount: items.length,
         ),
-        padding: const EdgeInsets.only(bottom: 100),
+        padding: const EdgeInsets.only(bottom: 80),
       );
 
   Drawer makeDrawer(BuildContext context) {
