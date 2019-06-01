@@ -8,6 +8,8 @@ import 'package:frontend/ui/views/login_view.dart';
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case 'login':
+        return MaterialPageRoute<dynamic>(builder: (_) => LoginView());
       case '/items/add':
         return MaterialPageRoute<dynamic>(builder: (_) => ItemCreationView());
       case '/items':

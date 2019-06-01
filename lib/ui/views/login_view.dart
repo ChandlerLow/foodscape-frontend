@@ -33,7 +33,7 @@ class LoginView extends StatelessWidget {
                           );
 
                           if (loginSuccess) {
-                            Navigator.pushNamed(context, '/items');
+                            Navigator.pushReplacementNamed(context, '/items');
                           }
                         }),
               ],
