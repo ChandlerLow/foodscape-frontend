@@ -15,8 +15,7 @@ class LoginModel extends BaseModel {
 
     final bool success = await _authenticationService.login(username, password);
     if (!success) {
-      errorMessage = 'Your account details are incorrect. Please check them and'
-          ' try again!.';
+      errorMessage = '';
     }
 
     setState(ViewState.Idle);
