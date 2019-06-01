@@ -20,15 +20,18 @@ class ItemView extends StatelessWidget {
           child: Column(
             children: <Widget>[
               // Item image
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: const AssetImage('assets/banana.jpg'),
+              Hero(
+                tag: 'item-photo-${item.id}',
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: const AssetImage('assets/banana.jpg'),
+                    ),
                   ),
+                  width: 300,
+                  height: 270,
+                  alignment: Alignment.center,
                 ),
-                width: 300,
-                height: 270,
-                alignment: Alignment.center,
               ),
               // Item name
               Container(
@@ -67,7 +70,7 @@ class ItemView extends StatelessWidget {
       // With the button we can contact the owner of the item we are looking at
       floatingActionButton: showFab
           ? FloatingActionButton.extended(
-              heroTag: null,
+              heroTag: 'main-fab',
               backgroundColor: Colors.grey,
               elevation: 2.0,
               label: const Text('Message'),

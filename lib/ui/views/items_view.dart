@@ -34,7 +34,7 @@ class ItemsView extends StatelessWidget {
           // FAB to add an item
           floatingActionButton: showFab
               ? FloatingActionButton(
-                  heroTag: null,
+                  heroTag: 'main-fab',
                   backgroundColor: Colors.grey,
                   elevation: 2.0,
                   child: const Icon(Icons.add),

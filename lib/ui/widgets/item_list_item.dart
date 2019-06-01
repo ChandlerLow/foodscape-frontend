@@ -17,17 +17,20 @@ class ItemListItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 // Item image
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      // TODO(Kelvin): replace with actual image
-                      image: const AssetImage('assets/banana.jpg'),
+                Hero(
+                  tag: 'item-photo-${item.id}',
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: const DecorationImage(
+                        // TODO(Kelvin): replace with actual image
+                        image: AssetImage('assets/banana.jpg'),
+                      ),
                     ),
+                    width: 300,
+                    height: 150,
+                    padding: const EdgeInsets.only(right: 10),
+                    alignment: Alignment.center,
                   ),
-                  width: 300,
-                  height: 150,
-                  padding: const EdgeInsets.only(right: 10),
-                  alignment: Alignment.center,
                 ),
                 Container(
                   child: Row(
