@@ -10,11 +10,11 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
-  final TextEditingController phoneNumController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _phoneNumController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +31,12 @@ class _RegisterViewState extends State<RegisterView> {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   children: <Widget>[
-                    _inputTextTile('Full name', fullNameController),
-                    _inputTextTile('Username', usernameController),
-                    _inputTextTile('Password', passwordController),
+                    _inputTextTile('Full name', _fullNameController),
+                    _inputTextTile('Username', _usernameController),
+                    _inputTextTile('Password', _passwordController),
                     _inputTextTile('Location (e.g. block/room number)',
-                        locationController),
-                    _inputTextTile('Phone number', phoneNumController),
+                        _locationController),
+                    _inputTextTile('Phone number', _phoneNumController),
                   ],
                 )),
 
@@ -51,8 +51,17 @@ class _RegisterViewState extends State<RegisterView> {
                         : const Text('Registering...'),
                     onPressed: model.state == ViewState.Idle
                         ? () async {
-                            await model.register();
-                            Navigator.pushNamed(context, '/items');
+                      final bool loginSuccess = await model.register(
+                          _fullNameController.text,
+                          _usernameController.text,
+                          _passwordController.text,
+                          _locationController.text,
+                          _phoneNumController.text,
+                      );
+
+                      if (loginSuccess) {
+                        Navigator.pushReplacementNamed(context, '/items');
+                      }
                           }
                         : null,
                   )

@@ -24,8 +24,8 @@ class ItemView extends StatelessWidget {
                 tag: 'item-photo-${item.id}',
                 child: Container(
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: const AssetImage('assets/banana.jpg'),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/banana.jpg'),
                     ),
                   ),
                   width: 300,

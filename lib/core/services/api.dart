@@ -76,4 +76,29 @@ class Api {
 
     return User.fromJson(json.decode(response.body));
   }
+
+  Future<User> registerUser(
+    String username,
+    String password,
+    String name,
+    String location,
+    String phoneNo,
+  ) async {
+    final Response response = await client.post(
+      '$endpoint/auth/register',
+      body: {
+        'username': username,
+        'password': password,
+        'name': name,
+        'location': location,
+        'phone_no': phoneNo,
+      },
+    );
+
+    if (response.statusCode != 200) {
+      return null;
+    }
+
+    return User.fromJson(json.decode(response.body));
+  }
 }

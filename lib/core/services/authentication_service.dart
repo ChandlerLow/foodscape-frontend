@@ -22,6 +22,24 @@ class AuthenticationService {
     return hasUser;
   }
 
+  Future<bool> register(
+    String name,
+    String username,
+    String password,
+    String location,
+    String phoneNum,
+  ) async {
+    final User newUser = await _api.registerUser(username, password, name, location, phoneNum);
+    final bool hasUser = newUser != null;
+
+    if (hasUser) {
+      await storeUserInPreferences(newUser);
+      userController.add(newUser);
+    }
+
+    return hasUser;
+  }
+
   Future<void> storeUserInPreferences(User user) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('user.id', user.id);

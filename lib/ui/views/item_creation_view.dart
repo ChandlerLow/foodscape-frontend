@@ -39,8 +39,8 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                     // TODO(Viet): button navigates to a new page to take the photo
                     Container(
                       decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: const AssetImage('assets/camera.png'),
+                        image: const DecorationImage(
+                          image: AssetImage('assets/camera.png'),
                         ),
                       ),
                       width: 270,
@@ -109,21 +109,23 @@ class _ItemCreationViewState extends State<ItemCreationView> {
 
   Future<bool> _onWillPop() {
     return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Cancel'),
-        content: const Text('Are you sure you don\'t want to add a new item?'),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('No'),
-          ),
-          FlatButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Yes'),
-          )
-        ],
-      ),
-    ) ?? false;
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text('Cancel'),
+                content: const Text(
+                    'Are you sure you don\'t want to add a new item?'),
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text('No'),
+                  ),
+                  FlatButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: const Text('Yes'),
+                  )
+                ],
+              ),
+        ) ??
+        false;
   }
 }
