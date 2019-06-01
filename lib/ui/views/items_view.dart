@@ -43,8 +43,6 @@ class ItemsView extends StatelessWidget {
                   },
                 )
               : null,
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
         );
       },
     );
@@ -53,15 +51,25 @@ class ItemsView extends StatelessWidget {
   Widget getItemsUi(List<Item> items) => Container(
         child: ListView.builder(
           padding: const EdgeInsets.all(16.0),
-          itemBuilder: (BuildContext context, int i) => ItemListItem(
-                item: items[i],
-                onTap: () {
-                  Navigator.pushNamed(context, '/item', arguments: items[i]);
-                },
-              ),
+          itemBuilder: (BuildContext context, int i) {
+            final bool last = items.length == (i + 1);
+            final Widget item = ItemListItem(
+              item: items[i],
+              onTap: () {
+                Navigator.pushNamed(context, '/item', arguments: items[i]);
+              },
+            );
+            if (last) {
+              return Container(
+                child: item,
+                padding: EdgeInsets.only(bottom: 60),
+              );
+            } else {
+              return item;
+            }
+          },
           itemCount: items.length,
         ),
-        padding: const EdgeInsets.only(bottom: 80),
       );
 
   Drawer makeDrawer(BuildContext context) {
