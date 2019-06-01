@@ -69,7 +69,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
               // The button submits the item and returns to the home page
               floatingActionButton: showFab
                   ? FloatingActionButton.extended(
-                      heroTag: null,
+                      heroTag: 'main-fab',
                       backgroundColor: Colors.grey,
                       elevation: 2.0,
                       label: model.state == ViewState.Idle
@@ -110,9 +110,9 @@ class _ItemCreationViewState extends State<ItemCreationView> {
   Future<bool> _onWillPop() {
     return showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Deleting Item Addition'),
-        content: const Text('Are you sure?'),
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Cancel'),
+        content: const Text('Are you sure you don\'t want to add a new item?'),
         actions: <Widget>[
           FlatButton(
             onPressed: () => Navigator.of(context).pop(false),
