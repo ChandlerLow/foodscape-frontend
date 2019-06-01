@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/core/view_models/item_creation_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/views/base_view.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ItemCreationView extends StatefulWidget {
   @override
@@ -13,6 +16,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController expiryController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  File image;
 
   @override
   Widget build(BuildContext context) {
@@ -36,22 +40,19 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   children: <Widget>[
-                    // TODO(Viet): button navigates to a new page to take the photo
                     Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: const AssetImage('assets/camera.png'),
-                        ),
-                      ),
+                      child: image == null
+                        ? Image.asset('assets/camera.png')
+                        : Image.file(image),
                       width: 270,
                       height: 250,
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(10),
                     ),
                     FloatingActionButton.extended(
                       heroTag: null,
                       backgroundColor: Colors.grey,
-                      onPressed: () => () async {},
+                      onPressed: () => _takePhoto(),
                       label: const Text('Take a photo'),
                     ),
                     _inputTextTile('Item name', itemNameController),
@@ -77,6 +78,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                           : const Text('Submitting...'),
                       onPressed: model.state == ViewState.Idle
                           ? () async {
+                              // TODO(x): convert image file to store it on db
                               await model.create(
                                 itemNameController.text,
                                 quantityController.text,
@@ -125,5 +127,15 @@ class _ItemCreationViewState extends State<ItemCreationView> {
         ],
       ),
     ) ?? false;
+  }
+
+  Future<Null> _takePhoto() async {
+    final File img = await ImagePicker.pickImage(source: ImageSource.camera);
+    //File img = await ImagePicker.pickImage(source: ImageSource.gallery);
+    print(img.path);
+    if (img != null) {
+      image = img;
+      setState(() {});
+    }
   }
 }
