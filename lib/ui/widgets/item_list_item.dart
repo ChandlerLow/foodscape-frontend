@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/item.dart';
 
 class ItemListItem extends StatelessWidget {
@@ -19,18 +20,28 @@ class ItemListItem extends StatelessWidget {
                 // Item image
                 Hero(
                   tag: 'item-photo-${item.id}',
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        // TODO(Kelvin): replace with actual image
-                        image: AssetImage('assets/banana.jpg'),
-                      ),
-                    ),
-                    width: 300,
-                    height: 150,
-                    padding: const EdgeInsets.only(right: 10),
-                    alignment: Alignment.center,
-                  ),
+                  child: item.photo == null
+                      ? Container(
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
+                              image: AssetImage('assets/camera.png'),
+                            ),
+                          ),
+                          width: 300,
+                          height: 150,
+                          padding: const EdgeInsets.only(right: 10),
+                          alignment: Alignment.center,
+                        )
+                      : Container(
+                          child: FadeInImage.assetNetwork(
+                            placeholder: 'assets/camera.png',
+                            image: '$SPACES_BASE_URL/${item.photo}',
+                          ),
+                          width: 300,
+                          height: 150,
+                          padding: const EdgeInsets.only(right: 10),
+                          alignment: Alignment.center,
+                        ),
                 ),
                 Container(
                   child: Row(
