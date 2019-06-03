@@ -57,7 +57,7 @@ class _RegisterViewState extends State<RegisterView> {
 
                                       if (loginSuccess) {
                                         Navigator.pushReplacementNamed(
-                                            context, '/items');
+                                            context, '/');
                                       }
                                     }
                                   : null,

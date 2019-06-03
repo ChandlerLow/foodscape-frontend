@@ -32,8 +32,8 @@ class ItemsView extends StatelessWidget {
               ),
             ),
           ),
-          drawer: makeDrawer(context),
           // FAB to add an item
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           floatingActionButton: showFab
               ? FloatingActionButton(
                   heroTag: 'main-fab',
@@ -45,6 +45,18 @@ class ItemsView extends StatelessWidget {
                   },
                 )
               : null,
+          bottomNavigationBar: BottomAppBar(
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                IconButton(icon: Icon(Icons.home), color: Colors.white, iconSize: 40, onPressed: () {},),
+                IconButton(icon: Icon(Icons.person), color: Colors.white, iconSize: 40, onPressed: () {},),
+              ],
+            ),
+            color: Colors.grey,
+            shape: CircularNotchedRectangle(),
+          ),
         );
       },
     );
@@ -61,14 +73,7 @@ class ItemsView extends StatelessWidget {
                 Navigator.pushNamed(context, '/item', arguments: items[i]);
               },
             );
-            if (last) {
-              return Container(
-                child: item,
-                padding: const EdgeInsets.only(bottom: 60),
-              );
-            } else {
-              return item;
-            }
+            return item;
           },
           itemCount: items.length,
         ),

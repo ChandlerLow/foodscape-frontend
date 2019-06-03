@@ -39,7 +39,7 @@ class _LoginViewState extends State<LoginView> {
                             );
 
                             if (loginSuccess) {
-                              Navigator.pushReplacementNamed(context, '/items');
+                              Navigator.pushReplacementNamed(context, '/');
                             }
                           }),
                       Container(

@@ -11,7 +11,7 @@ class Router {
     switch (settings.name) {
       case '/items/add':
         return MaterialPageRoute<dynamic>(builder: (_) => ItemCreationView());
-      case '/items':
+      case '/':
         return MaterialPageRoute<dynamic>(builder: (_) => ItemsView());
       case '/item':
         final Item item = settings.arguments;
