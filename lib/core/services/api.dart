@@ -28,7 +28,8 @@ class Api {
           '${response.body} - ${prefs.getString('user.token')}');
     }
 
-    final List<dynamic> itemsJson = json.decode(response.body);
+    final List<dynamic> itemsJson =
+        json.decode(response.body)['all_categories'];
     return itemsJson
         .map((dynamic itemJson) => Item.fromJson(itemJson))
         .toList();
