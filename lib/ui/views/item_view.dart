@@ -23,7 +23,7 @@ class ItemView extends StatelessWidget {
               // Item image
               Hero(
                 tag: 'item-photo-${item.id}',
-                child: item.photo == null
+                child: item.photo == null || item.photo == ''
                     ? Container(
                         decoration: BoxDecoration(
                           image: const DecorationImage(
