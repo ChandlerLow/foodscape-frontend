@@ -89,6 +89,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                                 quantityController.text,
                                 expiryController.text,
                                 descriptionController.text,
+                                _photo,
                               );
                               Navigator.of(context).pop(true);
                             }
