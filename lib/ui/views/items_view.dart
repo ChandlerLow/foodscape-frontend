@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/item.dart';
+import 'package:frontend/core/models/user.dart';
 import 'package:frontend/core/view_models/items_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/widgets/item_list_item.dart';
+import 'package:provider/provider.dart';
 
 import 'base_view.dart';
 
@@ -62,7 +64,7 @@ class ItemsView extends StatelessWidget {
             if (last) {
               return Container(
                 child: item,
-                padding: EdgeInsets.only(bottom: 60),
+                padding: const EdgeInsets.only(bottom: 60),
               );
             } else {
               return item;
@@ -76,10 +78,10 @@ class ItemsView extends StatelessWidget {
     return Drawer(
       child: ListView(padding: EdgeInsets.zero, children: <Widget>[
         // TODO(Kelvin): get name of authenticated user
-        const UserAccountsDrawerHeader(
-          accountEmail: Text('jenny.xu18@bristol.ac.uk'),
-          accountName: Text('Jenny Xu', style: TextStyle(fontSize: 24)),
-          currentAccountPicture: CircleAvatar(
+        UserAccountsDrawerHeader(
+          accountName: Text(Provider.of<User>(context).name, style: TextStyle(fontSize: 24)),
+          accountEmail: Text('${Provider.of<User>(context).name}18@bristol.ac.uk'),
+          currentAccountPicture: const CircleAvatar(
             backgroundColor: Colors.pinkAccent,
             child: Text('JX', style: TextStyle(fontSize: 24)),
           ),

@@ -41,6 +41,11 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                 child: Column(
                   children: <Widget>[
                     Container(
+                      decoration: BoxDecoration(
+                        image: const DecorationImage(
+                          image: AssetImage('assets/camera.png'),
+                        ),
+                      ),
                       child: image == null
                         ? Image.asset('assets/camera.png')
                         : Image.file(image),
@@ -111,22 +116,24 @@ class _ItemCreationViewState extends State<ItemCreationView> {
 
   Future<bool> _onWillPop() {
     return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Cancel'),
-        content: const Text('Are you sure you don\'t want to add a new item?'),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('No'),
-          ),
-          FlatButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Yes'),
-          )
-        ],
-      ),
-    ) ?? false;
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text('Cancel'),
+                content: const Text(
+                    'Are you sure you don\'t want to add a new item?'),
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text('No'),
+                  ),
+                  FlatButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: const Text('Yes'),
+                  )
+                ],
+              ),
+        ) ??
+        false;
   }
 
   Future<Null> _takePhoto() async {
