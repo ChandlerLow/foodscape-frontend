@@ -16,7 +16,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController expiryController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  File image;
+  File _photo;
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +46,9 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                           image: AssetImage('assets/camera.png'),
                         ),
                       ),
-                      child: image == null
-                        ? Image.asset('assets/camera.png')
-                        : Image.file(image),
+                      child: _photo == null
+                          ? Image.asset('assets/camera.png')
+                          : Image.file(_photo),
                       width: 270,
                       height: 250,
                       alignment: Alignment.center,
@@ -136,13 +136,12 @@ class _ItemCreationViewState extends State<ItemCreationView> {
         false;
   }
 
-  Future<Null> _takePhoto() async {
+  Future<void> _takePhoto() async {
     final File img = await ImagePicker.pickImage(source: ImageSource.camera);
-    //File img = await ImagePicker.pickImage(source: ImageSource.gallery);
-    print(img.path);
     if (img != null) {
-      image = img;
-      setState(() {});
+      setState(() {
+        _photo = img;
+      });
     }
   }
 }
