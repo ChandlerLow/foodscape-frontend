@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:frontend/core/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/item.dart';
@@ -34,14 +36,41 @@ class Api {
         .toList();
   }
 
-  Future<void> createItem(
+  Future<bool> createItem(
     String itemName,
     String quantity,
     String expiry,
     String description,
+    File photo,
   ) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    // Upload image
+    String filename;
+    if (photo != null) {
+      final Uri uri = Uri.parse('$endpoint/photos/upload');
+      final MultipartRequest request = http.MultipartRequest('POST', uri);
+      request.headers['authorization'] =
+          'Bearer ${prefs.getString('user.token')}';
+      final MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        'upload',
+        photo.path,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      log(photo.path);
+      request.files.add(multipartFile);
+
+      final Response imageResponse =
+          await Response.fromStream(await request.send());
+
+      if (imageResponse.statusCode != HttpStatus.created) {
+        throw Exception('Failed to upload image');
+      }
+
+      filename = json.decode(imageResponse.body)['filename'];
+    }
+
+    // Create item
     final Response response = await client.post(
       '$endpoint/items',
       headers: {
@@ -53,12 +82,15 @@ class Api {
         'quantity': quantity,
         'expiry_date': expiry,
         'description': description,
+        'photo': photo == null ? '' : filename,
       },
     );
 
     if (response.statusCode != 201) {
       throw Exception('Failed to create items');
     }
+
+    return true;
   }
 
   Future<User> authUser(String username, String password) async {
