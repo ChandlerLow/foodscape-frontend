@@ -23,7 +23,8 @@ void main() async {
         theme: ThemeData(
           primaryColor: Colors.grey,
         ),
-        initialRoute: hasUser ? '/items' : '/login',
+        initialRoute: '/login',
+        //initialRoute: hasUser ? '/items' : '/login',
         onGenerateRoute: Router.generateRoute,
       ),
     )

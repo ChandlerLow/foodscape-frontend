@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/view_models/register_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
@@ -22,14 +23,10 @@ class _RegisterViewState extends State<RegisterView> {
     return BaseView<RegisterModel>(
       builder: (BuildContext context, RegisterModel model, Widget child) =>
           Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title:
-                  const Text('Register User', style: TextStyle(fontSize: 24)),
-            ),
             body: SingleChildScrollView(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.fromLTRB(10, 100, 10, 0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     _inputTextTile('Full name', _fullNameController),
                     _inputTextTile('Username', _usernameController),
@@ -37,37 +34,53 @@ class _RegisterViewState extends State<RegisterView> {
                     _inputTextTile('Location (e.g. block/room number)',
                         _locationController),
                     _inputTextTile('Phone number', _phoneNumController),
+                    Container(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: showFab
+                          ? FloatingActionButton.extended(
+                              heroTag: null,
+                              backgroundColor: Colors.grey,
+                              elevation: 2.0,
+                              label: model.state == ViewState.Idle
+                                  ? const Text('Register')
+                                  : const Text('Registering...'),
+                              onPressed: model.state == ViewState.Idle
+                                  ? () async {
+                                      final bool loginSuccess =
+                                          await model.register(
+                                        _fullNameController.text,
+                                        _usernameController.text,
+                                        _passwordController.text,
+                                        _locationController.text,
+                                        _phoneNumController.text,
+                                      );
+
+                                      if (loginSuccess) {
+                                        Navigator.pushReplacementNamed(
+                                            context, '/items');
+                                      }
+                                    }
+                                  : null,
+                            )
+                          : null,
+                    ),
+                    Container(
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/login');
+                          },
+                        child: const Padding(
+                            padding: EdgeInsets.only(top: 20.0),
+                            child: Text(
+                              'Have an account?',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                fontSize: 15.0,
+                              ),
+                            )),
+                    )),
                   ],
                 )),
-
-            // The button submits the item and returns to the home page
-            floatingActionButton: showFab
-                ? FloatingActionButton.extended(
-                    heroTag: null,
-                    backgroundColor: Colors.grey,
-                    elevation: 2.0,
-                    label: model.state == ViewState.Idle
-                        ? const Text('Register')
-                        : const Text('Registering...'),
-                    onPressed: model.state == ViewState.Idle
-                        ? () async {
-                      final bool loginSuccess = await model.register(
-                          _fullNameController.text,
-                          _usernameController.text,
-                          _passwordController.text,
-                          _locationController.text,
-                          _phoneNumController.text,
-                      );
-
-                      if (loginSuccess) {
-                        Navigator.pushReplacementNamed(context, '/items');
-                      }
-                          }
-                        : null,
-                  )
-                : null,
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
           ),
     );
   }

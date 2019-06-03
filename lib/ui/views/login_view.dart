@@ -25,12 +25,12 @@ class _LoginViewState extends State<LoginView> {
                       _textFieldWidget(
                           'username', context, _usernameController, model),
                       _textFieldWidget(
-                          'password', context, _passwordController, model),
-                      FlatButton(
+                          'password', context, _passwordController, model, hidden: true),
+                      RaisedButton(
                           color: Colors.grey,
                           child: const Text(
                             'Sign In',
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () async {
                             final bool loginSuccess = await model.login(
@@ -42,6 +42,23 @@ class _LoginViewState extends State<LoginView> {
                               Navigator.pushReplacementNamed(context, '/items');
                             }
                           }),
+                      Container(
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).pushNamed('/register');
+                              },
+                              child: const Padding(
+                                  padding: EdgeInsets.only(top: 20.0),
+                                  child: Text(
+                                    "Don't Have An Account?",
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      fontSize: 15.0,
+                                    ),
+                                  )
+                              ),
+                            )
+                          )
                     ],
                   )
                 : Center(child: const CircularProgressIndicator()),
@@ -54,6 +71,7 @@ class _LoginViewState extends State<LoginView> {
     BuildContext context,
     TextEditingController controller,
     LoginModel model,
+    {bool hidden}
   ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -69,6 +87,7 @@ class _LoginViewState extends State<LoginView> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: TextField(
+        obscureText: hidden != null,
         decoration: InputDecoration.collapsed(hintText: hintText),
         controller: controller,
       ),
