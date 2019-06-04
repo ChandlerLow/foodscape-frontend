@@ -5,6 +5,7 @@ class Category {
   Category(
     this.id,
     this.name,
+    this.slug,
     this.icon, {
     this.color = Colors.black,
     this.isSelected = true,
@@ -12,6 +13,7 @@ class Category {
 
   final int id;
   final String name;
+  final String slug;
   final IconData icon;
   final Color color;
   bool isSelected;

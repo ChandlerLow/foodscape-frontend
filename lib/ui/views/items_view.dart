@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/models/user.dart';
 import 'package:frontend/core/view_models/items_model.dart';
@@ -32,17 +33,16 @@ class ItemsView extends StatelessWidget {
             ],
           ),
           body: Container(
-            child: Center(
-              child: RefreshIndicator(
-                child: model.state == ViewState.Idle
-                    ? getItemsUi(model.items)
-                    : Center(child: const CircularProgressIndicator()),
-                onRefresh: model.getItems,
-              ),
+            child: RefreshIndicator(
+              child: model.state == ViewState.Idle
+                  ? getCategoriesUi(model.categories)
+                  : Center(child: const CircularProgressIndicator()),
+              onRefresh: model.getItems,
             ),
           ),
           // FAB to add an item
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           floatingActionButton: showFab
               ? FloatingActionButton(
                   heroTag: 'main-fab',
@@ -59,8 +59,18 @@ class ItemsView extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                IconButton(icon: Icon(Icons.home), color: Colors.white, iconSize: 40, onPressed: () {},),
-                IconButton(icon: Icon(Icons.person), color: Colors.white, iconSize: 40, onPressed: () {},),
+                IconButton(
+                  icon: Icon(Icons.home),
+                  color: Colors.white,
+                  iconSize: 40,
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.person),
+                  color: Colors.white,
+                  iconSize: 40,
+                  onPressed: () {},
+                ),
               ],
             ),
             color: Colors.grey,
@@ -71,19 +81,38 @@ class ItemsView extends StatelessWidget {
     );
   }
 
-  Widget getItemsUi(List<Item> items) => Container(
+  Widget getCategoriesUi(Map<int, List<Item>> categories) => Container(
         child: ListView.builder(
+          shrinkWrap: true,
           padding: const EdgeInsets.all(16.0),
           itemBuilder: (BuildContext context, int i) {
-            final Widget item = ItemListItem(
-              item: items[i],
-              onTap: () {
-                Navigator.pushNamed(context, '/item', arguments: items[i]);
-              },
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(defaultCategories.values.toList()[i].name),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children:
+                        categories.values.toList()[i].map<Widget>((Item item) {
+                      return ItemListItem(
+                        item: item,
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/item',
+                            arguments: item,
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
             );
-            return item;
           },
-          itemCount: items.length,
+          itemCount: defaultCategories.length,
         ),
       );
 
@@ -92,8 +121,10 @@ class ItemsView extends StatelessWidget {
       child: ListView(padding: EdgeInsets.zero, children: <Widget>[
         // TODO(Kelvin): get name of authenticated user
         UserAccountsDrawerHeader(
-          accountName: Text(Provider.of<User>(context).name, style: TextStyle(fontSize: 24)),
-          accountEmail: Text('${Provider.of<User>(context).name}18@bristol.ac.uk'),
+          accountName: Text(Provider.of<User>(context).name,
+              style: TextStyle(fontSize: 24)),
+          accountEmail:
+              Text('${Provider.of<User>(context).name}18@bristol.ac.uk'),
           currentAccountPicture: const CircleAvatar(
             backgroundColor: Colors.pinkAccent,
             child: Text('JX', style: TextStyle(fontSize: 24)),
