@@ -1,3 +1,4 @@
+import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/services/api.dart';
 import 'package:frontend/core/view_models/base_model.dart';
@@ -11,6 +12,12 @@ class ItemsModel extends BaseModel {
   Future<void> getItems() async {
     setState(ViewState.Busy);
     categories = await _api.getItems();
+
+    // Filter out categories which the user has de-selected
+    final List<int> selectedCategories =
+        locator<UserCategories>().getSelectedCategories().keys.toList();
+    categories.removeWhere((key, _) => !selectedCategories.contains(key));
+
     setState(ViewState.Idle);
   }
 }

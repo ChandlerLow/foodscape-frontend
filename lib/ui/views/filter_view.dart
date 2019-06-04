@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/category.dart';
+import 'package:frontend/locator.dart';
 
 class FilterView extends StatefulWidget {
   @override
@@ -8,10 +9,14 @@ class FilterView extends StatefulWidget {
 }
 
 class _FilterViewState extends State<FilterView> {
-  List<Category> categories = defaultCategories.values.toList();
+  final UserCategories userCategories = locator<UserCategories>();
+  final Map<int, Category> categories =
+      locator<UserCategories>().getCategories();
 
   @override
   Widget build(BuildContext context) {
+    List<int> categoryIds = categories.keys.toList();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -31,7 +36,7 @@ class _FilterViewState extends State<FilterView> {
                   width: 0.5,
                 ),
                 color: Colors.white,
-                boxShadow: categories[index].isSelected
+                boxShadow: categories[categoryIds[index]].isSelected
                     ? const <BoxShadow>[
                         BoxShadow(
                           color: Colors.black12,
@@ -48,11 +53,15 @@ class _FilterViewState extends State<FilterView> {
               child: Center(
                 child: SizedBox.expand(
                   child: FlatButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      final bool isSelected =
+                          !categories[categoryIds[index]].isSelected;
                       setState(() {
-                        categories[index].isSelected =
-                            !categories[index].isSelected;
+                        categories[categoryIds[index]].isSelected = isSelected;
                       });
+
+                      await userCategories.persistCategorySelected(
+                          categoryIds[index], isSelected);
                     },
                     child: Stack(
                       children: <Widget>[
@@ -65,15 +74,16 @@ class _FilterViewState extends State<FilterView> {
                                 children: <Widget>[
                                   Container(
                                     child: Icon(
-                                      categories[index].icon,
+                                      categories[categoryIds[index]].icon,
                                       size: 48,
-                                      color: categories[index].color,
+                                      color:
+                                          categories[categoryIds[index]].color,
                                     ),
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 7,
                                     ),
                                   ),
-                                  Text(categories[index].name),
+                                  Text(categories[categoryIds[index]].name),
                                 ],
                               ),
                             ],
@@ -81,7 +91,7 @@ class _FilterViewState extends State<FilterView> {
                         ),
                         Align(
                           alignment: Alignment.topRight,
-                          child: categories[index].isSelected
+                          child: categories[categoryIds[index]].isSelected
                               ? InkWell(
                                   child: Container(
                                     margin: const EdgeInsets.symmetric(

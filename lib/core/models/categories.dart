@@ -25,7 +25,7 @@ class UserCategories {
 
   Future<void> populateUserSelections() async {
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
-    for (int i = 0; i < _categories.length; i++) {
+    for (int i in defaultCategories.keys) {
       _categories[i].isSelected =
           _prefs.containsKey('cat_${_categories[i].slug}')
               ? _prefs.getBool('cat_${_categories[i].slug}')
@@ -35,12 +35,24 @@ class UserCategories {
 
   Future<void> persistUserSelections() async {
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
-    for (int i = 0; i < _categories.length; i++) {
+    for (int i in defaultCategories.keys) {
       await _prefs.setBool(
         'cat_${_categories[i].slug}',
         _categories[i].isSelected,
       );
     }
+  }
+
+  Future<void> persistCategorySelected(int id, bool isSelected) async {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await _prefs.setBool(
+      'cat_${_categories[id].slug}',
+      isSelected,
+    );
+  }
+
+  Map<int, Category> getCategories() {
+    return _categories;
   }
 
   Map<int, Category> getSelectedCategories() {

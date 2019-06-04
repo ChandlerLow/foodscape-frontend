@@ -81,40 +81,43 @@ class ItemsView extends StatelessWidget {
     );
   }
 
-  Widget getCategoriesUi(Map<int, List<Item>> categories) => Container(
-        child: ListView.builder(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(16.0),
-          itemBuilder: (BuildContext context, int i) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(defaultCategories.values.toList()[i].name),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children:
-                        categories.values.toList()[i].map<Widget>((Item item) {
-                      return ItemListItem(
-                        item: item,
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/item',
-                            arguments: item,
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
+  Widget getCategoriesUi(Map<int, List<Item>> categories) {
+    final List<int> categoryKeys = categories.keys.toList();
+    return Container(
+      child: ListView.builder(
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(16.0),
+        itemCount: categories.length,
+        itemBuilder: (BuildContext context, int i) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(defaultCategories[categoryKeys[i]].name),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children:
+                      categories[categoryKeys[i]].map<Widget>((Item item) {
+                    return ItemListItem(
+                      item: item,
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/item',
+                          arguments: item,
+                        );
+                      },
+                    );
+                  }).toList(),
                 ),
-              ],
-            );
-          },
-          itemCount: defaultCategories.length,
-        ),
-      );
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
 
   Drawer makeDrawer(BuildContext context) {
     return Drawer(
