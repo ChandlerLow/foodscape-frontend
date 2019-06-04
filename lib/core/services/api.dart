@@ -19,7 +19,7 @@ class Api {
 
     final Response response = await client.get(
       // TODO(Viet): include /user
-      '$endpoint/items/user',
+      '$endpoint/items',
       headers: {
         HttpHeaders.authorizationHeader:
         'Bearer ${prefs.getString('user.token')}',
@@ -106,6 +106,69 @@ class Api {
         'expiry_date': expiry,
         'description': description,
         'photo': photo == null ? '' : filename,
+      },
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to create items');
+    }
+
+    return true;
+  }
+
+  // TODO(x): refactor it with createItem -> remove duplication
+  // Only change is using put instead of post:
+  // final Response response = await client.put(...)
+  Future<bool> editItem(
+    String itemName,
+    String quantity,
+    String expiry,
+    String description,
+    File photo,
+    String originalPhoto,
+  ) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Upload image
+    String filename;
+    if (photo != null) {
+      final Uri uri = Uri.parse('$endpoint/photos/upload');
+      final MultipartRequest request = http.MultipartRequest('POST', uri);
+      request.headers['authorization'] =
+      'Bearer ${prefs.getString('user.token')}';
+      final MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        'upload',
+        photo.path,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      log(photo.path);
+      request.files.add(multipartFile);
+
+      final Response imageResponse =
+      await Response.fromStream(await request.send());
+
+      if (imageResponse.statusCode != HttpStatus.created) {
+        throw Exception('Failed to upload image');
+      }
+
+      filename = json.decode(imageResponse.body)['filename'];
+    } else {
+      filename = originalPhoto;
+    }
+
+    // Create item
+    final Response response = await client.put(
+      '$endpoint/items',
+      headers: {
+        HttpHeaders.authorizationHeader:
+        'Bearer ${prefs.getString('user.token')}',
+      },
+      body: {
+        'name': itemName,
+        'quantity': quantity,
+        'expiry_date': expiry,
+        'description': description,
+        'photo': filename,
       },
     );
 

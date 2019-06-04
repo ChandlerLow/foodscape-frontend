@@ -1,5 +1,6 @@
 import 'package:frontend/core/services/authentication_service.dart';
 import 'package:frontend/core/view_models/item_creation_model.dart';
+import 'package:frontend/core/view_models/item_editing_model.dart';
 import 'package:frontend/core/view_models/items_model.dart';
 import 'package:frontend/core/view_models/my_list_model.dart';
 import 'package:frontend/core/view_models/register_model.dart';
@@ -19,4 +20,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => ItemsModel());
   locator.registerLazySingleton(() => MyListModel());
   locator.registerFactory(() => ItemCreationModel());
+  locator.registerFactory(() => ItemEditingModel());
 }
