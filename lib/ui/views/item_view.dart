@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/item.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class ItemView extends StatelessWidget {
   const ItemView({this.item});
@@ -72,6 +73,24 @@ class ItemView extends StatelessWidget {
               makeListTile('Quantity', item.quantity),
               makeListTile('Owner', item.userName),
               makeListTile('Location', item.userLocation),
+              ListTile(title: const Text('Stuck for choice? Try one of these'),),
+              CarouselSlider(
+                height: 200,
+                items: [1].map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                              color: Colors.amber
+                          ),
+                          child: Text('text $i', style: TextStyle(fontSize: 16.0),)
+                      );
+                    },
+                  );
+                }).toList(),
+              )
             ],
           ),
           margin: const EdgeInsets.symmetric(
@@ -93,6 +112,7 @@ class ItemView extends StatelessWidget {
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      bottomNavigationBar: const Padding(padding: EdgeInsets.only(bottom: 20),),
     );
   }
 
