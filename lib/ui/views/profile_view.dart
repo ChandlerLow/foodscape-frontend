@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class ProfileView extends StatelessWidget {
   Widget _buildBackground(Size screenSize) {
     return Container(
-      height: screenSize.height / 2.6,
+      height: 325,
       color: Colors.grey,
     );
   }
