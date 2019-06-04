@@ -6,6 +6,7 @@ import 'package:frontend/ui/views/item_operation_view.dart';
 import 'package:frontend/ui/views/item_view.dart';
 import 'package:frontend/ui/views/items_view.dart';
 import 'package:frontend/ui/views/login_view.dart';
+import 'package:frontend/ui/views/profile_view.dart';
 import 'package:frontend/ui/views/my_list_view.dart';
 import 'package:frontend/ui/views/register_view.dart';
 
@@ -25,6 +26,8 @@ class Router {
         return MaterialPageRoute<dynamic>(builder: (_) => LoginView());
       case '/register':
         return MaterialPageRoute<dynamic>(builder: (_) => RegisterView());
+      case '/profile':
+        return MaterialPageRoute<dynamic>(builder: (_) => ProfileView());
       case '/my_list':
         return MaterialPageRoute<dynamic>(builder: (_) => MyListView());
       case '/operations':

@@ -59,6 +59,12 @@ class ItemsView extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
+
+                IconButton(icon: Icon(Icons.home), color: Colors.white, iconSize: 40,
+                  onPressed: () {},),
+                IconButton(icon: Icon(Icons.person), color: Colors.white, iconSize: 40, onPressed: () {
+                  Navigator.pushNamed(context, '/profile');
+                },),
                 IconButton(
                   icon: Icon(Icons.home),
                   color: Colors.white,
@@ -80,7 +86,24 @@ class ItemsView extends StatelessWidget {
       },
     );
   }
-
+  
+  Widget getItemsUi(List<Item> items) => Container(
+        child: ListView.builder(
+          padding: const EdgeInsets.all(16.0),
+          itemBuilder: (BuildContext context, int i) {
+            final bool last = items.length == (i + 1);
+            final Widget item = ItemListItem(
+              item: items[i],
+              onTap: () {
+                Navigator.pushNamed(context, '/item', arguments: items[i]);
+              },
+            );
+            return item;
+          },
+          itemCount: items.length,
+        ),
+  );
+ 
   Widget getCategoriesUi(Map<int, List<Item>> categories) {
     final List<int> categoryKeys = categories.keys.toList();
     return Container(
