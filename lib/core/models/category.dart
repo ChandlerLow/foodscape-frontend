@@ -1,10 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Category {
-  Category(this.id, this.name, this.icon, {this.isSelected});
+  Category(
+    this.id,
+    this.name,
+    this.icon, {
+    this.color = Colors.black,
+    this.isSelected = true,
+  });
 
   final int id;
   final String name;
   final IconData icon;
-  bool isSelected = true;
+  final Color color;
+  bool isSelected;
 }

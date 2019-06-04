@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/category.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
 
 class FilterView extends StatefulWidget {
   @override
@@ -8,16 +8,14 @@ class FilterView extends StatefulWidget {
 }
 
 class _FilterViewState extends State<FilterView> {
-  List<Category> categories = List<Category>.generate(6, (int i) {
-    return Category(i, 'Cat$i', OMIcons.fastfood, isSelected: true);
-  });
+  List<Category> categories = defaultCategories.values.toList();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Text('Categories'),
+        centerTitle: false,
+        title: const Text('Filter Categories'),
       ),
       body: GridView.builder(
           itemCount: categories.length,
@@ -69,6 +67,7 @@ class _FilterViewState extends State<FilterView> {
                                     child: Icon(
                                       categories[index].icon,
                                       size: 48,
+                                      color: categories[index].color,
                                     ),
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 7,

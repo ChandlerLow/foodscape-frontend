@@ -50,6 +50,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  fonts:
+    - family: FoodIcons
+      fonts:
+        - asset: fonts/FoodIcons.ttf
+
   assets:
     - assets/banana.jpg
     - assets/camera.png
