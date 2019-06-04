@@ -8,13 +8,60 @@ import 'package:provider/provider.dart';
 
 
 class ProfileView extends StatelessWidget {
+  Widget _buildBackground(Size screenSize) {
+    return Container(
+      height: screenSize.height / 2.6,
+      color: Colors.pinkAccent,
+    );
+  }
+
+  Widget _buildProfileImage() {
+    return Center(
+      child: Container(
+        width: 175.0,
+        height: 175.0,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/banana.jpg'),
+            fit: BoxFit.cover,
+          ),
+          borderRadius: BorderRadius.circular(90.0),
+          border: Border.all(
+            color: Colors.white,
+            width: 5.0,
+          ),
+        ),
+      ),
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
+    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(Provider.of<User>(context).name, style: const TextStyle(fontSize: 24)),
+      ),
+
+      body: Stack(
+        children: <Widget>[
+          _buildBackground(screenSize),
+          SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Padding(padding: EdgeInsets.only(top: 40),),
+                _buildProfileImage(),
+                Padding(padding: EdgeInsets.only(top: 20)),
+                Align(child: Text(Provider.of<User>(context).name, style: const TextStyle(fontSize: 24, color: Colors.white)), alignment: Alignment.center,),
+                Padding(padding: EdgeInsets.only(top: 10)),
+                Align(child: Text('${Provider.of<User>(context).name}18@bristol.ac.uk', style: const TextStyle(color: Colors.white)), alignment: Alignment.center,),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            ),
+          )
+        ],
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

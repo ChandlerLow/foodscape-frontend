@@ -50,8 +50,11 @@ class ItemsView extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                IconButton(icon: Icon(Icons.home), color: Colors.white, iconSize: 40, onPressed: () {},),
-                IconButton(icon: Icon(Icons.person), color: Colors.white, iconSize: 40, onPressed: () {},),
+                IconButton(icon: Icon(Icons.home), color: Colors.white, iconSize: 40,
+                  onPressed: () {},),
+                IconButton(icon: Icon(Icons.person), color: Colors.white, iconSize: 40, onPressed: () {
+                  Navigator.pushNamed(context, '/profile');
+                },),
               ],
             ),
             color: Colors.grey,
