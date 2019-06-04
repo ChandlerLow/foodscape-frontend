@@ -11,7 +11,7 @@ class ProfileView extends StatelessWidget {
   Widget _buildBackground(Size screenSize) {
     return Container(
       height: screenSize.height / 2.6,
-      color: Colors.pinkAccent,
+      color: Colors.grey,
     );
   }
 
@@ -45,7 +45,9 @@ class ProfileView extends StatelessWidget {
         title: Text(Provider.of<User>(context).name, style: const TextStyle(fontSize: 24)),
       ),
 
-      body: Stack(
+      body:
+      Column( children: <Widget>[
+        Stack(
         children: <Widget>[
           _buildBackground(screenSize),
           SingleChildScrollView(
@@ -57,13 +59,25 @@ class ProfileView extends StatelessWidget {
                 Align(child: Text(Provider.of<User>(context).name, style: const TextStyle(fontSize: 24, color: Colors.white)), alignment: Alignment.center,),
                 Padding(padding: EdgeInsets.only(top: 10)),
                 Align(child: Text('${Provider.of<User>(context).name}18@bristol.ac.uk', style: const TextStyle(color: Colors.white)), alignment: Alignment.center,),
+                Padding(padding: EdgeInsets.only(top: 10)),
+                Row(children: <Widget>[
+                  Text(Provider.of<User>(context).location, style: const TextStyle(color: Colors.white),),
+                  Text(Provider.of<User>(context).phoneNumber, style: const TextStyle(color: Colors.white),),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,)
               ],
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             ),
-          )
-        ],
-      ),
-
+          ),
+          ],
+        ),
+        ListTile(
+          title: const Text('My Items', style: TextStyle(fontSize: 18), textAlign: TextAlign.center,),
+          onTap: () {
+            // TODO(x): add action
+          },)
+      ]
+    ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: showFab
           ? FloatingActionButton(

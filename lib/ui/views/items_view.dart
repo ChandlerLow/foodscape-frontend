@@ -80,33 +80,5 @@ class ItemsView extends StatelessWidget {
           },
           itemCount: items.length,
         ),
-      );
-
-  Drawer makeDrawer(BuildContext context) {
-    return Drawer(
-      child: ListView(padding: EdgeInsets.zero, children: <Widget>[
-        // TODO(Kelvin): get name of authenticated user
-        UserAccountsDrawerHeader(
-          accountName: Text(Provider.of<User>(context).name, style: TextStyle(fontSize: 24)),
-          accountEmail: Text('${Provider.of<User>(context).name}18@bristol.ac.uk'),
-          currentAccountPicture: const CircleAvatar(
-            backgroundColor: Colors.pinkAccent,
-            child: Text('JX', style: TextStyle(fontSize: 24)),
-          ),
-        ),
-        ListTile(
-          title: const Text('My Items', style: TextStyle(fontSize: 18)),
-          onTap: () {
-            // TODO(x): add action
-          },
-        ),
-        ListTile(
-          title: const Text('My Details', style: TextStyle(fontSize: 18)),
-          onTap: () {
-            // TODO(x): add action
-          },
-        ),
-      ]),
-    );
-  }
+  );
 }
