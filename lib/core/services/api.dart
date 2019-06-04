@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:frontend/core/models/categories.dart';
+import 'package:frontend/core/models/category.dart';
 import 'package:frontend/core/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -37,7 +39,7 @@ class Api {
         .toList();
   }
 
-  Future<List<Item>> getItems() async {
+  Future<Map<int, List<Item>>> getItems() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final Response response = await client.get(
@@ -52,11 +54,15 @@ class Api {
           '${response.body} - ${prefs.getString('user.token')}');
     }
 
-    final List<dynamic> itemsJson =
-        json.decode(response.body)['all_categories'];
-    return itemsJson
-        .map((dynamic itemJson) => Item.fromJson(itemJson))
-        .toList();
+    final Map<int, List<Item>> categories = <int, List<Item>>{};
+    for (Category category in defaultCategories.values) {
+      final List<dynamic> itemsJson =
+          json.decode(response.body)[category.id.toString()];
+      categories[category.id] =
+          itemsJson.map((dynamic itemJson) => Item.fromJson(itemJson)).toList();
+    }
+
+    return categories;
   }
 
   Future<bool> createItem(

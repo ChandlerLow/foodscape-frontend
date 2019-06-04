@@ -1,3 +1,4 @@
+import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/services/authentication_service.dart';
 import 'package:frontend/core/view_models/item_creation_model.dart';
 import 'package:frontend/core/view_models/items_model.dart';
@@ -13,6 +14,7 @@ GetIt locator = GetIt();
 void setupLocator() {
   locator.registerLazySingleton(() => AuthenticationService());
   locator.registerLazySingleton(() => Api());
+  locator.registerLazySingleton(() => UserCategories());
 
   locator.registerLazySingleton(() => LoginModel());
   locator.registerLazySingleton(() => RegisterModel());
