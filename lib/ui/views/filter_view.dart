@@ -8,13 +8,17 @@ class FilterView extends StatefulWidget {
 }
 
 class _FilterViewState extends State<FilterView> {
-  List<Category> categories = List.generate(6, (int i) {
+  List<Category> categories = List<Category>.generate(6, (int i) {
     return Category(i, 'Cat$i', OMIcons.fastfood, isSelected: true);
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Categories'),
+      ),
       body: GridView.builder(
           itemCount: categories.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

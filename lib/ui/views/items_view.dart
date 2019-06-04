@@ -21,6 +21,15 @@ class ItemsView extends StatelessWidget {
           appBar: AppBar(
             centerTitle: true,
             title: const Text('Ramsay Hall'),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.filter_list),
+                onPressed: () async {
+                  await Navigator.of(context).pushNamed('/items/filter');
+                  model.getItems();
+                },
+              )
+            ],
           ),
           body: Container(
             child: Center(
@@ -66,7 +75,6 @@ class ItemsView extends StatelessWidget {
         child: ListView.builder(
           padding: const EdgeInsets.all(16.0),
           itemBuilder: (BuildContext context, int i) {
-            final bool last = items.length == (i + 1);
             final Widget item = ItemListItem(
               item: items[i],
               onTap: () {
