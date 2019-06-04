@@ -16,12 +16,13 @@ class Api {
   static const String endpoint = 'https://foodscape.iamkelv.in';
 
   Client client = http.Client();
-  Future<List<Item>> getUserItems() async {
+
+  Future<Map<int, List<Item>>> getUserItems() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final Response response = await client.get(
       // TODO(Viet): include /user
-      '$endpoint/items/user',
+      '$endpoint/items',
       headers: {
         HttpHeaders.authorizationHeader:
         'Bearer ${prefs.getString('user.token')}',
@@ -32,11 +33,15 @@ class Api {
           '${response.body} - ${prefs.getString('user.token')}');
     }
 
-    final List<dynamic> itemsJson =
-    json.decode(response.body)['all_categories'];
-    return itemsJson
-        .map((dynamic itemJson) => Item.fromJson(itemJson))
-        .toList();
+    final Map<int, List<Item>> categories = <int, List<Item>>{};
+    for (Category category in defaultCategories.values) {
+      final List<dynamic> itemsJson =
+      json.decode(response.body)[category.id.toString()];
+      categories[category.id] =
+          itemsJson.map((dynamic itemJson) => Item.fromJson(itemJson)).toList();
+    }
+
+    return categories;
   }
 
   Future<Map<int, List<Item>>> getItems() async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/models/user.dart';
 import 'package:frontend/core/view_models/items_model.dart';
@@ -29,7 +30,7 @@ class MyListView extends StatelessWidget {
               //child: getItemsUi(items)
               child: RefreshIndicator(
                 child: model.state == ViewState.Idle
-                    ? getItemsUi(model.items)
+                    ? getCategoriesUi(model.categories)
                     : Center(child: const CircularProgressIndicator()),
                 onRefresh: model.getItems,
               ),
@@ -40,74 +41,42 @@ class MyListView extends StatelessWidget {
     );
   }
 
-  Widget getItemsUi(List<Item> items) => Container(
-    child: ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: (BuildContext context, int i) {
-        final bool last = items.length == (i + 1);
-        /*final Widget item = GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, '/operations');
-          },
-          child: Card(
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage('assets/camera.png'),
+  Widget getCategoriesUi(Map<int, List<Item>> categories) {
+    final List<int> categoryKeys = categories.keys.toList();
+    return Container(
+      child: ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemCount: categories.length,
+        itemBuilder: (BuildContext context, int i) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(defaultCategories[categoryKeys[i]].name),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children:
+                      categories[categoryKeys[i]].map<Widget>((Item item) {
+                    return GestureDetector(
+                      child: MyListItem(
+                        item: item,
                       ),
-                    ),
-                    width: 300,
-                    height: 150,
-                    padding: const EdgeInsets.only(right: 10),
-                    alignment: Alignment.center,
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Container>[
-                        Container(
-                          // ignore: prefer_const_constructors
-                          child: Text('Name',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.left),
-                          alignment: Alignment.centerLeft,
-                        ),
-                        Container(
-                          child: const Text(
-                            'Availability',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.right,
-                          ),
-                          alignment: Alignment.centerRight,
-                        ),
-                      ],
-                    ),
-                    alignment: Alignment.center,
-                    width: 300,
-                    height: 20,
-                  ),
-                ],
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/operations',
+                          arguments: item,
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
               ),
-              padding: const EdgeInsets.only(top: 20),
-              width: 400,
-              height: 210,
-            ),
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
-        );*/
-        final Widget item = GestureDetector(
-            child: MyListItem(item: items[i]),
-            onTap: () {
-              Navigator.pushNamed(context, '/operations', arguments: items[i]);
-            },
-        );
-        return item;
-      },
-      itemCount: items.length,
-    ),
-  );
+            ],
+          );
+        },
+      ),
+    );
+  }
 }

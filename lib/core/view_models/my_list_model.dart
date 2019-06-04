@@ -6,11 +6,11 @@ import 'package:frontend/locator.dart';
 
 class MyListModel extends BaseModel {
   final Api _api = locator<Api>();
-  List<Item> items;
+  Map<int, List<Item>>  categories;
 
   Future<void> getItems() async {
     setState(ViewState.Busy);
-    items = await _api.getUserItems();
+    categories = await _api.getUserItems();
     setState(ViewState.Idle);
   }
 }

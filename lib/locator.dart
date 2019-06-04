@@ -19,6 +19,6 @@ void setupLocator() {
   locator.registerLazySingleton(() => LoginModel());
   locator.registerLazySingleton(() => RegisterModel());
   locator.registerLazySingleton(() => ItemsModel());
-  locator.registerLazySingleton(() => MyListModel());
+  locator.registerFactory(() => MyListModel());
   locator.registerFactory(() => ItemCreationModel());
 }

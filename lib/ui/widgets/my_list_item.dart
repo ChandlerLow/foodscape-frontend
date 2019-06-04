@@ -70,8 +70,9 @@ class MyListItem extends StatelessWidget {
             ],
           ),
           padding: const EdgeInsets.only(top: 20),
-          width: 400,
+          width: 300,
           height: 210,
-    ));
+        ),
+        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10));
   }
 }
