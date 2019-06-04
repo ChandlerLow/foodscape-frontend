@@ -1,30 +1,52 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/core/view_models/item_creation_model.dart';
+import 'package:frontend/core/models/item.dart';
+import 'package:frontend/core/view_models/item_editing_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/views/base_view.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ItemCreationView extends StatefulWidget {
+import '../../constants.dart';
+
+// TODO(x): refactor with item_creation_view: remove duplications
+// We are only using different buttons (update <-> add), bar title,
+// and button actions (can use flag)
+class ItemEditingView extends StatefulWidget {
+  Item item;
+
+  ItemEditingView({@required this.item});
+
   @override
-  _ItemCreationViewState createState() => _ItemCreationViewState();
+  _ItemEditingViewState createState() => _ItemEditingViewState(item);
 }
 
-class _ItemCreationViewState extends State<ItemCreationView> {
-  final TextEditingController itemNameController = TextEditingController();
-  final TextEditingController quantityController = TextEditingController();
-  final TextEditingController expiryController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+class _ItemEditingViewState extends State<ItemEditingView> {
+  _ItemEditingViewState(Item item) {
+    this.item = item;
+    itemNameController = TextEditingController(text: item.name);
+    quantityController = TextEditingController(text: item.quantity);
+    expiryController =
+        TextEditingController(text: getDaysLeft(item.expiryDate));
+    descriptionController = TextEditingController(text: item.description);
+  }
+
+  Item item;
   File _photo;
+
+  TextEditingController itemNameController;
+  TextEditingController quantityController;
+  TextEditingController expiryController;
+  TextEditingController descriptionController;
 
   @override
   Widget build(BuildContext context) {
     final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
-    return BaseView<ItemCreationModel>(
+
+    return BaseView<ItemEditingModel>(
       builder: (
         BuildContext context,
-        ItemCreationModel model,
+        ItemEditingModel model,
         Widget child,
       ) =>
           WillPopScope(
@@ -34,7 +56,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
             child: Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                title: const Text('Add Item', style: TextStyle(fontSize: 24)),
+                title: const Text('Edit Item', style: TextStyle(fontSize: 24)),
               ),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.all(10),
@@ -42,7 +64,10 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                   children: <Widget>[
                     Container(
                       child: _photo == null
-                          ? Image.asset('assets/camera.png')
+                          ? FadeInImage.assetNetwork(
+                              placeholder: 'assets/camera.png',
+                              image: '$SPACES_BASE_URL/${item.photo}',
+                            )
                           : Image.file(_photo),
                       width: 270,
                       height: 250,
@@ -56,10 +81,8 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                       label: const Text('Take a photo'),
                     ),
                     _inputTextTile('Item name', itemNameController),
-                    _inputTextTile(
-                      'Quantity (eg. 1/2 pint, 5 pieces)',
-                      quantityController,
-                    ),
+                    _inputTextTile('Quantity (eg. 1/2 pint, 5 pieces)',
+                        quantityController),
                     // TODO(x): expiration date
                     _inputTextTile('Days remaining', expiryController),
                     _inputTextTile('Description', descriptionController),
@@ -74,17 +97,17 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                       backgroundColor: Colors.grey,
                       elevation: 2.0,
                       label: model.state == ViewState.Idle
-                          ? const Text('Submit Item')
-                          : const Text('Submitting...'),
+                          ? const Text('Update Item')
+                          : const Text('Updating...'),
                       onPressed: model.state == ViewState.Idle
                           ? () async {
-                              // TODO(x): convert image file to store it on db
-                              await model.create(
+                              await model.edit(
                                 itemNameController.text,
                                 quantityController.text,
                                 expiryController.text,
                                 descriptionController.text,
                                 _photo,
+                                item.photo,
                               );
                               Navigator.of(context).pop(true);
                             }
@@ -116,7 +139,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
           builder: (BuildContext context) => AlertDialog(
                 title: const Text('Cancel'),
                 content: const Text(
-                    'Are you sure you don\'t want to add a new item?'),
+                    'Are you sure you don\'t want to update your item?'),
                 actions: <Widget>[
                   FlatButton(
                     onPressed: () => Navigator.of(context).pop(false),
@@ -139,5 +162,9 @@ class _ItemCreationViewState extends State<ItemCreationView> {
         _photo = img;
       });
     }
+  }
+
+  String getDaysLeft(DateTime expiryDate) {
+    return expiryDate.difference(DateTime.now()).inDays.toString();
   }
 }

@@ -10,6 +10,7 @@ class ItemOperationsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Function viewItem = () {Navigator.pushNamed(context, '/item', arguments: item);};
+    final Function editItem = () {Navigator.pushNamed(context, '/items/edit', arguments: item);};
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -75,7 +76,7 @@ class ItemOperationsView extends StatelessWidget {
                   ),
                   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10)),*/
               _makeOperation('View Item', const Icon(Icons.remove_red_eye), onTap: viewItem),
-              _makeOperation('Edit Item', const Icon(Icons.edit)),
+              _makeOperation('Edit Item', const Icon(Icons.edit), onTap: editItem),
               _makeOperation('Item is being collected', const Icon(Icons.check_circle),),
               _makeOperation('Delete Item', const Icon(Icons.delete),),
             ],
