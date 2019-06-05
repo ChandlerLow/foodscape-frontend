@@ -23,17 +23,16 @@ class Api {
     final Response response = await client.get(
       // TODO(Viet): include /user
       '$endpoint/items/user',
-      headers: {
+      headers: <String, String>{
         HttpHeaders.authorizationHeader:
-        'Bearer ${prefs.getString('user.token')}',
+            'Bearer ${prefs.getString('user.token')}',
       },
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to load items - ${response.statusCode} - '
           '${response.body} - ${prefs.getString('user.token')}');
     }
-    final List<dynamic> itemsJson =
-        json.decode(response.body);
+    final List<dynamic> itemsJson = json.decode(response.body);
 
     return itemsJson
         .map((dynamic itemJson) => Item.fromJson(itemJson))
@@ -45,7 +44,7 @@ class Api {
 
     final Response response = await client.get(
       '$endpoint/items',
-      headers: {
+      headers: <String, String>{
         HttpHeaders.authorizationHeader:
             'Bearer ${prefs.getString('user.token')}',
       },
@@ -104,11 +103,11 @@ class Api {
     // Create item
     final Response response = await client.post(
       '$endpoint/items',
-      headers: {
+      headers: <String, String>{
         HttpHeaders.authorizationHeader:
             'Bearer ${prefs.getString('user.token')}',
       },
-      body: {
+      body: <String, dynamic>{
         'name': itemName,
         'quantity': quantity,
         'expiry_date': expiry,
@@ -125,64 +124,57 @@ class Api {
     return true;
   }
 
-  // TODO(x): refactor it with createItem -> remove duplication
-  // Only change is using put instead of post:
-  // final Response response = await client.put(...)
   Future<bool> editItem(
-    String itemName,
-    String quantity,
-    String expiry,
-    String description,
-    File photo,
-    String originalPhoto,
-    int categoryId,
-    int itemId,
+    Item item,
+    String newName,
+    String newQuantity,
+    String newExpiry,
+    String newDescription,
+    File newPhoto,
   ) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Upload image
+    // Upload image (optional)
     String filename;
-    if (photo != null) {
+    if (newPhoto != null) {
       final Uri uri = Uri.parse('$endpoint/photos/upload');
       final MultipartRequest request = http.MultipartRequest('POST', uri);
       request.headers['authorization'] =
-      'Bearer ${prefs.getString('user.token')}';
+          'Bearer ${prefs.getString('user.token')}';
       final MultipartFile multipartFile = await http.MultipartFile.fromPath(
         'upload',
-        photo.path,
+        newPhoto.path,
         contentType: MediaType('image', 'jpeg'),
       );
-      log(photo.path);
+      log(newPhoto.path);
       request.files.add(multipartFile);
 
       final Response imageResponse =
-      await Response.fromStream(await request.send());
+          await Response.fromStream(await request.send());
 
       if (imageResponse.statusCode != HttpStatus.created) {
         throw Exception('Failed to upload image');
       }
 
       filename = json.decode(imageResponse.body)['filename'];
-    } else if(originalPhoto == null) {
-      filename = '';
     } else {
-      filename = originalPhoto;
+      filename = item.photo == null ? '' : item.photo;
     }
 
     // Create item
     final Response response = await client.put(
-      '$endpoint/items/$itemId',
-      headers: {
+      '$endpoint/items/${item.id}',
+      headers: <String, String>{
         HttpHeaders.authorizationHeader:
-        'Bearer ${prefs.getString('user.token')}',
+            'Bearer ${prefs.getString('user.token')}',
       },
-      body: {
-        'name': itemName,
-        'quantity': quantity,
-        'expiry_date': expiry,
-        'description': description,
+      body: <String, dynamic>{
+        'name': newName,
+        'quantity': newQuantity,
+        'expiry_date': newExpiry,
+        'description': newDescription,
         'photo': filename,
-        'category_id': categoryId.toString(),
+        'category_id': item.id.toString(),
       },
     );
 
@@ -196,7 +188,7 @@ class Api {
   Future<User> authUser(String username, String password) async {
     final Response response = await client.post(
       '$endpoint/auth/login',
-      body: {
+      body: <String, String>{
         'username': username,
         'password': password,
       },
@@ -218,7 +210,7 @@ class Api {
   ) async {
     final Response response = await client.post(
       '$endpoint/auth/register',
-      body: {
+      body: <String, dynamic>{
         'username': username,
         'password': password,
         'name': name,

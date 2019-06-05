@@ -16,7 +16,7 @@ class ItemsModel extends BaseModel {
     // Filter out categories which the user has de-selected
     final List<int> selectedCategories =
         locator<UserCategories>().getSelectedCategories().keys.toList();
-    categories.removeWhere((key, _) => !selectedCategories.contains(key));
+    categories.removeWhere((int key, _) => !selectedCategories.contains(key));
 
     setState(ViewState.Idle);
   }

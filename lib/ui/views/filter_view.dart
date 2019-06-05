@@ -15,7 +15,7 @@ class _FilterViewState extends State<FilterView> {
 
   @override
   Widget build(BuildContext context) {
-    List<int> categoryIds = categories.keys.toList();
+    final List<int> categoryIds = categories.keys.toList();
 
     return Scaffold(
       appBar: AppBar(

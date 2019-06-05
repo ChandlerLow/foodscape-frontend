@@ -1,13 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
 
 import 'package:frontend/core/models/recipe.dart';
-import 'package:frontend/core/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RecipeApi {
   static const String APIKEY = 'a292391b38d9f11537efa3871ed824ea';

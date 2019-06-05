@@ -21,44 +21,54 @@ class _LoginViewState extends State<LoginView> {
             body: model.state == ViewState.Idle
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       _textFieldWidget(
-                          'username', context, _usernameController, model),
+                        'username',
+                        context,
+                        _usernameController,
+                        model,
+                      ),
                       _textFieldWidget(
-                          'password', context, _passwordController, model, hidden: true),
+                        'password',
+                        context,
+                        _passwordController,
+                        model,
+                        hidden: true,
+                      ),
                       RaisedButton(
-                          color: Colors.grey,
-                          child: const Text(
-                            'Sign In',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () async {
-                            final bool loginSuccess = await model.login(
-                              _usernameController.text,
-                              _passwordController.text,
-                            );
+                        color: Colors.grey,
+                        child: const Text(
+                          'Sign In',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () async {
+                          final bool loginSuccess = await model.login(
+                            _usernameController.text,
+                            _passwordController.text,
+                          );
 
-                            if (loginSuccess) {
-                              Navigator.pushReplacementNamed(context, '/');
-                            }
-                          }),
+                          if (loginSuccess) {
+                            Navigator.pushReplacementNamed(context, '/');
+                          }
+                        },
+                      ),
                       Container(
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamed('/register');
-                              },
-                              child: const Padding(
-                                  padding: EdgeInsets.only(top: 20.0),
-                                  child: Text(
-                                    "Don't Have An Account?",
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      fontSize: 15.0,
-                                    ),
-                                  )
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/register');
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.only(top: 20.0),
+                            child: Text(
+                              "Don't Have An Account?",
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                fontSize: 15.0,
                               ),
-                            )
-                          )
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   )
                 : Center(child: const CircularProgressIndicator()),
@@ -66,13 +76,9 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Widget _textFieldWidget(
-    String hintText,
-    BuildContext context,
-    TextEditingController controller,
-    LoginModel model,
-    {bool hidden}
-  ) {
+  Widget _textFieldWidget(String hintText, BuildContext context,
+      TextEditingController controller, LoginModel model,
+      {bool hidden}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
