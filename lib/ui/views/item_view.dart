@@ -28,8 +28,8 @@ class ItemView extends StatelessWidget {
                 tag: 'item-photo-${item.id}',
                 child: item.photo == null || item.photo == ''
                     ? Container(
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
                             image: AssetImage('assets/camera.png'),
                           ),
                         ),
@@ -77,7 +77,16 @@ class ItemView extends StatelessWidget {
               makeListTile('Location', item.userLocation),
               ListTile(title: const Text('Stuck for choice? Try one of these'),),
               RecipeCarousel(ingredient: item.name),
-              Padding(padding: EdgeInsets.only(bottom: 10),)
+              const Padding(padding: EdgeInsets.only(bottom: 10),),
+              FloatingActionButton.extended(
+                heroTag: 'main-fab',
+                backgroundColor: Colors.grey,
+                elevation: 2.0,
+                label: const Text('Message'),
+                onPressed: () {
+                  // TODO(x): add contact info or implement message feature
+                },
+              )
             ],
           ),
           margin: const EdgeInsets.symmetric(
@@ -87,18 +96,6 @@ class ItemView extends StatelessWidget {
         ),
       ),
       // With the button we can contact the owner of the item we are looking at
-      floatingActionButton: showFab
-          ? FloatingActionButton.extended(
-              heroTag: 'main-fab',
-              backgroundColor: Colors.grey,
-              elevation: 2.0,
-              label: const Text('Message'),
-              onPressed: () {
-                // TODO(x): add contact info or implement message feature
-              },
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: const Padding(padding: EdgeInsets.only(bottom: 20),),
     );
   }

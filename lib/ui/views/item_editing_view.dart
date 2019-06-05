@@ -93,13 +93,8 @@ class _ItemEditingViewState extends State<ItemEditingView> {
                     _inputTextTile('Days remaining', expiryController),
                     _inputTextTile('Description', descriptionController),
                     _dropdownCategories(),
-                  ],
-                ),
-              ),
-
-              // The button submits the item and returns to the home page
-              floatingActionButton: showFab
-                  ? FloatingActionButton.extended(
+                    const Padding(padding: EdgeInsets.only(bottom: 10),),
+                    FloatingActionButton.extended(
                       heroTag: 'main-fab',
                       backgroundColor: Colors.grey,
                       elevation: 2.0,
@@ -108,23 +103,23 @@ class _ItemEditingViewState extends State<ItemEditingView> {
                           : const Text('Updating...'),
                       onPressed: model.state == ViewState.Idle
                           ? () async {
-                              await model.edit(
-                                itemNameController.text,
-                                quantityController.text,
-                                expiryController.text,
-                                descriptionController.text,
-                                _photo,
-                                item.photo,
-                                category.id,
-                                id,
-                              );
-                              Navigator.of(context).pop(true);
-                            }
+                        await model.edit(
+                          itemNameController.text,
+                          quantityController.text,
+                          expiryController.text,
+                          descriptionController.text,
+                          _photo,
+                          item.photo,
+                          category.id,
+                          id,
+                        );
+                        Navigator.of(context).pop(true);
+                      }
                           : null,
-                    )
-                  : null,
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerFloat,
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
     );
