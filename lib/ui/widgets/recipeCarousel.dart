@@ -15,43 +15,44 @@ class RecipeCarousel extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return BaseView<RecipeModel>(onModelReady: (RecipeModel model) {
-     // model.getRecipes(ingredient);
+     model.getRecipes(ingredient);
     },builder: (BuildContext context, RecipeModel model, Widget child) {
-      return Container();
+      return RefreshIndicator(
+        child: model.state == ViewState.Idle ?
+        recipeCarousel(model.recipes)
+            : Center(child: const CircularProgressIndicator()),
+        onRefresh: () => model.getRecipes(ingredient),
+      );
     },);
   }
 
   Widget recipeCarousel(List<Recipe> recipes) => CarouselSlider(
-      height: 170,
+      height: 160,
       items: recipes.map((Recipe recipe) {
         return Builder(
           builder: (BuildContext context) {
             return Card(child :Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(
-                    color: Colors.amber
-                ),
                 child: Column(
                   children: <Widget> [
-                    Container(child: Text(recipe.recipeName)),
+                    Container(child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/camera.png',
+                      image: recipe.imageString,
+                    ),
+                      width: 400,
+                      height: 130,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      alignment: Alignment.center,),
                     Container(child: const Text('recipe name'),),
                   ],
                 )
             )
-            );;
+            );
           },
         );
       }).toList()
   );
-
-
-/* return RefreshIndicator(
-        child: model.state == ViewState.Idle ?
-        recipeCarousel(model.recipes)
-        : Center(child: const CircularProgressIndicator()),
-        onRefresh: () => model.getRecipes(ingredient),
-      ); */
 
 
 }
