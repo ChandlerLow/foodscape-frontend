@@ -1,16 +1,17 @@
 class Recipe {
 
-  Recipe({this.id, this.recipeName, this.imageString});
+  Recipe({this.recipeTitle, this.imageURL, this.recipeURL, });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-      id: json['id'],
-      recipeName: json['title'],
-      imageString: json['image']
+      recipeTitle: json['title'],
+      imageURL: json['image_url'],
+      recipeURL: json['f2f_url']
     );
   }
 
-  final int id;
-  final String recipeName;
-  final String imageString;
+  final String recipeTitle;
+  final String imageURL;
+  final String recipeURL;
+
 }

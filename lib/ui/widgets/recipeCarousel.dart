@@ -6,6 +6,7 @@ import 'package:frontend/core/view_models/recipe_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/views/base_view.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RecipeCarousel extends StatelessWidget{
 
@@ -32,28 +33,47 @@ class RecipeCarousel extends StatelessWidget{
       items: recipes.map((Recipe recipe) {
         return Builder(
           builder: (BuildContext context) {
-            return Card(child :Container(
+            return
+              GestureDetector(
+                onTap: () => _launchURL(recipe.recipeURL),
+                  child: Card(child :Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: Column(
                   children: <Widget> [
-                    Container(child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/camera.png',
-                      image: recipe.imageString,
-                    ),
+                    Center(child:
+                    Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.contain,
+                            alignment: FractionalOffset.topCenter,
+                            image: NetworkImage(recipe.imageURL),
+                          )
+                      ),
                       width: 400,
-                      height: 130,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      alignment: Alignment.center,),
-                    Container(child: AutoSizeText(recipe.recipeName, style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),),
+                      height: 120,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      alignment: Alignment.center,) ),
+                    Container(child: AutoSizeText(recipe.recipeTitle, style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),),
                   ],
                 )
-            )
-            );
+            ),
+            ),
+              );
           },
         );
       }).toList()
   );
+
+  dynamic _launchURL(String recipeUrl) async {
+    final String url = recipeUrl;
+    print('things are happening');
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
 
 }
