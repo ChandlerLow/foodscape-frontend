@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RecipeApi {
   static const String endpoint =
-      'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=1&ranking=1&ignorePantry=false&ingredients=';
+      'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=3&ranking=1&ignorePantry=false&ingredients=';
 
   Client client = http.Client();
 
@@ -24,7 +24,7 @@ class RecipeApi {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to load items - ${response.statusCode} - '
+      throw Exception('Failed to load recipes - ${response.statusCode} - '
           '${response.body}');
     }
 

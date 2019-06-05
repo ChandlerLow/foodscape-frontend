@@ -13,5 +13,4 @@ class Recipe {
   final int id;
   final String recipeName;
   final String imageString;
-
 }

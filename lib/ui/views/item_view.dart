@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:frontend/core/models/recipe.dart';
+import 'package:frontend/ui/widgets/recipeCarousel.dart';
 
 class ItemView extends StatelessWidget {
   const ItemView({this.item});
@@ -74,23 +76,8 @@ class ItemView extends StatelessWidget {
               makeListTile('Owner', item.userName),
               makeListTile('Location', item.userLocation),
               ListTile(title: const Text('Stuck for choice? Try one of these'),),
-              CarouselSlider(
-                height: 200,
-                items: [1].map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                              color: Colors.amber
-                          ),
-                          child: Text('text $i', style: TextStyle(fontSize: 16.0),)
-                      );
-                    },
-                  );
-                }).toList(),
-              )
+              RecipeCarousel(ingredient: item.name),
+              Padding(padding: EdgeInsets.only(bottom: 10),)
             ],
           ),
           margin: const EdgeInsets.symmetric(
