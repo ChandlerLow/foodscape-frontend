@@ -5,6 +5,8 @@ import 'package:frontend/core/models/recipe.dart';
 import 'package:frontend/core/view_models/recipe_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/views/base_view.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RecipeCarousel extends StatelessWidget{
 
@@ -15,43 +17,63 @@ class RecipeCarousel extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return BaseView<RecipeModel>(onModelReady: (RecipeModel model) {
-     // model.getRecipes(ingredient);
+     model.getRecipes(ingredient);
     },builder: (BuildContext context, RecipeModel model, Widget child) {
-      return Container();
+      return RefreshIndicator(
+        child: model.state == ViewState.Idle ?
+        recipeCarousel(model.recipes)
+            : Center(child: const CircularProgressIndicator()),
+        onRefresh: () => model.getRecipes(ingredient),
+      );
     },);
   }
 
   Widget recipeCarousel(List<Recipe> recipes) => CarouselSlider(
-      height: 170,
+      height: 160,
       items: recipes.map((Recipe recipe) {
         return Builder(
           builder: (BuildContext context) {
-            return Card(child :Container(
+            return
+              GestureDetector(
+                onTap: () => _launchURL(recipe.recipeURL),
+                  child: Card(child :Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(
-                    color: Colors.amber
-                ),
                 child: Column(
                   children: <Widget> [
-                    Container(child: Text(recipe.recipeName)),
-                    Container(child: const Text('recipe name'),),
+                    Center(child:
+                    Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.contain,
+                            alignment: FractionalOffset.topCenter,
+                            image: NetworkImage(recipe.imageURL),
+                          )
+                      ),
+                      width: 400,
+                      height: 120,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      alignment: Alignment.center,) ),
+                    Container(child: AutoSizeText(recipe.recipeTitle, style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),),
                   ],
                 )
-            )
-            );;
+            ),
+            ),
+              );
           },
         );
       }).toList()
   );
 
-
-/* return RefreshIndicator(
-        child: model.state == ViewState.Idle ?
-        recipeCarousel(model.recipes)
-        : Center(child: const CircularProgressIndicator()),
-        onRefresh: () => model.getRecipes(ingredient),
-      ); */
+  dynamic _launchURL(String recipeUrl) async {
+    final String url = recipeUrl;
+    print('things are happening');
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
 
 }
