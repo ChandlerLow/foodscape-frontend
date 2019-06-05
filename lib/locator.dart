@@ -3,6 +3,7 @@ import 'package:frontend/core/services/authentication_service.dart';
 import 'package:frontend/core/services/recipe_api.dart';
 import 'package:frontend/core/view_models/item_creation_model.dart';
 import 'package:frontend/core/view_models/item_editing_model.dart';
+import 'package:frontend/core/view_models/item_operation_model.dart';
 import 'package:frontend/core/view_models/items_model.dart';
 import 'package:frontend/core/view_models/recipe_model.dart';
 import 'package:frontend/core/view_models/user_items_model.dart';
@@ -27,4 +28,5 @@ void setupLocator() {
   locator.registerFactory(() => UserItemsModel());
   locator.registerFactory(() => ItemCreationModel());
   locator.registerFactory(() => ItemEditingModel());
+  locator.registerFactory(() => ItemOperationsModel());
 }

@@ -52,10 +52,11 @@ class MyListItem extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                     ),
                     Container(
-                      // TODO(x): add item availability
-                      child: const Text(
-                        'Availability',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      child: Text(
+                        item.isCollected
+                        ? 'Unavailable'
+                        : 'Available',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                         textAlign: TextAlign.right,
                       ),
                       alignment: Alignment.centerRight,
