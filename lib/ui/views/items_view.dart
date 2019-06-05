@@ -33,8 +33,13 @@ class ItemsView extends StatelessWidget {
           body: Container(
             child: RefreshIndicator(
               child: model.state == ViewState.Idle
-                  ? getCategoriesUi(model.categories)
-                  : Center(child: const CircularProgressIndicator()),
+                  ? (model.categories.isEmpty
+                      ? const Center(
+                          child: Text('No items match your specifications! '
+                              'Why not filter fewer items?'),
+                        )
+                      : getCategoriesUi(model.categories))
+                  : const Center(child: CircularProgressIndicator()),
               onRefresh: model.getItems,
             ),
           ),
@@ -95,7 +100,7 @@ class ItemsView extends StatelessWidget {
           },
           itemCount: items.length,
         ),
-  );
+      );
 
   Widget getCategoriesUi(Map<int, List<Item>> categories) {
     final List<int> categoryKeys = categories.keys.toList();
@@ -135,4 +140,3 @@ class ItemsView extends StatelessWidget {
     );
   }
 }
-
