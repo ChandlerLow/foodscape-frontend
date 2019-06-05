@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/item.dart';
+import 'package:frontend/ui/views/filter_view.dart';
 import 'package:frontend/ui/views/item_creation_view.dart';
+import 'package:frontend/ui/views/item_editing_view.dart';
+import 'package:frontend/ui/views/item_operation_view.dart';
 import 'package:frontend/ui/views/item_view.dart';
 import 'package:frontend/ui/views/items_view.dart';
 import 'package:frontend/ui/views/login_view.dart';
+import 'package:frontend/ui/views/profile_view.dart';
+import 'package:frontend/ui/views/my_list_view.dart';
 import 'package:frontend/ui/views/register_view.dart';
 
 class Router {
@@ -11,8 +16,13 @@ class Router {
     switch (settings.name) {
       case '/items/add':
         return MaterialPageRoute<dynamic>(builder: (_) => ItemCreationView());
+      case '/items/edit':
+        final Item item = settings.arguments;
+        return MaterialPageRoute<dynamic>(builder: (_) => ItemEditingView(item: item));
       case '/':
         return MaterialPageRoute<dynamic>(builder: (_) => ItemsView());
+      case '/items/filter':
+        return MaterialPageRoute<dynamic>(builder: (_) => FilterView());
       case '/item':
         final Item item = settings.arguments;
         return MaterialPageRoute<dynamic>(builder: (_) => ItemView(item: item));
@@ -20,6 +30,13 @@ class Router {
         return MaterialPageRoute<dynamic>(builder: (_) => LoginView());
       case '/register':
         return MaterialPageRoute<dynamic>(builder: (_) => RegisterView());
+      case '/profile':
+        return MaterialPageRoute<dynamic>(builder: (_) => ProfileView());
+      case '/my_list':
+        return MaterialPageRoute<dynamic>(builder: (_) => MyListView());
+      case '/operations':
+        final Item item = settings.arguments;
+        return MaterialPageRoute<dynamic>(builder: (_) => ItemOperationsView(item: item));
       default:
         return MaterialPageRoute<dynamic>(builder: (_) {
           return Scaffold(

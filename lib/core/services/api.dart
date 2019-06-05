@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:frontend/core/models/categories.dart';
+import 'package:frontend/core/models/category.dart';
 import 'package:frontend/core/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -15,7 +17,46 @@ class Api {
 
   Client client = http.Client();
 
-  Future<List<Item>> getItems() async {
+  Future<List<Item>> getUserItems() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final Response response = await client.get(
+      // TODO(Viet): include /user
+      '$endpoint/items/user',
+      headers: {
+        HttpHeaders.authorizationHeader:
+        'Bearer ${prefs.getString('user.token')}',
+      },
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load items - ${response.statusCode} - '
+          '${response.body} - ${prefs.getString('user.token')}');
+    }
+    final List<dynamic> itemsJson =
+        json.decode(response.body);
+
+    /*for (Category category in defaultCategories.values) {
+      final List<dynamic> categoriesJson =
+      json.decode(response.body)[category.id.toString()];
+      itemsJson.addAll(
+          categoriesJson.map((dynamic itemJson) => Item.fromJson(itemJson)).toList());
+    }*/
+
+    return itemsJson
+        .map((dynamic itemJson) => Item.fromJson(itemJson))
+        .toList();
+    /*final Map<int, List<Item>> categories = <int, List<Item>>{};
+    for (Category category in defaultCategories.values) {
+      final List<dynamic> itemsJson =
+      json.decode(response.body)[category.id.toString()];
+      categories[category.id] =
+          itemsJson.map((dynamic itemJson) => Item.fromJson(itemJson)).toList();
+    }
+
+    return categories;*/
+  }
+
+  Future<Map<int, List<Item>>> getItems() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final Response response = await client.get(
@@ -30,11 +71,15 @@ class Api {
           '${response.body} - ${prefs.getString('user.token')}');
     }
 
-    final List<dynamic> itemsJson =
-        json.decode(response.body)['all_categories'];
-    return itemsJson
-        .map((dynamic itemJson) => Item.fromJson(itemJson))
-        .toList();
+    final Map<int, List<Item>> categories = <int, List<Item>>{};
+    for (Category category in defaultCategories.values) {
+      final List<dynamic> itemsJson =
+          json.decode(response.body)[category.id.toString()];
+      categories[category.id] =
+          itemsJson.map((dynamic itemJson) => Item.fromJson(itemJson)).toList();
+    }
+
+    return categories;
   }
 
   Future<bool> createItem(
@@ -84,6 +129,69 @@ class Api {
         'expiry_date': expiry,
         'description': description,
         'photo': photo == null ? '' : filename,
+      },
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to create items');
+    }
+
+    return true;
+  }
+
+  // TODO(x): refactor it with createItem -> remove duplication
+  // Only change is using put instead of post:
+  // final Response response = await client.put(...)
+  Future<bool> editItem(
+    String itemName,
+    String quantity,
+    String expiry,
+    String description,
+    File photo,
+    String originalPhoto,
+  ) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Upload image
+    String filename;
+    if (photo != null) {
+      final Uri uri = Uri.parse('$endpoint/photos/upload');
+      final MultipartRequest request = http.MultipartRequest('POST', uri);
+      request.headers['authorization'] =
+      'Bearer ${prefs.getString('user.token')}';
+      final MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        'upload',
+        photo.path,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      log(photo.path);
+      request.files.add(multipartFile);
+
+      final Response imageResponse =
+      await Response.fromStream(await request.send());
+
+      if (imageResponse.statusCode != HttpStatus.created) {
+        throw Exception('Failed to upload image');
+      }
+
+      filename = json.decode(imageResponse.body)['filename'];
+    } else {
+      filename = originalPhoto;
+    }
+
+    // Create item
+    final Response response = await client.put(
+      '$endpoint/items',
+      headers: {
+        HttpHeaders.authorizationHeader:
+        'Bearer ${prefs.getString('user.token')}',
+      },
+      body: {
+        'name': itemName,
+        'quantity': quantity,
+        'expiry_date': expiry,
+        'description': description,
+        'photo': filename,
       },
     );
 
