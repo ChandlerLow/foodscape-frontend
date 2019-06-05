@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/view_models/item_operation_model.dart';
 import 'package:frontend/ui/widgets/my_list_item.dart';
@@ -8,6 +7,7 @@ import 'base_view.dart';
 
 class ItemOperationsView extends StatelessWidget {
   const ItemOperationsView({this.item});
+
   final Item item;
 
   @override
@@ -27,11 +27,9 @@ class ItemOperationsView extends StatelessWidget {
             Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                //title: Text(item.name, style: const TextStyle(fontSize: 24)),
                 title: Text(item.name, style: const TextStyle(fontSize: 24)),
               ),
               body: SingleChildScrollView(
-                //padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Container(
                   child: Column(
                     children: <Widget>[
@@ -45,23 +43,23 @@ class ItemOperationsView extends StatelessWidget {
                       _makeOperation('Edit Item', const Icon(Icons.edit),
                           onTap: editItem),
                       item.isCollected
-                          ? _makeOperation('Readd Item', const Icon(Icons.undo),
+                          ? _makeOperation(
+                              'Mark as Available', const Icon(Icons.undo),
                               onTap: () => {
                                     model.setCollected(false, item.id),
-                                    //Navigator.pop(context),
+                                    Navigator.pop(context),
                                   })
                           : _makeOperation('Item is being collected',
                               const Icon(Icons.check_circle),
                               onTap: () => {
                                     model.setCollected(true, item.id),
-                                    //Navigator.pop(context),
-                          }),
+                                    Navigator.pop(context),
+                                  }),
                       _makeOperation(
                         'Delete Item',
                         const Icon(Icons.delete),
                         onTap: () => {
                               model.deleteItem(item.id),
-
                               Navigator.pop(context),
                             },
                       ),
