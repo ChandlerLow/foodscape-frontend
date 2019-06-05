@@ -17,12 +17,12 @@ class Api {
 
   Client client = http.Client();
 
-  Future<Map<int, List<Item>>> getUserItems() async {
+  Future<List<Item>> getUserItems() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final Response response = await client.get(
       // TODO(Viet): include /user
-      '$endpoint/items',
+      '$endpoint/items/user',
       headers: {
         HttpHeaders.authorizationHeader:
         'Bearer ${prefs.getString('user.token')}',
@@ -32,8 +32,20 @@ class Api {
       throw Exception('Failed to load items - ${response.statusCode} - '
           '${response.body} - ${prefs.getString('user.token')}');
     }
+    final List<dynamic> itemsJson =
+        json.decode(response.body);
 
-    final Map<int, List<Item>> categories = <int, List<Item>>{};
+    /*for (Category category in defaultCategories.values) {
+      final List<dynamic> categoriesJson =
+      json.decode(response.body)[category.id.toString()];
+      itemsJson.addAll(
+          categoriesJson.map((dynamic itemJson) => Item.fromJson(itemJson)).toList());
+    }*/
+
+    return itemsJson
+        .map((dynamic itemJson) => Item.fromJson(itemJson))
+        .toList();
+    /*final Map<int, List<Item>> categories = <int, List<Item>>{};
     for (Category category in defaultCategories.values) {
       final List<dynamic> itemsJson =
       json.decode(response.body)[category.id.toString()];
@@ -41,7 +53,7 @@ class Api {
           itemsJson.map((dynamic itemJson) => Item.fromJson(itemJson)).toList();
     }
 
-    return categories;
+    return categories;*/
   }
 
   Future<Map<int, List<Item>>> getItems() async {
