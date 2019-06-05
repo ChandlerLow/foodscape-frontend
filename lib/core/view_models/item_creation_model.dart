@@ -14,6 +14,7 @@ class ItemCreationModel extends BaseModel {
     String expiry,
     String description,
     File photo,
+    int categoryId,
   ) async {
     setState(ViewState.Busy);
     await _api.createItem(
@@ -22,6 +23,7 @@ class ItemCreationModel extends BaseModel {
       DateTime.now().add(Duration(days: int.parse(expiry))).toIso8601String(),
       description,
       photo,
+      categoryId,
     );
     setState(ViewState.Idle);
   }

@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/core/models/categories.dart';
+import 'package:frontend/core/models/category.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/view_models/item_editing_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
@@ -29,10 +31,14 @@ class _ItemEditingViewState extends State<ItemEditingView> {
     expiryController =
         TextEditingController(text: getDaysLeft(item.expiryDate));
     descriptionController = TextEditingController(text: item.description);
+    category = defaultCategories[item.categoryId];
+    id = item.id;
   }
 
+  int id;
   Item item;
   File _photo;
+  Category category;
 
   TextEditingController itemNameController;
   TextEditingController quantityController;
@@ -86,6 +92,7 @@ class _ItemEditingViewState extends State<ItemEditingView> {
                     // TODO(x): expiration date
                     _inputTextTile('Days remaining', expiryController),
                     _inputTextTile('Description', descriptionController),
+                    _dropdownCategories(),
                   ],
                 ),
               ),
@@ -108,6 +115,8 @@ class _ItemEditingViewState extends State<ItemEditingView> {
                                 descriptionController.text,
                                 _photo,
                                 item.photo,
+                                category.id,
+                                id,
                               );
                               Navigator.of(context).pop(true);
                             }
@@ -166,5 +175,35 @@ class _ItemEditingViewState extends State<ItemEditingView> {
 
   String getDaysLeft(DateTime expiryDate) {
     return expiryDate.difference(DateTime.now()).inDays.toString();
+  }
+
+  Widget _dropdownCategories() {
+    List<Category> categories = defaultCategories.values.toList();
+    return Container(
+      alignment: Alignment.center,
+      width: 300,
+      child: DropdownButtonHideUnderline(
+        child: ButtonTheme(
+          alignedDropdown: true,
+          child: DropdownButton<Category>(
+            hint: Text(category.name),
+            value: category,
+            onChanged: (Category newCategory) {
+              setState(() {
+                category = newCategory;
+              });
+            },
+            items: categories.map((Category category) {
+              return DropdownMenuItem<Category>(
+                value: category,
+                child: Text(
+                  category.name,
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
   }
 }

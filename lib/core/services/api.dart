@@ -35,25 +35,9 @@ class Api {
     final List<dynamic> itemsJson =
         json.decode(response.body);
 
-    /*for (Category category in defaultCategories.values) {
-      final List<dynamic> categoriesJson =
-      json.decode(response.body)[category.id.toString()];
-      itemsJson.addAll(
-          categoriesJson.map((dynamic itemJson) => Item.fromJson(itemJson)).toList());
-    }*/
-
     return itemsJson
         .map((dynamic itemJson) => Item.fromJson(itemJson))
         .toList();
-    /*final Map<int, List<Item>> categories = <int, List<Item>>{};
-    for (Category category in defaultCategories.values) {
-      final List<dynamic> itemsJson =
-      json.decode(response.body)[category.id.toString()];
-      categories[category.id] =
-          itemsJson.map((dynamic itemJson) => Item.fromJson(itemJson)).toList();
-    }
-
-    return categories;*/
   }
 
   Future<Map<int, List<Item>>> getItems() async {
@@ -88,6 +72,7 @@ class Api {
     String expiry,
     String description,
     File photo,
+    int categoryId,
   ) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -129,6 +114,7 @@ class Api {
         'expiry_date': expiry,
         'description': description,
         'photo': photo == null ? '' : filename,
+        'category_id': categoryId.toString(),
       },
     );
 
@@ -149,6 +135,8 @@ class Api {
     String description,
     File photo,
     String originalPhoto,
+    int categoryId,
+    int itemId,
   ) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -175,13 +163,15 @@ class Api {
       }
 
       filename = json.decode(imageResponse.body)['filename'];
+    } else if(originalPhoto == null) {
+      filename = '';
     } else {
       filename = originalPhoto;
     }
 
     // Create item
     final Response response = await client.put(
-      '$endpoint/items',
+      '$endpoint/items/$itemId',
       headers: {
         HttpHeaders.authorizationHeader:
         'Bearer ${prefs.getString('user.token')}',
@@ -192,10 +182,11 @@ class Api {
         'expiry_date': expiry,
         'description': description,
         'photo': filename,
+        'category_id': categoryId.toString(),
       },
     );
 
-    if (response.statusCode != 201) {
+    if (response.statusCode != 200) {
       throw Exception('Failed to create items');
     }
 
