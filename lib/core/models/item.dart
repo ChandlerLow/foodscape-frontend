@@ -9,7 +9,8 @@ class Item {
       this.userLocation,
       this.userPhoneNumber,
       this.userName,
-      this.categoryId});
+      this.categoryId,
+      this.isCollected});
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
@@ -22,7 +23,9 @@ class Item {
         userLocation: json['user']['location'],
         userPhoneNumber: json['user']['phone_no'],
         userName: json['user']['name'],
-        categoryId: json['category']['id']);
+        categoryId: json['category']['id'],
+        isCollected: json['is_collected']
+    );
   }
 
   final int id;
@@ -35,4 +38,5 @@ class Item {
   final String userPhoneNumber;
   final String userName;
   final int categoryId;
+  final bool isCollected;
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/item.dart';
+import 'package:frontend/core/view_models/item_operation_model.dart';
 import 'package:frontend/ui/widgets/my_list_item.dart';
+
+import 'base_view.dart';
 
 class ItemOperationsView extends StatelessWidget {
   const ItemOperationsView({this.item});
@@ -9,81 +12,64 @@ class ItemOperationsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Function viewItem = () {Navigator.pushNamed(context, '/item', arguments: item);};
-    final Function editItem = () {Navigator.pushNamed(context, '/items/edit', arguments: item);};
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        //title: Text(item.name, style: const TextStyle(fontSize: 24)),
-        title: const Text('Item name', style: TextStyle(fontSize: 24)),
-      ),
-      body: SingleChildScrollView(
-        //padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: MyListItem(item: item),
-                padding: const EdgeInsets.all(16.0),
+    final Function viewItem = () {
+      Navigator.pushNamed(context, '/item', arguments: item);
+    };
+    final Function editItem = () {
+      Navigator.pushNamed(context, '/items/edit', arguments: item);
+    };
+    return BaseView<ItemOperationsModel>(
+        builder: (
+      BuildContext context,
+      ItemOperationsModel model,
+      Widget child,
+    ) =>
+            Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                //title: Text(item.name, style: const TextStyle(fontSize: 24)),
+                title: Text(item.name, style: const TextStyle(fontSize: 24)),
               ),
-              /*Card(
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
-                              image: AssetImage('assets/camera.png'),
-                            ),
-                          ),
-                          width: 300,
-                          height: 150,
-                          padding: const EdgeInsets.only(right: 10),
-                          alignment: Alignment.center,
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Container>[
-                              Container(
-                                // ignore: prefer_const_constructors
-                                child: Text('Name',
-                                    style: const TextStyle(fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.left),
-                                alignment: Alignment.centerLeft,
-                              ),
-                              Container(
-                                child: const Text(
-                                  'Availability',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.right,
-                                ),
-                                alignment: Alignment.centerRight,
-                              ),
-                            ],
-                          ),
-                          alignment: Alignment.center,
-                          width: 300,
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.only(top: 20),
-                    width: 400,
-                    height: 210,
+              body: SingleChildScrollView(
+                //padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: MyListItem(item: item),
+                        padding: const EdgeInsets.all(16.0),
+                      ),
+                      _makeOperation(
+                          'View Item', const Icon(Icons.remove_red_eye),
+                          onTap: viewItem),
+                      _makeOperation('Edit Item', const Icon(Icons.edit),
+                          onTap: editItem),
+                      item.isCollected
+                          ? _makeOperation('Readd Item', const Icon(Icons.undo),
+                              onTap: () => {
+                                    model.setCollected(false, item.id),
+                                    //Navigator.pop(context),
+                                  })
+                          : _makeOperation('Item is being collected',
+                              const Icon(Icons.check_circle),
+                              onTap: () => {
+                                    model.setCollected(true, item.id),
+                                    //Navigator.pop(context),
+                          }),
+                      _makeOperation(
+                        'Delete Item',
+                        const Icon(Icons.delete),
+                        onTap: () => {
+                              model.deleteItem(item.id),
+
+                              Navigator.pop(context),
+                            },
+                      ),
+                    ],
                   ),
-                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10)),*/
-              _makeOperation('View Item', const Icon(Icons.remove_red_eye), onTap: viewItem),
-              _makeOperation('Edit Item', const Icon(Icons.edit), onTap: editItem),
-              _makeOperation('Item is being collected', const Icon(Icons.check_circle),),
-              _makeOperation('Delete Item', const Icon(Icons.delete),),
-            ],
-          ),
-        ),
-      ),
-    );
+                ),
+              ),
+            ));
   }
 
   Widget _makeOperation(String text, Icon icon, {Function onTap}) {

@@ -20,8 +20,8 @@ class MyListItem extends StatelessWidget {
                 tag: 'item-photo-${item.id}',
                 child: item.photo == null || item.photo == ''
                     ? Container(
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
                             image: AssetImage('assets/camera.png'),
                           ),
                         ),
@@ -53,10 +53,11 @@ class MyListItem extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                     ),
                     Container(
-                      // TODO(x): add item availability
-                      child: const Text(
-                        'Availability',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      child: Text(
+                        item.isCollected
+                        ? 'Unavailable'
+                        : 'Available',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                         textAlign: TextAlign.right,
                       ),
                       alignment: Alignment.centerRight,

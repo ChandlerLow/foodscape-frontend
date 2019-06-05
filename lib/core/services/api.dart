@@ -193,6 +193,44 @@ class Api {
     return true;
   }
 
+  Future<bool> setCollected(bool isCollected, int itemId) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final Response response = await client.post(
+      '$endpoint/items/$itemId/collected',
+      headers: {
+        HttpHeaders.authorizationHeader:
+          'Bearer ${prefs.getString('user.token')}',
+      },
+      body: {
+        'is_collected': isCollected.toString(),
+      },
+    );
+    if(response.statusCode != 200) {
+      throw Exception('Failed to set collected');
+    }
+
+    return true;
+  }
+
+  Future<bool> deleteItem(int itemId) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final Response response = await client.delete(
+      '$endpoint/items/$itemId',
+      headers: {
+        HttpHeaders.authorizationHeader:
+          'Bearer ${prefs.getString('user.token')}',
+      },
+    );
+
+    if(response.statusCode != 200) {
+      throw Exception('Could not delete item');
+    }
+
+    return true;
+  }
+
   Future<User> authUser(String username, String password) async {
     final Response response = await client.post(
       '$endpoint/auth/login',
