@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/item.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:frontend/core/models/recipe.dart';
+import 'package:frontend/ui/widgets/recipeCarousel.dart';
 
 class ItemView extends StatelessWidget {
   const ItemView({this.item});
@@ -72,6 +75,9 @@ class ItemView extends StatelessWidget {
               makeListTile('Quantity', item.quantity),
               makeListTile('Owner', item.userName),
               makeListTile('Location', item.userLocation),
+              ListTile(title: const Text('Stuck for choice? Try one of these'),),
+              RecipeCarousel(ingredient: item.name),
+              Padding(padding: EdgeInsets.only(bottom: 10),)
             ],
           ),
           margin: const EdgeInsets.symmetric(
@@ -93,6 +99,7 @@ class ItemView extends StatelessWidget {
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      bottomNavigationBar: const Padding(padding: EdgeInsets.only(bottom: 20),),
     );
   }
 
