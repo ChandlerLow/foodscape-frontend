@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/core/models/categories.dart';
+import 'package:frontend/core/models/category.dart';
 import 'package:frontend/core/view_models/item_creation_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/views/base_view.dart';
@@ -17,6 +19,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
   final TextEditingController expiryController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   File _photo;
+  Category category;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +66,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                     // TODO(x): expiration date
                     _inputTextTile('Days remaining', expiryController),
                     _inputTextTile('Description', descriptionController),
+                    _dropdownCategories(),
                   ],
                 ),
               ),
@@ -85,7 +89,9 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                                 expiryController.text,
                                 descriptionController.text,
                                 _photo,
+                                category.id,
                               );
+
                               Navigator.of(context).pop(true);
                             }
                           : null,
@@ -139,5 +145,35 @@ class _ItemCreationViewState extends State<ItemCreationView> {
         _photo = img;
       });
     }
+  }
+
+  Widget _dropdownCategories() {
+    final List<Category> categories = defaultCategories.values.toList();
+    return Container(
+      alignment: Alignment.center,
+      width: 300,
+      child: DropdownButtonHideUnderline(
+        child: ButtonTheme(
+          alignedDropdown: true,
+          child: DropdownButton<Category>(
+            hint: const Text('Select a category'),
+            value: category,
+            onChanged: (Category newCategory) {
+              setState(() {
+                category = newCategory;
+              });
+            },
+            items: categories.map((Category category) {
+              return DropdownMenuItem<Category>(
+                value: category,
+                child: Text(
+                  category.name,
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
   }
 }

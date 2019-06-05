@@ -16,6 +16,8 @@ class ItemEditingModel extends BaseModel {
       String description,
       File photo,
       String originalPhoto,
+      int categoryId,
+      int itemId,
       ) async {
     setState(ViewState.Busy);
     await _api.editItem(
@@ -25,6 +27,8 @@ class ItemEditingModel extends BaseModel {
       description,
       photo,
       originalPhoto,
+      categoryId,
+      itemId,
     );
     setState(ViewState.Idle);
   }
