@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/item.dart';
+import 'package:frontend/ui/widgets/user_list_item.dart';
 import 'package:frontend/core/view_models/item_operation_model.dart';
-import 'package:frontend/ui/widgets/my_list_item.dart';
 
 import 'base_view.dart';
 

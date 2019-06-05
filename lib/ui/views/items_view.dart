@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
-import 'package:frontend/core/models/user.dart';
 import 'package:frontend/core/view_models/items_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/widgets/item_list_item.dart';
-import 'package:provider/provider.dart';
 
 import 'base_view.dart';
 
@@ -35,8 +33,13 @@ class ItemsView extends StatelessWidget {
           body: Container(
             child: RefreshIndicator(
               child: model.state == ViewState.Idle
-                  ? getCategoriesUi(model.categories)
-                  : Center(child: const CircularProgressIndicator()),
+                  ? (model.categories.isEmpty
+                      ? const Center(
+                          child: Text('No items match your specifications! '
+                              'Why not filter fewer items?'),
+                        )
+                      : getCategoriesUi(model.categories))
+                  : const Center(child: CircularProgressIndicator()),
               onRefresh: model.getItems,
             ),
           ),
@@ -60,13 +63,13 @@ class ItemsView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.home),
+                  icon: const Icon(Icons.home),
                   color: Colors.white,
                   iconSize: 40,
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Icon(Icons.person),
+                  icon: const Icon(Icons.person),
                   color: Colors.white,
                   iconSize: 40,
                   onPressed: () {
@@ -76,18 +79,17 @@ class ItemsView extends StatelessWidget {
               ],
             ),
             color: Colors.grey,
-            shape: CircularNotchedRectangle(),
+            shape: const CircularNotchedRectangle(),
           ),
         );
       },
     );
   }
-  
+
   Widget getItemsUi(List<Item> items) => Container(
         child: ListView.builder(
           padding: const EdgeInsets.all(16.0),
           itemBuilder: (BuildContext context, int i) {
-            final bool last = items.length == (i + 1);
             final Widget item = ItemListItem(
               item: items[i],
               onTap: () {
@@ -98,8 +100,8 @@ class ItemsView extends StatelessWidget {
           },
           itemCount: items.length,
         ),
-  );
- 
+      );
+
   Widget getCategoriesUi(Map<int, List<Item>> categories) {
     final List<int> categoryKeys = categories.keys.toList();
     return Container(
@@ -138,4 +140,3 @@ class ItemsView extends StatelessWidget {
     );
   }
 }
-

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'core/models/user.dart';
 import 'ui/router.dart';
 
+// ignore: avoid_void_async
 void main() async {
   setupLocator();
 

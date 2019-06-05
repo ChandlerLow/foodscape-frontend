@@ -22,8 +22,8 @@ class ItemListItem extends StatelessWidget {
                   tag: 'item-photo-${item.id}',
                   child: item.photo == null || item.photo == ''
                       ? Container(
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
                               image: AssetImage('assets/camera.png'),
                             ),
                           ),

@@ -11,21 +11,17 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../constants.dart';
 
-// TODO(x): refactor with item_creation_view: remove duplications
-// We are only using different buttons (update <-> add), bar title,
-// and button actions (can use flag)
 class ItemEditingView extends StatefulWidget {
-  Item item;
+  const ItemEditingView({@required this.item});
 
-  ItemEditingView({@required this.item});
+  final Item item;
 
   @override
   _ItemEditingViewState createState() => _ItemEditingViewState(item);
 }
 
 class _ItemEditingViewState extends State<ItemEditingView> {
-  _ItemEditingViewState(Item item) {
-    this.item = item;
+  _ItemEditingViewState(this.item) {
     itemNameController = TextEditingController(text: item.name);
     quantityController = TextEditingController(text: item.quantity);
     expiryController =
@@ -47,8 +43,6 @@ class _ItemEditingViewState extends State<ItemEditingView> {
 
   @override
   Widget build(BuildContext context) {
-    final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
-
     return BaseView<ItemEditingModel>(
       builder: (
         BuildContext context,
@@ -89,11 +83,12 @@ class _ItemEditingViewState extends State<ItemEditingView> {
                     _inputTextTile('Item name', itemNameController),
                     _inputTextTile('Quantity (eg. 1/2 pint, 5 pieces)',
                         quantityController),
-                    // TODO(x): expiration date
                     _inputTextTile('Days remaining', expiryController),
                     _inputTextTile('Description', descriptionController),
                     _dropdownCategories(),
-                    const Padding(padding: EdgeInsets.only(bottom: 10),),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                    ),
                     FloatingActionButton.extended(
                       heroTag: 'main-fab',
                       backgroundColor: Colors.grey,
@@ -103,18 +98,16 @@ class _ItemEditingViewState extends State<ItemEditingView> {
                           : const Text('Updating...'),
                       onPressed: model.state == ViewState.Idle
                           ? () async {
-                        await model.edit(
-                          itemNameController.text,
-                          quantityController.text,
-                          expiryController.text,
-                          descriptionController.text,
-                          _photo,
-                          item.photo,
-                          category.id,
-                          id,
-                        );
-                        Navigator.of(context).pop(true);
-                      }
+                              await model.edit(
+                                item,
+                                itemNameController.text,
+                                quantityController.text,
+                                expiryController.text,
+                                descriptionController.text,
+                                _photo,
+                              );
+                              Navigator.of(context).pop(true);
+                            }
                           : null,
                     ),
                   ],
@@ -173,7 +166,7 @@ class _ItemEditingViewState extends State<ItemEditingView> {
   }
 
   Widget _dropdownCategories() {
-    List<Category> categories = defaultCategories.values.toList();
+    final List<Category> categories = defaultCategories.values.toList();
     return Container(
       alignment: Alignment.center,
       width: 300,

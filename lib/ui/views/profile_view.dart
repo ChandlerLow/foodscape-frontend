@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/user.dart';
-import 'package:frontend/core/view_models/register_model.dart';
-import 'package:frontend/core/view_models/view_state.dart';
 import 'package:provider/provider.dart';
 
 class ProfileView extends StatelessWidget {
@@ -19,7 +17,7 @@ class ProfileView extends StatelessWidget {
         width: 175.0,
         height: 175.0,
         decoration: BoxDecoration(
-          image: DecorationImage(
+          image: const DecorationImage(
             image: AssetImage('assets/banana.jpg'),
             fit: BoxFit.cover,
           ),
@@ -36,7 +34,7 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
-    Size screenSize = MediaQuery.of(context).size;
+    final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -57,18 +55,13 @@ class ProfileView extends StatelessWidget {
                   _buildProfileImage(),
                   const Padding(padding: EdgeInsets.only(top: 20)),
                   Align(
-                    child: Text(Provider.of<User>(context).name,
-                        style:
-                            const TextStyle(fontSize: 24, color: Colors.white)),
+                    child: Text(
+                      Provider.of<User>(context).name,
+                      style: const TextStyle(fontSize: 24, color: Colors.white),
+                    ),
                     alignment: Alignment.center,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 10)),
-                  /*Align(
-                    child: Text(
-                        '${Provider.of<User>(context).name}18@bristol.ac.uk',
-                        style: const TextStyle(color: Colors.white)),
-                    alignment: Alignment.center,
-                  ),*/
                   const Padding(padding: EdgeInsets.only(top: 10)),
                   Row(
                     children: <Widget>[
@@ -96,7 +89,7 @@ class ProfileView extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           onTap: () {
-            Navigator.pushNamed(context, '/my_list');
+            Navigator.pushNamed(context, '/user/items');
           },
         )
       ]),
@@ -118,7 +111,7 @@ class ProfileView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.home),
+              icon: const Icon(Icons.home),
               color: Colors.white,
               iconSize: 40,
               onPressed: () {
@@ -126,7 +119,7 @@ class ProfileView extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.exit_to_app),
+              icon: const Icon(Icons.exit_to_app),
               color: Colors.white,
               iconSize: 40,
               onPressed: () {},
@@ -134,7 +127,7 @@ class ProfileView extends StatelessWidget {
           ],
         ),
         color: Colors.grey,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
       ),
     );
   }
