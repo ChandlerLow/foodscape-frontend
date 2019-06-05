@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/item.dart';
-import 'package:frontend/ui/widgets/my_list_item.dart';
+import 'package:frontend/ui/widgets/user_list_item.dart';
 
 class ItemOperationsView extends StatelessWidget {
   const ItemOperationsView({this.item});

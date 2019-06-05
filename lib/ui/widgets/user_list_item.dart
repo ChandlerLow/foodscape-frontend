@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/item.dart';
 
-// TODO(x): refactor after all the features are included. It's the same as item_list_item
 class MyListItem extends StatelessWidget {
   const MyListItem({this.item});
 
