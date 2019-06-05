@@ -5,6 +5,7 @@ import 'package:frontend/core/models/recipe.dart';
 import 'package:frontend/core/view_models/recipe_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/views/base_view.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class RecipeCarousel extends StatelessWidget{
 
@@ -44,7 +45,7 @@ class RecipeCarousel extends StatelessWidget{
                       height: 130,
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       alignment: Alignment.center,),
-                    Container(child: const Text('recipe name'),),
+                    Container(child: AutoSizeText(recipe.recipeName, style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),),
                   ],
                 )
             )
