@@ -33,14 +33,11 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: Text(Provider.of<User>(context).name,
-            style: const TextStyle(fontSize: 24)),
+        title: const Text('Profile'),
       ),
       body: Column(children: <Widget>[
         Stack(
@@ -93,42 +90,6 @@ class ProfileView extends StatelessWidget {
           },
         )
       ]),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: showFab
-          ? FloatingActionButton(
-              heroTag: 'main-fab',
-              backgroundColor: Colors.grey,
-              elevation: 2.0,
-              child: const Icon(Icons.edit),
-              onPressed: () {
-                Navigator.pushNamed(context, '/');
-              },
-            )
-          : null,
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.home),
-              color: Colors.white,
-              iconSize: 40,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.exit_to_app),
-              color: Colors.white,
-              iconSize: 40,
-              onPressed: () {},
-            ),
-          ],
-        ),
-        color: Colors.grey,
-        shape: const CircularNotchedRectangle(),
-      ),
     );
   }
 }

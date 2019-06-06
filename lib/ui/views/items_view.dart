@@ -18,8 +18,8 @@ class ItemsView extends StatelessWidget {
       builder: (BuildContext context, ItemsModel model, Widget child) {
         final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
         return Scaffold(
+          resizeToAvoidBottomPadding: false,
           appBar: AppBar(
-            centerTitle: true,
             title: const Text('Ramsay Hall'),
             actions: <Widget>[
               IconButton(
@@ -44,44 +44,6 @@ class ItemsView extends StatelessWidget {
                   : const Center(child: CircularProgressIndicator()),
               onRefresh: model.getItems,
             ),
-          ),
-          // FAB to add an item
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: showFab
-              ? FloatingActionButton(
-                  heroTag: 'main-fab',
-                  backgroundColor: Colors.grey,
-                  elevation: 2.0,
-                  child: const Icon(Icons.add),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/items/add');
-                  },
-                )
-              : null,
-          bottomNavigationBar: BottomAppBar(
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.home),
-                  color: Colors.white,
-                  iconSize: 40,
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.person),
-                  color: Colors.white,
-                  iconSize: 40,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/profile');
-                  },
-                ),
-              ],
-            ),
-            color: Colors.grey,
-            shape: const CircularNotchedRectangle(),
           ),
         );
       },

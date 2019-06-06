@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/ui/views/filter_view.dart';
+import 'package:frontend/ui/views/home_view.dart';
 import 'package:frontend/ui/views/item_creation_view.dart';
 import 'package:frontend/ui/views/item_editing_view.dart';
 import 'package:frontend/ui/views/item_operation_view.dart';
@@ -14,14 +15,14 @@ import 'package:frontend/ui/views/user_items_view.dart';
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case '/':
+        return MaterialPageRoute<dynamic>(builder: (_) => HomeView());
       case '/items/add':
         return MaterialPageRoute<dynamic>(builder: (_) => ItemCreationView());
       case '/items/edit':
         final Item item = settings.arguments;
         return MaterialPageRoute<dynamic>(
             builder: (_) => ItemEditingView(item: item));
-      case '/':
-        return MaterialPageRoute<dynamic>(builder: (_) => ItemsView());
       case '/items/filter':
         return MaterialPageRoute<dynamic>(builder: (_) => FilterView());
       case '/item':

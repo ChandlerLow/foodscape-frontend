@@ -21,9 +21,9 @@ void setupLocator() {
   locator.registerLazySingleton(() => RecipeApi());
   locator.registerLazySingleton(() => UserCategories());
 
-  locator.registerLazySingleton(() => LoginModel());
-  locator.registerLazySingleton(() => RegisterModel());
-  locator.registerLazySingleton(() => ItemsModel());
+  locator.registerFactory(() => LoginModel());
+  locator.registerFactory(() => RegisterModel());
+  locator.registerFactory(() => ItemsModel());
   locator.registerFactory(() => RecipeModel());
   locator.registerFactory(() => UserItemsModel());
   locator.registerFactory(() => ItemCreationModel());
