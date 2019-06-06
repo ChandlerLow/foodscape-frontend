@@ -87,7 +87,7 @@ class _RegisterViewState extends State<RegisterView> {
                     Container(
                         child: FlatButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/login');
+                        Navigator.of(context).pop();
                       },
                       child: const Padding(
                           padding: EdgeInsets.symmetric(vertical: 20.0),

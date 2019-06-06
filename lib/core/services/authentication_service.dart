@@ -59,7 +59,7 @@ class AuthenticationService {
       token: prefs.getString('user.token'),
     );
 
-    if (user.token == null) {
+    if (user.token == null || user.token == '') {
       return false;
     }
 

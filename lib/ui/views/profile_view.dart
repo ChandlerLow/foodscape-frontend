@@ -51,6 +51,21 @@ class ProfileView extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('Profile'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.exit_to_app,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              await user.setLoggedOut();
+              await Navigator.of(context).pushNamedAndRemoveUntil(
+                '/login',
+                (_) => false,
+              );
+            },
+          )
+        ],
       ),
       body: Column(children: <Widget>[
         Stack(

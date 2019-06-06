@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class User {
   User({this.id, this.name, this.location, this.phoneNumber, this.token});
 
@@ -21,7 +23,9 @@ class User {
     return token != '';
   }
 
-  void setLoggedOut() {
+  Future<void> setLoggedOut() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user.token');
     token = '';
   }
 
