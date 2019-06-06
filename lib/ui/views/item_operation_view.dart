@@ -75,7 +75,7 @@ class ItemOperationsView extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
-        margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+        margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
         height: 45.0,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -83,21 +83,24 @@ class ItemOperationsView extends StatelessWidget {
             color: Colors.black,
             width: 1,
           ),
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(90.0),
         ),
         child: Row(
           children: <Widget>[
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: icon,
             ),
             Container(
-              padding: const EdgeInsets.only(left: 5),
-              alignment: Alignment.centerLeft,
+              height: 30.0,
+              width: 1.0,
+              color: Colors.grey.withOpacity(0.5),
+              margin: const EdgeInsets.only(left: 5.0, right: 15.0),
+            ),
+            Expanded(
               child: Text(
                 text,
                 style: const TextStyle(
-                  decoration: TextDecoration.underline,
                   fontSize: 20.0,
                 ),
               ),

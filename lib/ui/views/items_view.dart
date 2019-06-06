@@ -20,6 +20,7 @@ class ItemsView extends StatelessWidget {
         return Scaffold(
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             title: const Text('Ramsay Hall'),
             actions: <Widget>[
               IconButton(
@@ -73,7 +74,7 @@ class ItemsView extends StatelessWidget {
         shrinkWrap: true,
         itemCount: categories.length,
         itemBuilder: (BuildContext context, int i) {
-          return ConstrainedBox(
+          Widget body = ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: Container(
               margin: const EdgeInsets.only(bottom: 10.0),
@@ -125,6 +126,14 @@ class ItemsView extends StatelessWidget {
               ),
             ),
           );
+          if (categories.length == (i + 1)) {
+            return Container(
+              padding: EdgeInsets.only(bottom: 30),
+              child: body,
+            );
+          } else {
+            return body;
+          }
         },
       ),
     );
