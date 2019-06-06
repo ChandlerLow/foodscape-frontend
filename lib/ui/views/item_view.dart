@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/ui/widgets/recipe_carousel.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ItemView extends StatelessWidget {
   const ItemView({this.item});
@@ -35,13 +36,26 @@ class ItemView extends StatelessWidget {
                         alignment: Alignment.center,
                       )
                     : Container(
-                        child: FadeInImage.assetNetwork(
-                          placeholder: 'assets/camera.png',
-                          image: '$SPACES_BASE_URL/${item.photo}',
+                        child: Stack(
+                          children: <Widget>[
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey[300],
+                              highlightColor: Colors.grey[100],
+                              child: Container(
+                                height: 200.0,
+                                width: 300.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                            FadeInImage.assetNetwork(
+                              placeholder: 'assets/1x1.png',
+                              image: '$SPACES_BASE_URL/${item.photo}',
+                              fit: BoxFit.cover,
+                              height: 200,
+                              width: 300,
+                            ),
+                          ],
                         ),
-                        width: 300,
-                        height: 150,
-                        padding: const EdgeInsets.only(right: 10),
                         alignment: Alignment.center,
                       ),
               ),
@@ -71,9 +85,13 @@ class ItemView extends StatelessWidget {
               makeListTile('Quantity', item.quantity),
               makeListTile('Owner', item.userName),
               makeListTile('Location', item.userLocation),
-              ListTile(title: const Text('Stuck for choice? Try one of these'),),
+              ListTile(
+                title: const Text('Stuck for choice? Try one of these'),
+              ),
               RecipeCarousel(ingredient: item.name),
-              const Padding(padding: EdgeInsets.only(bottom: 10),),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 10),
+              ),
               FloatingActionButton.extended(
                 heroTag: 'main-fab',
                 backgroundColor: Colors.grey,
@@ -92,7 +110,9 @@ class ItemView extends StatelessWidget {
         ),
       ),
       // With the button we can contact the owner of the item we are looking at
-      bottomNavigationBar: const Padding(padding: EdgeInsets.only(bottom: 20),),
+      bottomNavigationBar: const Padding(
+        padding: EdgeInsets.only(bottom: 20),
+      ),
     );
   }
 
