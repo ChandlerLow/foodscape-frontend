@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/item.dart';
+import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:frontend/ui/widgets/user_list_item.dart';
 import 'package:frontend/core/view_models/item_operation_model.dart';
 
@@ -26,8 +27,13 @@ class ItemOperationsView extends StatelessWidget {
     ) =>
             Scaffold(
               appBar: AppBar(
+                iconTheme: const IconThemeData(
+                  color: Colors.white,
+                ),
+                backgroundColor: app_colors.backgroundColorPink,
                 centerTitle: true,
-                title: Text(item.name, style: const TextStyle(fontSize: 24)),
+                title: Text(item.name,
+                    style: const TextStyle(fontSize: 24, color: Colors.white)),
               ),
               body: SingleChildScrollView(
                 child: Container(

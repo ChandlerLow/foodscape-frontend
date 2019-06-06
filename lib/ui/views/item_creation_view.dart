@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/category.dart';
 import 'package:frontend/core/view_models/item_creation_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
+import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:frontend/ui/views/base_view.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -36,8 +38,13 @@ class _ItemCreationViewState extends State<ItemCreationView> {
             onWillPop: _onWillPop,
             child: Scaffold(
               appBar: AppBar(
+                iconTheme: const IconThemeData(
+                  color: Colors.white,
+                ),
                 centerTitle: true,
-                title: const Text('Add Item', style: TextStyle(fontSize: 24)),
+                backgroundColor: app_colors.backgroundColorPink,
+                title: const Text('Add Item',
+                    style: TextStyle(fontSize: 24, color: Colors.white)),
               ),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.all(10),
@@ -54,9 +61,10 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                     ),
                     FloatingActionButton.extended(
                       heroTag: null,
-                      backgroundColor: Colors.grey,
+                      backgroundColor: app_colors.backgroundColorPink,
                       onPressed: () => _takePhoto(),
-                      label: const Text('Take a photo'),
+                      label: const Text('Take a photo',
+                          style: TextStyle(color: Colors.white)),
                     ),
                     _inputTextTile('Item name', itemNameController),
                     _inputTextTile(
@@ -75,11 +83,14 @@ class _ItemCreationViewState extends State<ItemCreationView> {
               floatingActionButton: showFab
                   ? FloatingActionButton.extended(
                       heroTag: 'main-fab',
-                      backgroundColor: Colors.grey,
+                      backgroundColor: app_colors.backgroundColorPink,
                       elevation: 2.0,
-                      label: model.state == ViewState.Idle
-                          ? const Text('Submit Item')
-                          : const Text('Submitting...'),
+                      label: Text(
+                        model.state == ViewState.Idle
+                            ? 'Submit Item'
+                            : 'Submitting...',
+                        style: const TextStyle(color: Colors.white),
+                      ),
                       onPressed: model.state == ViewState.Idle
                           ? () async {
                               // TODO(x): convert image file to store it on db

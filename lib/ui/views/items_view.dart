@@ -4,6 +4,7 @@ import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/view_models/items_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/shared/app_colors.dart';
+import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:frontend/ui/widgets/item_list_item.dart';
 
 import 'base_view.dart';
@@ -18,11 +19,16 @@ class ItemsView extends StatelessWidget {
       builder: (BuildContext context, ItemsModel model, Widget child) {
         return Scaffold(
           appBar: AppBar(
+            iconTheme: const IconThemeData(
+              color: Colors.white,
+            ),
             automaticallyImplyLeading: false,
-            title: const Text('Ramsay Hall'),
+            backgroundColor: app_colors.backgroundColorPink,
+            title: const Text('Ramsay Hall',
+                style: TextStyle(color: Colors.white)),
             actions: <Widget>[
               IconButton(
-                icon: const Icon(Icons.filter_list),
+                icon: const Icon(Icons.filter_list, color: Colors.white,),
                 onPressed: () async {
                   await Navigator.of(context).pushNamed('/items/filter');
                   model.getItems();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:frontend/ui/views/items_view.dart';
 import 'package:frontend/ui/views/profile_view.dart';
 
@@ -20,9 +21,9 @@ class _HomeViewState extends State<HomeView> {
       floatingActionButton: _currentIndex == 0
           ? FloatingActionButton(
               heroTag: 'main-fab',
-              backgroundColor: Colors.grey,
+              backgroundColor: app_colors.backgroundColorPink,
               elevation: 2.0,
-              child: const Icon(Icons.add),
+              child: const Icon(Icons.add, color: Colors.white),
               onPressed: () {
                 Navigator.pushNamed(context, '/items/add');
               },
@@ -55,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
             ),
           ],
         ),
-        color: Colors.grey,
+        color: app_colors.backgroundColorPink,
         shape: const CircularNotchedRectangle(),
       ),
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/category.dart';
 import 'package:frontend/locator.dart';
+import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 
 class FilterView extends StatefulWidget {
   @override
@@ -19,8 +20,13 @@ class _FilterViewState extends State<FilterView> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        backgroundColor: app_colors.backgroundColorPink,
         centerTitle: false,
-        title: const Text('Filter Categories'),
+        title: const Text('Filter Categories',
+          style: TextStyle(color: Colors.white),),
       ),
       body: GridView.builder(
           itemCount: categories.length,

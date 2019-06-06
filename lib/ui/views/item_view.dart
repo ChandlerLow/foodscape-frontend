@@ -4,6 +4,7 @@ import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
+import 'package:frontend/ui/widgets/recipe_carousel.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,24 +17,13 @@ class ItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
         centerTitle: true,
-        title: Text(item.name, style: const TextStyle(fontSize: 24)),
+        title: Text(item.name,
+            style: const TextStyle(fontSize: 24, color: Colors.white)),
         backgroundColor: app_colors.backgroundColorPink,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: 'main-fab',
-        backgroundColor: app_colors.backgroundColorPink,
-        elevation: 2.0,
-        label: const Text('Message'),
-        onPressed: () async {
-          String uri = 'sms:${item.userPhoneNumber}';
-          if (await canLaunch(uri)) {
-            await launch(uri);
-          } else {
-            throw 'Could not launch $uri';
-          }
-        },
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -42,7 +32,7 @@ class ItemView extends StatelessWidget {
             horizontal: 16,
             vertical: 10,
           ),
-          margin: const EdgeInsets.only(bottom: 75),
+          //margin: const EdgeInsets.only(bottom: 75),
           decoration: const BoxDecoration(
             color: Colors.white,
             boxShadow: <BoxShadow>[
@@ -164,6 +154,20 @@ class ItemView extends StatelessWidget {
                 title: const Text('Stuck for choice? Try one of these'),
               ),
               //RecipeCarousel(ingredient: item.name),
+              FloatingActionButton.extended(
+                heroTag: 'main-fab',
+                backgroundColor: app_colors.backgroundColorPink,
+                elevation: 2.0,
+                label: const Text('Message'),
+                onPressed: () async {
+                  String uri = 'sms:${item.userPhoneNumber}';
+                  if (await canLaunch(uri)) {
+                    await launch(uri);
+                  } else {
+                    throw 'Could not launch $uri';
+                  }
+                },
+              ),
             ],
           ),
         ),
