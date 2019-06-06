@@ -24,7 +24,7 @@ class UserItemsView extends StatelessWidget {
               //child: getItemsUi(items)
               child: RefreshIndicator(
                 child: model.state == ViewState.Idle
-                    ? getItemsUi(model.items)
+                    ? getItemsUi(model.items, model)
                     : Center(child: const CircularProgressIndicator()),
                 onRefresh: model.getItems,
               ),
@@ -35,14 +35,15 @@ class UserItemsView extends StatelessWidget {
     );
   }
 
-  Widget getItemsUi(List<Item> items) => Container(
+  Widget getItemsUi(List<Item> items, UserItemsModel model) => Container(
     child: ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (BuildContext context, int i) {
         final Widget item = GestureDetector(
           child: MyListItem(item: items[i]),
-          onTap: () {
-            Navigator.pushNamed(context, '/operations', arguments: items[i]);
+          onTap: () async {
+            await Navigator.pushNamed(context, '/operations', arguments: items[i]);
+            model.getItems();
           },
         );
         return item;
