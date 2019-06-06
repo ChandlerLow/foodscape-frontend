@@ -16,9 +16,7 @@ class ItemsView extends StatelessWidget {
         model.getItems();
       },
       builder: (BuildContext context, ItemsModel model, Widget child) {
-        final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
         return Scaffold(
-          resizeToAvoidBottomPadding: false,
           appBar: AppBar(
             automaticallyImplyLeading: false,
             title: const Text('Ramsay Hall'),
@@ -70,11 +68,13 @@ class ItemsView extends StatelessWidget {
   Widget getCategoriesUi(Map<int, List<Item>> categories) {
     final List<int> categoryKeys = categories.keys.toList();
     return Container(
+      margin: EdgeInsets.only(bottom: 25),
       child: ListView.builder(
         shrinkWrap: true,
+        padding: const EdgeInsets.only(bottom: 50),
         itemCount: categories.length,
         itemBuilder: (BuildContext context, int i) {
-          Widget body = ConstrainedBox(
+          return ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: Container(
               margin: const EdgeInsets.only(bottom: 10.0),
@@ -126,14 +126,6 @@ class ItemsView extends StatelessWidget {
               ),
             ),
           );
-          if (categories.length == (i + 1)) {
-            return Container(
-              padding: EdgeInsets.only(bottom: 30),
-              child: body,
-            );
-          } else {
-            return body;
-          }
         },
       ),
     );

@@ -11,10 +11,10 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  String extractInitials(String fullname) {
+  String _extractInitials(String fullname) {
     List<String> names = fullname.split(' ');
     String initials = '';
-    for(String name in names) {
+    for (String name in names) {
       initials += name[0];
     }
     return initials;
@@ -35,8 +35,8 @@ class ProfileView extends StatelessWidget {
         child: CircleAvatar(
           backgroundColor: Colors.blue,
           child: Text(
-            extractInitials(name),
-            style: TextStyle(fontSize: 60, color: Colors.white),
+            _extractInitials(name),
+            style: const TextStyle(fontSize: 60, color: Colors.white),
           ),
         ),
       ),
@@ -71,8 +71,7 @@ class ProfileView extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                   ),
-                  const Padding(padding: EdgeInsets.only(top: 10)),
-                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  const Padding(padding: EdgeInsets.only(top: 20)),
                   Row(
                     children: <Widget>[
                       Text(
@@ -103,42 +102,6 @@ class ProfileView extends StatelessWidget {
           },
         )
       ]),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: showFab
-          ? FloatingActionButton(
-              heroTag: 'main-fab',
-              backgroundColor: Colors.grey,
-              elevation: 2.0,
-              child: const Icon(Icons.edit),
-              /*onPressed: () {
-                Navigator.pushNamed(context, '/');
-              },*/
-            )
-          : null,
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.home),
-              color: Colors.white,
-              iconSize: 40,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.exit_to_app),
-              color: Colors.white,
-              iconSize: 40,
-              onPressed: () {},
-            ),
-          ],
-        ),
-        color: Colors.grey,
-        shape: const CircularNotchedRectangle(),
-      ),
     );
   }
 }

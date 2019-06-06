@@ -14,6 +14,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: _children[_currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _currentIndex == 0
@@ -26,15 +27,7 @@ class _HomeViewState extends State<HomeView> {
                 Navigator.pushNamed(context, '/items/add');
               },
             )
-          : FloatingActionButton(
-              heroTag: 'main-fab',
-              backgroundColor: Colors.grey,
-              elevation: 2.0,
-              child: const Icon(Icons.edit),
-              onPressed: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
+          : null,
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisSize: MainAxisSize.max,
