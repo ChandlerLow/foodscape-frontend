@@ -11,21 +11,36 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileImage() {
+  String extractInitials(String fullname) {
+    List<String> names = fullname.split(' ');
+    String initials = '';
+    for(String name in names) {
+      initials += name[0];
+    }
+    return initials;
+  }
+
+  Widget _buildProfileImage(String name) {
     return Center(
       child: Container(
-        width: 175.0,
-        height: 175.0,
+        /*width: 175.0,
+        height: 175.0,*/
+        width: 160,
+        height: 160,
         decoration: BoxDecoration(
-          image: const DecorationImage(
+          /*image: const DecorationImage(
             image: AssetImage('assets/banana.jpg'),
             fit: BoxFit.cover,
-          ),
+          ),*/
           borderRadius: BorderRadius.circular(90.0),
           border: Border.all(
             color: Colors.white,
             width: 5.0,
           ),
+        ),
+        child: CircleAvatar(
+          backgroundColor: Colors.blue,
+          child: Text(extractInitials(name), style: TextStyle(fontSize: 60, color: Colors.white),),
         ),
       ),
     );
@@ -35,12 +50,13 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     final Size screenSize = MediaQuery.of(context).size;
+    final User user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Text(Provider.of<User>(context).name,
-            style: const TextStyle(fontSize: 24)),
+        title: const Text('Profile',
+            style: TextStyle(fontSize: 24)),
       ),
       body: Column(children: <Widget>[
         Stack(
@@ -52,11 +68,11 @@ class ProfileView extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(top: 40),
                   ),
-                  _buildProfileImage(),
+                  _buildProfileImage(user.name),
                   const Padding(padding: EdgeInsets.only(top: 20)),
                   Align(
                     child: Text(
-                      Provider.of<User>(context).name,
+                      user.name,
                       style: const TextStyle(fontSize: 24, color: Colors.white),
                     ),
                     alignment: Alignment.center,
@@ -66,11 +82,11 @@ class ProfileView extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text(
-                        Provider.of<User>(context).location,
+                        user.location,
                         style: const TextStyle(color: Colors.white),
                       ),
                       Text(
-                        Provider.of<User>(context).phoneNumber,
+                        user.phoneNumber,
                         style: const TextStyle(color: Colors.white),
                       ),
                     ],
@@ -100,9 +116,9 @@ class ProfileView extends StatelessWidget {
               backgroundColor: Colors.grey,
               elevation: 2.0,
               child: const Icon(Icons.edit),
-              onPressed: () {
+              /*onPressed: () {
                 Navigator.pushNamed(context, '/');
-              },
+              },*/
             )
           : null,
       bottomNavigationBar: BottomAppBar(

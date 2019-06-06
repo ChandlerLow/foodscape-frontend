@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/view_models/login_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
+import 'package:frontend/ui/shared/app_colors.dart' as colorConst;
+import 'package:frontend/ui/shared/ui_helpers.dart';
 
 import 'base_view.dart';
 
@@ -15,74 +18,102 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQueryData queryData = MediaQuery.of(context);
     return BaseView<LoginModel>(
       builder: (BuildContext context, LoginModel model, Widget child) =>
           Scaffold(
+            backgroundColor: colorConst.backgroundColorPink,
+            //backgroundColor: Color.fromARGB(255, 233, 197, 29),
             body: model.state == ViewState.Idle
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      _textFieldWidget(
-                        'username',
-                        context,
-                        _usernameController,
-                        model,
-                      ),
-                      _textFieldWidget(
-                        'password',
-                        context,
-                        _passwordController,
-                        model,
-                        hidden: true,
-                      ),
-                      RaisedButton(
-                        color: Colors.grey,
-                        child: const Text(
-                          'Sign In',
-                          style: TextStyle(color: Colors.white),
+                ? SingleChildScrollView(
+                    padding: EdgeInsets.only(top: queryData.size.height * 0.13),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: queryData.size.width * 0.8,
+                          height: 200,
+                          child: Image.asset('assets/doughnut.png'),
+                          alignment: Alignment.center,
                         ),
-                        onPressed: () async {
-                          final bool loginSuccess = await model.login(
-                            _usernameController.text,
-                            _passwordController.text,
-                          );
-
-                          if (loginSuccess) {
-                            Navigator.pushReplacementNamed(context, '/');
-                          }
-                        },
-                      ),
-                      Container(
-                        child: FlatButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed('/register');
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.only(top: 20.0),
-                            child: Text(
-                              "Don't Have An Account?",
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: 15.0,
-                              ),
+                        UIHelper.verticalSpaceMedium(),
+                        Container(
+                          child: const Text(
+                            'FoodScape',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 42,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  )
+                        UIHelper.verticalSpaceMedium(),
+                        _textFieldWidget(
+                          Icons.person_outline,
+                          'username',
+                          context,
+                          _usernameController,
+                          model,
+                        ),
+                        _textFieldWidget(
+                          Icons.lock_open,
+                          'password',
+                          context,
+                          _passwordController,
+                          model,
+                          hidden: true,
+                        ),
+                        RaisedButton(
+                          color: Colors.white,
+                          textColor: colorConst.backgroundColorPink,
+                          splashColor: Colors.pink,
+                          child: const Text(
+                            'Sign In',
+                          ),
+                          onPressed: () async {
+                            final bool loginSuccess = await model.login(
+                              _usernameController.text,
+                              _passwordController.text,
+                            );
+
+                            if (loginSuccess) {
+                              Navigator.pushReplacementNamed(context, '/');
+                            }
+                          },
+                        ),
+                        Container(
+                          child: FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/register');
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(top: 20.0),
+                              child: Text(
+                                "Don't Have An Account?",
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 15.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ))
                 : Center(child: const CircularProgressIndicator()),
           ),
     );
   }
 
-  Widget _textFieldWidget(String hintText, BuildContext context,
+  Widget _textFieldWidget(IconData leadingIcon, String hintText, BuildContext context,
       TextEditingController controller, LoginModel model,
       {bool hidden}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
       height: 50.0,
+      width: MediaQuery.of(context).size.width * 0.85,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -90,12 +121,30 @@ class _LoginViewState extends State<LoginView> {
           color: model.errorMessage == null ? Colors.white : Colors.redAccent,
           width: 1,
         ),
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(90.0),
       ),
-      child: TextField(
-        obscureText: hidden != null,
-        decoration: InputDecoration.collapsed(hintText: hintText),
-        controller: controller,
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+            child: Icon(
+              leadingIcon,
+              color: Colors.grey,
+            ),
+          ),
+          Container(
+            height: 30.0,
+            width: 1.0,
+            color: Colors.grey.withOpacity(0.5),
+            margin: const EdgeInsets.only(left: 5.0, right: 15.0),
+          ),
+          Expanded(
+              child: TextField(
+            obscureText: hidden != null,
+            decoration: InputDecoration.collapsed(hintText: hintText, hintStyle: const TextStyle(fontSize: 20)),
+            controller: controller,
+          ))
+        ],
       ),
     );
   }

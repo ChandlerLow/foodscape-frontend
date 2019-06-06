@@ -22,7 +22,7 @@ void setupLocator() {
   locator.registerLazySingleton(() => UserCategories());
 
   locator.registerLazySingleton(() => LoginModel());
-  locator.registerLazySingleton(() => RegisterModel());
+  locator.registerFactory(() => RegisterModel());
   locator.registerLazySingleton(() => ItemsModel());
   locator.registerFactory(() => RecipeModel());
   locator.registerFactory(() => UserItemsModel());
