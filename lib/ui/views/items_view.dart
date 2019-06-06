@@ -114,23 +114,30 @@ class ItemsView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text(defaultCategories[categoryKeys[i]].name),
+              Text(
+                defaultCategories[categoryKeys[i]].name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                ),
+              ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children:
-                      categories[categoryKeys[i]].map<Widget>((Item item) {
-                    return ItemListItem(
-                      item: item,
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/item',
-                          arguments: item,
-                        );
-                      },
-                    );
-                  }).toList(),
+                  children: categories[categoryKeys[i]].map<Widget>(
+                    (Item item) {
+                      return ItemListItem(
+                        item: item,
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/item',
+                            arguments: item,
+                          );
+                        },
+                      );
+                    },
+                  ).toList(),
                 ),
               ),
             ],

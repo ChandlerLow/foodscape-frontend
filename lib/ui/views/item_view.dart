@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/constants.dart';
+import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
-import 'package:frontend/ui/widgets/recipe_carousel.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ItemView extends StatelessWidget {
@@ -25,24 +26,33 @@ class ItemView extends StatelessWidget {
                 tag: 'item-photo-${item.id}',
                 child: item.photo == null || item.photo == ''
                     ? Container(
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/camera.png'),
-                          ),
+                        child: Icon(
+                          defaultCategories[item.categoryId].icon,
+                          size: 50,
+                          color: Colors.black,
                         ),
-                        width: 300,
-                        height: 150,
-                        padding: const EdgeInsets.only(right: 10),
                         alignment: Alignment.center,
+                        height: 170.0,
+                        width: 300.0,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFABBC5),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
                       )
                     : Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFABBC5),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        height: 170.0,
+                        width: 300.0,
                         child: Stack(
                           children: <Widget>[
                             Shimmer.fromColors(
                               baseColor: Colors.grey[300],
                               highlightColor: Colors.grey[100],
                               child: Container(
-                                height: 200.0,
+                                height: 170.0,
                                 width: 300.0,
                                 color: Colors.white,
                               ),
@@ -51,8 +61,8 @@ class ItemView extends StatelessWidget {
                               placeholder: 'assets/1x1.png',
                               image: '$SPACES_BASE_URL/${item.photo}',
                               fit: BoxFit.cover,
-                              height: 200,
-                              width: 300,
+                              height: 170.0,
+                              width: 300.0,
                             ),
                           ],
                         ),

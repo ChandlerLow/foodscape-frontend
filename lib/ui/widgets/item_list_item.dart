@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/constants.dart';
+import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
+import 'package:frontend/ui/shared/ui_helpers.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ItemListItem extends StatelessWidget {
@@ -21,23 +23,24 @@ class ItemListItem extends StatelessWidget {
         onTap: onTap,
         child: Container(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // Item image
               Hero(
                 tag: 'item-photo-${item.id}',
                 child: Container(
                   child: item.photo == null || item.photo == ''
                       ? Container(
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/camera.png'),
-                            ),
+                          child: Icon(
+                            defaultCategories[item.categoryId].icon,
+                            size: 50,
+                            color: Colors.black,
                           ),
-                          height: 200,
-                          width: 300,
                           alignment: Alignment.center,
+                          height: 150,
+                          width: 275,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFFABBC5),
+                          ),
                         )
                       : Container(
                           child: Stack(
@@ -46,8 +49,8 @@ class ItemListItem extends StatelessWidget {
                                 baseColor: Colors.grey[300],
                                 highlightColor: Colors.grey[100],
                                 child: Container(
-                                  height: 200.0,
-                                  width: 300.0,
+                                  height: 150,
+                                  width: 275,
                                   color: Colors.white,
                                 ),
                               ),
@@ -55,8 +58,8 @@ class ItemListItem extends StatelessWidget {
                                 placeholder: 'assets/1x1.png',
                                 image: '$SPACES_BASE_URL/${item.photo}',
                                 fit: BoxFit.cover,
-                                height: 200,
-                                width: 300,
+                                height: 150,
+                                width: 275,
                               ),
                             ],
                           ),
@@ -64,38 +67,79 @@ class ItemListItem extends StatelessWidget {
                         ),
                 ),
               ),
+              UIHelper.verticalSpaceSmall(),
               Container(
-                alignment: Alignment.center,
-                width: 300,
-                height: 20,
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Container>[
-                    Container(
-                      child: Text(item.name,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left),
-                      alignment: Alignment.centerLeft,
-                    ),
-                    Container(
-                      child: Text(
-                        '${getDaysLeft(item.expiryDate)} days',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                width: 275,
+                child: Text(
+                  item.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 26,
+                  ),
+                ),
+              ),
+              Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  width: 275,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.only(right: 4),
+                        child: const Icon(Icons.business, size: 16),
                       ),
-                      alignment: Alignment.center,
-                    ),
-                    Container(
-                      child: Text(
+                      const Text(
+                        'Located in ',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
                         item.userLocation,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.right,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
                       ),
-                      alignment: Alignment.centerRight,
+                    ],
+                  )),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.only(right: 4),
+                      child: const Icon(Icons.alarm, size: 16),
+                    ),
+                    const Text(
+                      'Expires in ',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      '${getDaysLeft(item.expiryDate).toString()}',
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      getDaysLeft(item.expiryDate) <= 1
+                          ? ' day'
+                          : ' days',
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ],
                 ),
               ),
+              UIHelper.verticalSpaceSmall(),
             ],
           ),
         ),
@@ -104,7 +148,7 @@ class ItemListItem extends StatelessWidget {
     );
   }
 
-  String getDaysLeft(DateTime expiryDate) {
-    return expiryDate.difference(DateTime.now()).inDays.toString();
+  int getDaysLeft(DateTime expiryDate) {
+    return expiryDate.difference(DateTime.now()).inDays;
   }
 }
