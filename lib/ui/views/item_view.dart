@@ -4,8 +4,8 @@ import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
-import 'package:frontend/ui/shared/ui_helpers.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ItemView extends StatelessWidget {
   const ItemView({this.item});
@@ -26,8 +26,13 @@ class ItemView extends StatelessWidget {
         backgroundColor: app_colors.backgroundColorPink,
         elevation: 2.0,
         label: const Text('Message'),
-        onPressed: () {
-          // TODO(x): add contact info or implement message feature
+        onPressed: () async {
+          String uri = 'sms:${item.userPhoneNumber}';
+          if (await canLaunch(uri)) {
+            await launch(uri);
+          } else {
+            throw 'Could not launch $uri';
+          }
         },
       ),
       body: SingleChildScrollView(

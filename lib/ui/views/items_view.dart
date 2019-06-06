@@ -68,7 +68,7 @@ class ItemsView extends StatelessWidget {
   Widget getCategoriesUi(Map<int, List<Item>> categories) {
     final List<int> categoryKeys = categories.keys.toList();
     return Container(
-      margin: EdgeInsets.only(bottom: 25),
+      margin: const EdgeInsets.only(bottom: 25),
       child: ListView.builder(
         shrinkWrap: true,
         padding: const EdgeInsets.only(bottom: 50),
