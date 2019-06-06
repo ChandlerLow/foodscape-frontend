@@ -106,8 +106,8 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Widget _textFieldWidget(IconData leadingIcon, String hintText, BuildContext context,
-      TextEditingController controller, LoginModel model,
+  Widget _textFieldWidget(IconData leadingIcon, String hintText,
+      BuildContext context, TextEditingController controller, LoginModel model,
       {bool hidden}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -126,7 +126,8 @@ class _LoginViewState extends State<LoginView> {
       child: Row(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
             child: Icon(
               leadingIcon,
               color: Colors.grey,
@@ -141,7 +142,8 @@ class _LoginViewState extends State<LoginView> {
           Expanded(
               child: TextField(
             obscureText: hidden != null,
-            decoration: InputDecoration.collapsed(hintText: hintText, hintStyle: const TextStyle(fontSize: 20)),
+            decoration: InputDecoration.collapsed(
+                hintText: hintText, hintStyle: const TextStyle(fontSize: 20)),
             controller: controller,
           ))
         ],

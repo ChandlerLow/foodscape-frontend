@@ -57,35 +57,32 @@ class _RegisterViewState extends State<RegisterView> {
                     Container(
                       padding: const EdgeInsets.only(top: 15),
                       child: FloatingActionButton.extended(
-                              heroTag: null,
-                              backgroundColor: Colors.white,
-                              elevation: 2.0,
-                              label: Text(
-                                model.state == ViewState.Idle
-                                    ? 'Register'
-                                    : 'Registersing...',
-                                style: const TextStyle(
-                                    color: colorConst.backgroundColorPink
-                                ),
-                              ),
-                              onPressed: model.state == ViewState.Idle
-                                  ? () async {
-                                      final bool loginSuccess =
-                                          await model.register(
-                                        _fullNameController.text,
-                                        _usernameController.text,
-                                        _passwordController.text,
-                                        _locationController.text,
-                                        _phoneNumController.text,
-                                      );
+                        heroTag: null,
+                        backgroundColor: Colors.white,
+                        elevation: 2.0,
+                        label: Text(
+                          model.state == ViewState.Idle
+                              ? 'Register'
+                              : 'Registersing...',
+                          style: const TextStyle(
+                              color: colorConst.backgroundColorPink),
+                        ),
+                        onPressed: model.state == ViewState.Idle
+                            ? () async {
+                                final bool loginSuccess = await model.register(
+                                  _fullNameController.text,
+                                  _usernameController.text,
+                                  _passwordController.text,
+                                  _locationController.text,
+                                  _phoneNumController.text,
+                                );
 
-                                      if (loginSuccess) {
-                                        Navigator.pushReplacementNamed(
-                                            context, '/');
-                                      }
-                                    }
-                                  : null,
-                            ),
+                                if (loginSuccess) {
+                                  Navigator.pushReplacementNamed(context, '/');
+                                }
+                              }
+                            : null,
+                      ),
                     ),
                     Container(
                         child: FlatButton(
