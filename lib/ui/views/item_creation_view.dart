@@ -131,7 +131,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                                         ),
                                         shape: CircleBorder(),
                                         elevation: 2.0,
-                                        fillColor: Colors.grey,
+                                        fillColor: backgroundColorPink,
                                       ),
                                     ),
                                   ),
@@ -175,7 +175,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
               floatingActionButton: showFab
                   ? FloatingActionButton.extended(
                       heroTag: 'main-fab',
-                      backgroundColor: Colors.grey,
+                      backgroundColor: app_colors.backgroundColorPink,
                       elevation: 2.0,
                       label: model.state == ViewState.Idle
                           ? (model.isCreated

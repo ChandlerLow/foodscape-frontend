@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/user.dart';
+import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:provider/provider.dart';
 
 class ProfileView extends StatelessWidget {
   Widget _buildBackground(Size screenSize) {
     return Container(
       height: 325,
-      color: Colors.grey,
+      color: app_colors.backgroundColorPink,
     );
   }
 
@@ -33,7 +34,7 @@ class ProfileView extends StatelessWidget {
           ),
         ),
         child: CircleAvatar(
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.pink,
           child: Text(
             _extractInitials(name),
             style: const TextStyle(fontSize: 60, color: Colors.white),
@@ -49,8 +50,12 @@ class ProfileView extends StatelessWidget {
     final User user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        backgroundColor: app_colors.backgroundColorPink,
         automaticallyImplyLeading: false,
-        title: const Text('Profile'),
+        title: const Text('Profile', style: TextStyle(color: Colors.white)),
         actions: <Widget>[
           IconButton(
             icon: const Icon(
@@ -91,11 +96,11 @@ class ProfileView extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         user.location,
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(fontSize: 18, color: Colors.white),
                       ),
                       Text(
                         user.phoneNumber,
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(fontSize: 18, color: Colors.white),
                       ),
                     ],
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

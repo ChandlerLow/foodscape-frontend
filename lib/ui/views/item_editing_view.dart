@@ -6,6 +6,7 @@ import 'package:frontend/core/models/category.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/view_models/item_editing_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
+import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:frontend/ui/views/base_view.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -55,8 +56,13 @@ class _ItemEditingViewState extends State<ItemEditingView> {
             onWillPop: _onWillPop,
             child: Scaffold(
               appBar: AppBar(
+                iconTheme: const IconThemeData(
+                  color: Colors.white,
+                ),
                 centerTitle: true,
-                title: const Text('Edit Item', style: TextStyle(fontSize: 24)),
+                backgroundColor: app_colors.backgroundColorPink,
+                title: const Text('Edit Item',
+                    style: TextStyle(fontSize: 24, color: Colors.white)),
               ),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.all(10),
@@ -76,9 +82,12 @@ class _ItemEditingViewState extends State<ItemEditingView> {
                     ),
                     FloatingActionButton.extended(
                       heroTag: null,
-                      backgroundColor: Colors.grey,
+                      backgroundColor: app_colors.backgroundColorPink,
                       onPressed: () => _takePhoto(),
-                      label: const Text('Take a photo'),
+                      label: const Text(
+                        'Take a photo',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     _inputTextTile('Item name', itemNameController),
                     _inputTextTile('Quantity (eg. 1/2 pint, 5 pieces)',
@@ -95,11 +104,14 @@ class _ItemEditingViewState extends State<ItemEditingView> {
                     ),
                     FloatingActionButton.extended(
                       heroTag: 'main-fab',
-                      backgroundColor: Colors.grey,
+                      backgroundColor: app_colors.backgroundColorPink,
                       elevation: 2.0,
-                      label: model.state == ViewState.Idle
-                          ? const Text('Update Item')
-                          : const Text('Updating...'),
+                      label: Text(
+                        model.state == ViewState.Idle
+                            ? 'Update Item'
+                            : 'Updating...',
+                        style: const TextStyle(color: Colors.white),
+                      ),
                       onPressed: model.state == ViewState.Idle
                           ? () async {
                               await model.edit(

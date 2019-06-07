@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/view_models/user_items_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
+import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:frontend/ui/widgets/user_list_item.dart';
 
 import 'base_view.dart';
@@ -16,8 +17,13 @@ class UserItemsView extends StatelessWidget {
       builder: (BuildContext context, UserItemsModel model, Widget child) {
         return Scaffold(
           appBar: AppBar(
+            iconTheme: const IconThemeData(
+              color: Colors.white,
+            ),
+            backgroundColor: app_colors.backgroundColorPink,
             centerTitle: true,
-            title: const Text('My Items'),
+            title: const Text('My Items',
+              style: TextStyle(color: Colors.white),),
           ),
           body: Container(
             child: Center(
@@ -25,7 +31,7 @@ class UserItemsView extends StatelessWidget {
               child: RefreshIndicator(
                 child: model.state == ViewState.Idle
                     ? getItemsUi(model.items, model)
-                    : Center(child: const CircularProgressIndicator()),
+                    : const Center(child: CircularProgressIndicator()),
                 onRefresh: model.getItems,
               ),
             ),
