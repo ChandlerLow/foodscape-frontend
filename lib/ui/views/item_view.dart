@@ -22,6 +22,21 @@ class ItemView extends StatelessWidget {
         ),
         backgroundColor: app_colors.backgroundColorPink,
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'main-fab',
+        backgroundColor: app_colors.backgroundColorPink,
+        elevation: 2.0,
+        label: const Text('Message'),
+        onPressed: () async {
+          String uri = 'sms:${item.userPhoneNumber}';
+          if (await canLaunch(uri)) {
+            await launch(uri);
+          } else {
+            throw 'Could not launch $uri';
+          }
+        },
+      ),
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -29,7 +44,7 @@ class ItemView extends StatelessWidget {
             horizontal: 16,
             vertical: 10,
           ),
-          //margin: const EdgeInsets.only(bottom: 75),
+          margin: const EdgeInsets.only(bottom: 75),
           decoration: const BoxDecoration(
             color: Colors.white,
             boxShadow: <BoxShadow>[
@@ -151,20 +166,6 @@ class ItemView extends StatelessWidget {
                 title: const Text('Stuck for choice? Try one of these'),
               ),
               //RecipeCarousel(ingredient: item.name),
-              FloatingActionButton.extended(
-                heroTag: 'main-fab',
-                backgroundColor: app_colors.backgroundColorPink,
-                elevation: 2.0,
-                label: const Text('Message'),
-                onPressed: () async {
-                  String uri = 'sms:${item.userPhoneNumber}';
-                  if (await canLaunch(uri)) {
-                    await launch(uri);
-                  } else {
-                    throw 'Could not launch $uri';
-                  }
-                },
-              ),
             ],
           ),
         ),
