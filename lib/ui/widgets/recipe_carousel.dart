@@ -2,10 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/recipe.dart';
 import 'package:frontend/core/view_models/recipe_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
+import 'package:frontend/ui/shared/ui_helpers.dart';
 import 'package:frontend/ui/views/base_view.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RecipeCarousel extends StatelessWidget {
@@ -37,41 +40,75 @@ class RecipeCarousel extends StatelessWidget {
           builder: (BuildContext context) {
             return GestureDetector(
               onTap: () => _launchURL(recipe.recipeURL),
-              child: Card(
-                child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Column(
-                      children: <Widget>[
-                        Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.contain,
-                                alignment: FractionalOffset.topCenter,
-                                image: NetworkImage(recipe.imageURL),
+              child:Card(
+                semanticContainer: true,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: InkWell(
+                  child: Container(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Hero(
+                              tag: '',
+                              child: Container(
+                                child: recipe.recipeURL == null || recipe.recipeURL == ''
+                                    ? Container(
+                                  child: Icon(
+                                    defaultCategories[0].icon,
+                                    size: 50,
+                                    color: Colors.black,
+                                  ),
+                                  alignment: Alignment.center,
+                                  height: 150,
+                                  width: 275,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFFABBC5),
+                                  ),
+                                )
+                                    : Container(
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Shimmer.fromColors(
+                                        baseColor: Colors.grey[300],
+                                        highlightColor: Colors.grey[100],
+                                        child: Container(
+                                          height: 120,
+                                          width: 275,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      FadeInImage.assetNetwork(
+                                        placeholder: 'assets/1x1.png',
+                                        image: recipe.imageURL,
+                                        fit: BoxFit.cover,
+                                        height: 120,
+                                        width: 275,
+                                      ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.center,
+                                ),
                               ),
                             ),
-                            width: 400,
-                            height: 120,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 10,
+                            UIHelper.verticalSpaceSmall(),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              width: 275,
+                              child: Text(
+                                recipe.recipeTitle,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
                             ),
-                            alignment: Alignment.center,
-                          ),
-                        ),
-                        Container(
-                          child: AutoSizeText(
-                            recipe.recipeTitle,
-                            style: const TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
+                          ]
+                      )),
+                ),
               ),
             );
           },
