@@ -27,7 +27,7 @@ class _RegisterViewState extends State<RegisterView> {
           Scaffold(
             backgroundColor: app_colors.backgroundColorPink,
             body: SingleChildScrollView(
-              padding: EdgeInsets.only(top: queryData.size.height * 0.1),
+              padding: EdgeInsets.only(top: queryData.size.height * 0.05),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

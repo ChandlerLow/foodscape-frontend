@@ -30,6 +30,11 @@ class ItemsListItem extends StatelessWidget {
                 child: Container(
                   child: item.photo == null || item.photo == ''
                       ? Container(
+                          foregroundDecoration: item.isCollected
+                              ? const BoxDecoration(
+                                  color: Colors.grey,
+                                  backgroundBlendMode: BlendMode.saturation)
+                              : null,
                           child: Icon(
                             defaultCategories[item.categoryId].icon,
                             size: 50,
@@ -43,13 +48,11 @@ class ItemsListItem extends StatelessWidget {
                           ),
                         )
                       : Container(
-                          foregroundDecoration:
-                            item.isCollected
-                                ? const BoxDecoration(
+                          foregroundDecoration: item.isCollected
+                              ? const BoxDecoration(
                                   color: Colors.grey,
-                                  backgroundBlendMode: BlendMode.saturation
-                                )
-                                : null,
+                                  backgroundBlendMode: BlendMode.saturation)
+                              : null,
                           child: Stack(
                             children: <Widget>[
                               Shimmer.fromColors(
