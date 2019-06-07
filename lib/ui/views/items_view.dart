@@ -30,8 +30,8 @@ class ItemsView extends StatelessWidget {
               )
             ],
           ),
+          backgroundColor: backgroundColor,
           body: Container(
-            color: backgroundColor,
             child: RefreshIndicator(
               child: model.state == ViewState.Idle
                   ? (model.categories.isEmpty

@@ -7,6 +7,7 @@ import 'package:frontend/locator.dart';
 
 class ItemCreationModel extends BaseModel {
   final Api _api = locator<Api>();
+  bool isCreated = false;
 
   Future<void> create(
     String itemName,
@@ -17,14 +18,23 @@ class ItemCreationModel extends BaseModel {
     int categoryId,
   ) async {
     setState(ViewState.Busy);
-    await _api.createItem(
-      itemName,
-      quantity,
-      DateTime.now().add(Duration(days: int.parse(expiry))).toIso8601String(),
-      description,
-      photo,
-      categoryId,
-    );
+
+    final List<Future<void>> futures = [];
+    futures.add(Future<void>.delayed(Duration(seconds: 1)));
+    futures.add(_api
+        .createItem(
+          itemName,
+          quantity,
+          DateTime.now()
+              .add(Duration(days: int.parse(expiry)))
+              .toIso8601String(),
+          description,
+          photo,
+          categoryId,
+        )
+        .then((bool isCreated) => this.isCreated = isCreated));
+
+    await Future.wait(futures);
     setState(ViewState.Idle);
   }
 }

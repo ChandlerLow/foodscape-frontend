@@ -83,7 +83,11 @@ class _ItemEditingViewState extends State<ItemEditingView> {
                     _inputTextTile('Item name', itemNameController),
                     _inputTextTile('Quantity (eg. 1/2 pint, 5 pieces)',
                         quantityController),
-                    _inputTextTile('Days remaining', expiryController),
+                    _inputTextTile(
+                      'Days remaining',
+                      expiryController,
+                      textInputType: TextInputType.number,
+                    ),
                     _inputTextTile('Description', descriptionController),
                     _dropdownCategories(),
                     const Padding(
@@ -119,13 +123,15 @@ class _ItemEditingViewState extends State<ItemEditingView> {
   }
 
   // Generating function for tiles
-  ListTile _inputTextTile(String hintText, TextEditingController controller) {
+  ListTile _inputTextTile(String hintText, TextEditingController controller,
+      {TextInputType textInputType}) {
     return ListTile(
       title: TextField(
         decoration: InputDecoration(
           hintText: hintText,
         ),
         controller: controller,
+        keyboardType: textInputType,
       ),
     );
   }
