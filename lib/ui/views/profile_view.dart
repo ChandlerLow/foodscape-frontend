@@ -2,16 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/user.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
+import 'package:frontend/ui/shared/ui_helpers.dart';
 import 'package:provider/provider.dart';
 
 class ProfileView extends StatelessWidget {
-  Widget _buildBackground(Size screenSize) {
-    return Container(
-      height: 325,
-      color: app_colors.backgroundColorPink,
-    );
-  }
-
   String _extractInitials(String fullname) {
     List<String> names = fullname.split(' ');
     String initials = '';
@@ -24,13 +18,13 @@ class ProfileView extends StatelessWidget {
   Widget _buildProfileImage(String name) {
     return Center(
       child: Container(
-        width: 160,
-        height: 160,
+        width: 130,
+        height: 130,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(90.0),
           border: Border.all(
             color: Colors.white,
-            width: 5.0,
+            width: 3.0,
           ),
         ),
         child: CircleAvatar(
@@ -46,7 +40,6 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
     final User user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
@@ -72,18 +65,16 @@ class ProfileView extends StatelessWidget {
           )
         ],
       ),
-      body: Column(children: <Widget>[
-        Stack(
+      body: SingleChildScrollView(
+        child: Column(
           children: <Widget>[
-            _buildBackground(screenSize),
-            SingleChildScrollView(
+            Container(
+              color: app_colors.backgroundColorPink,
               child: Column(
                 children: <Widget>[
-                  const Padding(
-                    padding: EdgeInsets.only(top: 40),
-                  ),
+                  UIHelper.verticalSpaceMedium(),
                   _buildProfileImage(user.name),
-                  const Padding(padding: EdgeInsets.only(top: 20)),
+                  UIHelper.verticalSpaceSmall(),
                   Align(
                     child: Text(
                       user.name,
@@ -91,37 +82,63 @@ class ProfileView extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                   ),
-                  const Padding(padding: EdgeInsets.only(top: 20)),
+                  UIHelper.verticalSpaceSmall(),
                   Row(
                     children: <Widget>[
                       Text(
                         user.location,
-                        style: const TextStyle(fontSize: 18, color: Colors.white),
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.white),
                       ),
                       Text(
                         user.phoneNumber,
-                        style: const TextStyle(fontSize: 18, color: Colors.white),
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.white),
                       ),
                     ],
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  )
+                  ),
+                  UIHelper.verticalSpaceMedium(),
                 ],
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               ),
             ),
+            UIHelper.verticalSpaceSmall(),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 3.0,
+                    offset: Offset(0, 1),
+                  )
+                ],
+              ),
+              child: Column(
+                children: <Widget>[
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/user/items');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: ListTile(
+                          title: const Text(
+                            'My Items',
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            UIHelper.verticalSpaceSmall(),
           ],
         ),
-        ListTile(
-          title: const Text(
-            'My Items',
-            style: TextStyle(fontSize: 18),
-            textAlign: TextAlign.center,
-          ),
-          onTap: () {
-            Navigator.pushNamed(context, '/user/items');
-          },
-        )
-      ]),
+      ),
     );
   }
 }
