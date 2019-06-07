@@ -16,8 +16,9 @@ class ItemOperationsView extends StatelessWidget {
     final Function viewItem = () {
       Navigator.pushNamed(context, '/item', arguments: item);
     };
-    final Function editItem = () {
-      Navigator.pushNamed(context, '/items/edit', arguments: item);
+    final Function editItem = () async {
+      await Navigator.pushNamed(context, '/items/edit', arguments: item);
+      Navigator.pop(context);
     };
     return BaseView<ItemOperationsModel>(
       builder: (

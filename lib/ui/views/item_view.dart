@@ -5,6 +5,7 @@ import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/models/user.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
+import 'package:frontend/ui/widgets/recipe_carousel.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -171,7 +172,7 @@ class ItemView extends StatelessWidget {
               ListTile(
                 title: const Text('Stuck for choice? Try one of these'),
               ),
-              //RecipeCarousel(ingredient: item.name),
+              RecipeCarousel(ingredient: item.name),
             ],
           ),
         ),

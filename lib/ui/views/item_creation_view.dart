@@ -270,7 +270,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
   }
 
   Future<void> _takePhoto() async {
-    final File img = await ImagePicker.pickImage(source: ImageSource.gallery);
+    final File img = await ImagePicker.pickImage(source: ImageSource.camera);
     if (img != null) {
       setState(() {
         _photo = img;
