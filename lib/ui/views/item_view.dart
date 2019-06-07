@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
+import 'package:frontend/core/models/user.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
-import 'package:frontend/ui/widgets/recipe_carousel.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,6 +16,7 @@ class ItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -23,20 +25,22 @@ class ItemView extends StatelessWidget {
         backgroundColor: app_colors.backgroundColorPink,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: 'main-fab',
-        backgroundColor: app_colors.backgroundColorPink,
-        elevation: 2.0,
-        label: const Text('Message'),
-        onPressed: () async {
-          String uri = 'sms:${item.userPhoneNumber}';
-          if (await canLaunch(uri)) {
-            await launch(uri);
-          } else {
-            throw 'Could not launch $uri';
-          }
-        },
-      ),
+      floatingActionButton: !isExpired(item.expiryDate) && !item.isCollected
+          ? FloatingActionButton.extended(
+              heroTag: 'main-fab',
+              backgroundColor: app_colors.backgroundColorPink,
+              elevation: 2.0,
+              label: const Text('Message'),
+              onPressed: () async {
+                String uri = 'sms:${item.userPhoneNumber}';
+                if (await canLaunch(uri)) {
+                  await launch(uri);
+                } else {
+                  throw 'Could not launch $uri';
+                }
+              },
+            )
+          : null,
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -139,8 +143,10 @@ class ItemView extends StatelessWidget {
               // Tiles for user information
               makeListTile(
                 'Expires in',
-                getDaysLeft(item.expiryDate).toString() +
-                    (getDaysLeft(item.expiryDate) <= 1 ? ' day' : ' days'),
+                isExpired(item.expiryDate)
+                    ? 'Expired'
+                    : getDaysLeft(item.expiryDate).toString() +
+                        (getDaysLeft(item.expiryDate) <= 1 ? ' day' : ' days'),
               ),
               const Divider(height: 10),
               makeListTile('Quantity', item.quantity),
@@ -185,5 +191,9 @@ class ItemView extends StatelessWidget {
 
   int getDaysLeft(DateTime expiryDate) {
     return expiryDate.difference(DateTime.now()).inDays;
+  }
+
+  bool isExpired(DateTime expiryDate) {
+    return expiryDate.isBefore(DateTime.now());
   }
 }

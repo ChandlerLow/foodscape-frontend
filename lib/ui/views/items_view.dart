@@ -5,7 +5,7 @@ import 'package:frontend/core/view_models/items_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/shared/app_colors.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
-import 'package:frontend/ui/widgets/item_list_item.dart';
+import 'package:frontend/ui/widgets/items_list_item.dart';
 
 import 'base_view.dart';
 
@@ -59,7 +59,7 @@ class ItemsView extends StatelessWidget {
         child: ListView.builder(
           padding: const EdgeInsets.all(16.0),
           itemBuilder: (BuildContext context, int i) {
-            final Widget item = ItemListItem(
+            final Widget item = ItemsListItem(
               item: items[i],
               onTap: () {
                 Navigator.pushNamed(context, '/item', arguments: items[i]);
@@ -114,7 +114,7 @@ class ItemsView extends StatelessWidget {
                     child: Row(
                       children: categories[categoryKeys[i]].map<Widget>(
                         (Item item) {
-                          return ItemListItem(
+                          return ItemsListItem(
                             item: item,
                             onTap: () {
                               Navigator.pushNamed(

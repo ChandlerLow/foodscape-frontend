@@ -5,8 +5,8 @@ import 'package:frontend/core/models/item.dart';
 import 'package:frontend/ui/shared/ui_helpers.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ItemListItem extends StatelessWidget {
-  const ItemListItem({this.item, this.onTap});
+class ItemsListItem extends StatelessWidget {
+  const ItemsListItem({this.item, this.onTap});
 
   final Item item;
   final Function onTap;
@@ -106,39 +106,77 @@ class ItemListItem extends StatelessWidget {
                       ),
                     ],
                   )),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(right: 4),
-                      child: const Icon(Icons.alarm, size: 16),
-                    ),
-                    const Text(
-                      'Expires in ',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16,
+              item.isCollected
+                  ? Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      width: 275,
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.only(right: 4),
+                            child: const Icon(Icons.clear, size: 16),
+                          ),
+                          const Text(
+                            'Collected',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Text(
-                      '${getDaysLeft(item.expiryDate).toString()}',
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      getDaysLeft(item.expiryDate) <= 1
-                          ? ' day'
-                          : ' days',
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
+                    )
+                  : (isExpired(item.expiryDate)
+                      ? Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.only(right: 4),
+                                child: const Icon(Icons.timer_off, size: 16),
+                              ),
+                              const Text(
+                                'Expired',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.only(right: 4),
+                                child: const Icon(Icons.alarm, size: 16),
+                              ),
+                              const Text(
+                                'Expires in ',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                '${getDaysLeft(item.expiryDate).toString()}',
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                getDaysLeft(item.expiryDate) <= 1
+                                    ? ' day'
+                                    : ' days',
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        )),
               UIHelper.verticalSpaceSmall(),
             ],
           ),
@@ -146,6 +184,10 @@ class ItemListItem extends StatelessWidget {
       ),
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
     );
+  }
+
+  bool isExpired(DateTime expiryDate) {
+    return expiryDate.isBefore(DateTime.now());
   }
 
   int getDaysLeft(DateTime expiryDate) {

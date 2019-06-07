@@ -22,12 +22,14 @@ class UserItemsView extends StatelessWidget {
             ),
             backgroundColor: app_colors.backgroundColorPink,
             centerTitle: true,
-            title: const Text('My Items',
-              style: TextStyle(color: Colors.white),),
+            title: const Text(
+              'My Items',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
-          body: Container(
-            child: Center(
-              //child: getItemsUi(items)
+          body: Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
               child: RefreshIndicator(
                 child: model.state == ViewState.Idle
                     ? getItemsUi(model.items, model)
@@ -42,20 +44,22 @@ class UserItemsView extends StatelessWidget {
   }
 
   Widget getItemsUi(List<Item> items, UserItemsModel model) => Container(
-    child: ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: (BuildContext context, int i) {
-        final Widget item = GestureDetector(
-          child: MyListItem(item: items[i]),
-          onTap: () async {
-            await Navigator.pushNamed(context, '/operations', arguments: items[i]);
-            model.getItems();
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          itemBuilder: (BuildContext context, int i) {
+            return UserListItem(
+              item: items[i],
+              onTap: () async {
+                await Navigator.pushNamed(
+                  context,
+                  '/operations',
+                  arguments: items[i],
+                );
+                model.getItems();
+              },
+            );
           },
-        );
-        return item;
-      },
-      itemCount: items.length,
-    ),
-  );
-
+          itemCount: items.length,
+        ),
+      );
 }
