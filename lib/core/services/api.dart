@@ -130,6 +130,7 @@ class Api {
     String newQuantity,
     String newExpiry,
     String newDescription,
+    int newCategoryId,
     File newPhoto,
   ) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -174,7 +175,7 @@ class Api {
         'expiry_date': newExpiry,
         'description': newDescription,
         'photo': filename,
-        'category_id': item.id.toString(),
+        'category_id': newCategoryId.toString(),
       },
     );
 

@@ -15,6 +15,7 @@ class ItemEditingModel extends BaseModel {
     String newQuantity,
     String newExpiry,
     String newDescription,
+    int newCategoryId,
     File newPhoto,
   ) async {
     setState(ViewState.Busy);
@@ -26,6 +27,7 @@ class ItemEditingModel extends BaseModel {
           .add(Duration(days: int.parse(newExpiry)))
           .toIso8601String(),
       newDescription,
+      newCategoryId,
       newPhoto,
     );
     setState(ViewState.Idle);
