@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class RecipeApi {
-  static const String APIKEY = 'a292391b38d9f11537efa3871ed824ea';
+  static const String APIKEY = '0182c547f69455fa1df66a02649504a2';
   static const String endpoint =
       'https://www.food2fork.com/api/search?key=$APIKEY&q=';
 

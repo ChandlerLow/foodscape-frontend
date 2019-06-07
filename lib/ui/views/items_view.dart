@@ -6,6 +6,7 @@ import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/shared/app_colors.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:frontend/ui/widgets/items_list_item.dart';
+import 'package:frontend/ui/widgets/recipe_carousel.dart';
 
 import 'base_view.dart';
 
@@ -28,7 +29,10 @@ class ItemsView extends StatelessWidget {
                 style: TextStyle(color: Colors.white)),
             actions: <Widget>[
               IconButton(
-                icon: const Icon(Icons.filter_list, color: Colors.white,),
+                icon: const Icon(
+                  Icons.filter_list,
+                  color: Colors.white,
+                ),
                 onPressed: () async {
                   await Navigator.of(context).pushNamed('/items/filter');
                   model.getItems();
@@ -78,8 +82,45 @@ class ItemsView extends StatelessWidget {
       child: ListView.builder(
         shrinkWrap: true,
         padding: const EdgeInsets.only(bottom: 50),
-        itemCount: categories.length,
+        itemCount: categories.length + 1,
         itemBuilder: (BuildContext context, int i) {
+          if (i == 0) {
+            return ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: double.infinity),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 10.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 10.0,
+                ),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 3.0,
+                      offset: Offset(0, 2),
+                    )
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const <Widget>[
+                    Text(
+                      'Discover recipes',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                    ),
+                    RecipeCarousel(ingredient: 'Apple'),
+                  ],
+                ),
+              ),
+            );
+          }
+
           return ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: Container(
@@ -103,7 +144,7 @@ class ItemsView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    defaultCategories[categoryKeys[i]].name,
+                    defaultCategories[categoryKeys[i - 1]].name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
@@ -112,7 +153,7 @@ class ItemsView extends StatelessWidget {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: categories[categoryKeys[i]].map<Widget>(
+                      children: categories[categoryKeys[i - 1]].map<Widget>(
                         (Item item) {
                           return ItemsListItem(
                             item: item,
