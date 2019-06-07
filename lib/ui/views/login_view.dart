@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frontend/core/view_models/login_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
-import 'package:frontend/ui/shared/app_colors.dart' as colorConst;
+import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:frontend/ui/shared/ui_helpers.dart';
 
 import 'base_view.dart';
@@ -22,7 +23,7 @@ class _LoginViewState extends State<LoginView> {
     return BaseView<LoginModel>(
       builder: (BuildContext context, LoginModel model, Widget child) =>
           Scaffold(
-            backgroundColor: colorConst.backgroundColorPink,
+            backgroundColor: app_colors.backgroundColorPink,
             //backgroundColor: Color.fromARGB(255, 233, 197, 29),
             body: model.state == ViewState.Idle
                 ? SingleChildScrollView(
@@ -63,31 +64,39 @@ class _LoginViewState extends State<LoginView> {
                           model,
                           hidden: true,
                         ),
-                        RaisedButton(
-                          color: Colors.white,
-                          textColor: colorConst.backgroundColorPink,
-                          splashColor: Colors.pink,
-                          child: const Text(
-                            'Sign In',
-                          ),
-                          onPressed: () async {
-                            final bool loginSuccess = await model.login(
-                              _usernameController.text,
-                              _passwordController.text,
-                            );
+                        Container(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: FloatingActionButton.extended(
+                            heroTag: null,
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            label: Text(
+                              model.state == ViewState.Idle
+                                  ? 'Sign In' : 'Signing In...',
+                              style: const TextStyle(
+                                color: app_colors.backgroundColorPink,
+                              ),
+                            ),
+                            onPressed: () async {
+                              final bool loginSuccess = await model.login(
+                                _usernameController.text,
+                                _passwordController.text,
+                              );
 
-                            if (loginSuccess) {
-                              Navigator.pushReplacementNamed(context, '/');
-                            }
-                          },
+                              if (loginSuccess) {
+                                Navigator.pushReplacementNamed(context, '/');
+                              }
+                            },
+                          ),
                         ),
                         Container(
+                          margin: const EdgeInsets.only(top: 10.0),
                           child: FlatButton(
                             onPressed: () {
                               Navigator.of(context).pushNamed('/register');
                             },
                             child: const Padding(
-                              padding: EdgeInsets.only(top: 20.0),
+                              padding: EdgeInsets.symmetric(vertical: 10.0),
                               child: Text(
                                 "Don't Have An Account?",
                                 style: TextStyle(
@@ -118,7 +127,7 @@ class _LoginViewState extends State<LoginView> {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
-          color: model.errorMessage == null ? Colors.white : Colors.redAccent,
+          color: model.errorMessage == null ? Colors.white : Colors.black12,
           width: 1,
         ),
         borderRadius: BorderRadius.circular(90.0),
@@ -140,12 +149,16 @@ class _LoginViewState extends State<LoginView> {
             margin: const EdgeInsets.only(left: 5.0, right: 15.0),
           ),
           Expanded(
-              child: TextField(
-            obscureText: hidden != null,
-            decoration: InputDecoration.collapsed(
-                hintText: hintText, hintStyle: const TextStyle(fontSize: 20)),
-            controller: controller,
-          ))
+            child: TextField(
+              obscureText: hidden != null,
+              decoration: InputDecoration.collapsed(
+                hintText: hintText,
+                hintStyle: const TextStyle(fontSize: 20),
+              ),
+              controller: controller,
+              textCapitalization: TextCapitalization.none,
+            ),
+          )
         ],
       ),
     );
