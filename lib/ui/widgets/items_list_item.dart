@@ -43,6 +43,13 @@ class ItemsListItem extends StatelessWidget {
                           ),
                         )
                       : Container(
+                          foregroundDecoration:
+                            item.isCollected
+                                ? const BoxDecoration(
+                                  color: Colors.grey,
+                                  backgroundBlendMode: BlendMode.saturation
+                                )
+                                : null,
                           child: Stack(
                             children: <Widget>[
                               Shimmer.fromColors(
