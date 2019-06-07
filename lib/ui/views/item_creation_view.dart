@@ -38,7 +38,12 @@ class _ItemCreationViewState extends State<ItemCreationView> {
             // the main page immediately
             onWillPop: _onWillPop,
             child: Scaffold(
-              appBar: AppBar(),
+              appBar: AppBar(
+                iconTheme: const IconThemeData(
+                  color: Colors.white,
+                ),
+                backgroundColor: backgroundColorPink,
+              ),
               backgroundColor: backgroundColor,
               body: Container(
                 child: SingleChildScrollView(
@@ -175,7 +180,7 @@ class _ItemCreationViewState extends State<ItemCreationView> {
               floatingActionButton: showFab
                   ? FloatingActionButton.extended(
                       heroTag: 'main-fab',
-                      backgroundColor: app_colors.backgroundColorPink,
+                      backgroundColor: backgroundColorPink,
                       elevation: 2.0,
                       label: model.state == ViewState.Idle
                           ? (model.isCreated

@@ -20,9 +20,6 @@ class ItemView extends StatelessWidget {
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
-        centerTitle: true,
-        title: Text(item.name,
-            style: const TextStyle(fontSize: 24, color: Colors.white)),
         backgroundColor: app_colors.backgroundColorPink,
       ),
       body: SingleChildScrollView(
