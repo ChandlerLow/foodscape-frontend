@@ -103,20 +103,20 @@ class ProfileView extends StatelessWidget {
               ),
             ),
             UIHelper.verticalSpaceSmall(),
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 3.0,
-                    offset: Offset(0, 1),
-                  )
-                ],
-              ),
-              child: Column(
-                children: <Widget>[
-                  Material(
+            Column(
+              children: <Widget>[
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 3.0,
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                  ),
+                  child: Material(
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
@@ -131,9 +131,43 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+                UIHelper.verticalSpaceSmall(),
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 3.0,
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        showAboutDialog(
+                            context: context,
+                            applicationName: 'FoodScape',
+                            applicationLegalese:
+                                'Made as part the requirements for CO271 at '
+                                'Imperial College London.');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: ListTile(
+                          title: const Text(
+                            'About this app',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             UIHelper.verticalSpaceSmall(),
           ],
