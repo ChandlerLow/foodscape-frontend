@@ -154,7 +154,13 @@ class ProfileView extends StatelessWidget {
                             applicationName: 'FoodScape',
                             applicationLegalese:
                                 'Made as part the requirements for CO271 at '
-                                'Imperial College London.');
+                                'Imperial College London.\n\n'
+                                'Attributions:\n'
+                                'Banana photo by Mike Dorner on Unsplash.\n'
+                                'Egg, wheat, fork, meat and cupcake icons by Freepik from www.flaticon.com.\n'
+                                'Cheese and salad icons by monkik from www.flaticon.com.\n'
+                                'Diet (apple) icon by Smashicons from www.flaticon.com.\n'
+                                'Milk icon by surang from www.flaticon.com.\n');
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
