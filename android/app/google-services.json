@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "519430797073",
+    "firebase_url": "https://foodscape-684a5.firebaseio.com",
+    "project_id": "foodscape-684a5",
+    "storage_bucket": "foodscape-684a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519430797073:android:481d62f5c121321e",
+        "android_client_info": {
+          "package_name": "in.iamkelv.foodscape"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519430797073-cltmg8v173qdp6k2ts61cjcsojj7bpse.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5X6TFpXWeE_UDoKv7exdV37ryiUOwjsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519430797073-cltmg8v173qdp6k2ts61cjcsojj7bpse.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
