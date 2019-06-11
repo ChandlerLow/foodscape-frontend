@@ -6,7 +6,6 @@ import 'package:frontend/ui/views/item_creation_view.dart';
 import 'package:frontend/ui/views/item_editing_view.dart';
 import 'package:frontend/ui/views/item_operation_view.dart';
 import 'package:frontend/ui/views/item_view.dart';
-import 'package:frontend/ui/views/items_view.dart';
 import 'package:frontend/ui/views/login_view.dart';
 import 'package:frontend/ui/views/profile_view.dart';
 import 'package:frontend/ui/views/register_view.dart';
@@ -16,30 +15,57 @@ class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute<dynamic>(builder: (_) => HomeView());
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => HomeView(),
+          settings: RouteSettings(name: settings.name),
+        );
       case '/items/add':
-        return MaterialPageRoute<dynamic>(builder: (_) => ItemCreationView());
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => ItemCreationView(),
+          settings: RouteSettings(name: settings.name),
+        );
       case '/items/edit':
         final Item item = settings.arguments;
         return MaterialPageRoute<dynamic>(
-            builder: (_) => ItemEditingView(item: item));
+          builder: (_) => ItemEditingView(item: item),
+          settings: RouteSettings(name: settings.name + '/${item.id}'),
+        );
       case '/items/filter':
-        return MaterialPageRoute<dynamic>(builder: (_) => FilterView());
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => FilterView(),
+          settings: RouteSettings(name: settings.name),
+        );
       case '/item':
         final Item item = settings.arguments;
-        return MaterialPageRoute<dynamic>(builder: (_) => ItemView(item: item));
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => ItemView(item: item),
+          settings: RouteSettings(name: settings.name + '/${item.id}'),
+        );
       case '/login':
-        return MaterialPageRoute<dynamic>(builder: (_) => LoginView());
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => LoginView(),
+          settings: RouteSettings(name: settings.name),
+        );
       case '/register':
-        return MaterialPageRoute<dynamic>(builder: (_) => RegisterView());
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => RegisterView(),
+          settings: RouteSettings(name: settings.name),
+        );
       case '/profile':
-        return MaterialPageRoute<dynamic>(builder: (_) => ProfileView());
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => ProfileView(),
+          settings: RouteSettings(name: settings.name),
+        );
       case '/user/items':
-        return MaterialPageRoute<dynamic>(builder: (_) => UserItemsView());
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => UserItemsView(),
+          settings: RouteSettings(name: settings.name),
+        );
       case '/operations':
         final Item item = settings.arguments;
         return MaterialPageRoute<dynamic>(
           builder: (_) => ItemOperationsView(item: item),
+          settings: RouteSettings(name: settings.name + '/${item.id}'),
         );
       default:
         return MaterialPageRoute<dynamic>(builder: (_) {

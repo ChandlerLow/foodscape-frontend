@@ -34,6 +34,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519430797073:android:ea2e4ed2ea5f0fd0",
+        "android_client_info": {
+          "package_name": "in.iamkelv.foodscape.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519430797073-cltmg8v173qdp6k2ts61cjcsojj7bpse.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5X6TFpXWeE_UDoKv7exdV37ryiUOwjsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519430797073-cltmg8v173qdp6k2ts61cjcsojj7bpse.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
