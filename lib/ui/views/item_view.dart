@@ -5,19 +5,24 @@ import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/models/user.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
+import 'package:frontend/ui/views/AnalyticsScreen.dart';
 import 'package:frontend/ui/widgets/recipe_carousel.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ItemView extends StatelessWidget {
-  const ItemView({this.item});
+class ItemView extends StatelessWidget with AnalyticsScreen{
+  ItemView({this.item});
 
   final Item item;
 
   @override
+  get screenName => 'item_view';
+
+  @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
+    logEvent();
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(

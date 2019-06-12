@@ -8,6 +8,7 @@ import 'package:frontend/core/view_models/item_creation_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/shared/app_colors.dart';
 import 'package:frontend/ui/shared/ui_helpers.dart';
+import 'package:frontend/ui/views/AnalyticsScreen.dart';
 import 'package:frontend/ui/views/base_view.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,7 +17,7 @@ class ItemCreationView extends StatefulWidget {
   _ItemCreationViewState createState() => _ItemCreationViewState();
 }
 
-class _ItemCreationViewState extends State<ItemCreationView> {
+class _ItemCreationViewState extends State<ItemCreationView> with AnalyticsScreen{
   final TextEditingController itemNameController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController expiryController = TextEditingController();
@@ -25,8 +26,12 @@ class _ItemCreationViewState extends State<ItemCreationView> {
   Category category = defaultCategories[1];
 
   @override
+  get screenName => 'item_creation';
+
+  @override
   Widget build(BuildContext context) {
     final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
+    logEvent();
     return BaseView<ItemCreationModel>(
       builder: (
         BuildContext context,

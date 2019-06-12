@@ -15,6 +15,8 @@ import 'package:frontend/ui/views/base_view.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'AnalyticsScreen.dart';
+
 class ItemEditingView extends StatefulWidget {
   const ItemEditingView({@required this.item});
 
@@ -24,7 +26,7 @@ class ItemEditingView extends StatefulWidget {
   _ItemEditingViewState createState() => _ItemEditingViewState(item);
 }
 
-class _ItemEditingViewState extends State<ItemEditingView> {
+class _ItemEditingViewState extends State<ItemEditingView> with AnalyticsScreen {
   _ItemEditingViewState(this.item) {
     itemNameController = TextEditingController(text: item.name);
     quantityController = TextEditingController(text: item.quantity);
@@ -47,7 +49,11 @@ class _ItemEditingViewState extends State<ItemEditingView> {
   TextEditingController descriptionController;
 
   @override
+  get screenName => 'editing_item';
+
+  @override
   Widget build(BuildContext context) {
+    logEvent();
     return BaseView<ItemEditingModel>(
       builder: (
         BuildContext context,

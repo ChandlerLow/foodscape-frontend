@@ -3,19 +3,24 @@ import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/category.dart';
 import 'package:frontend/locator.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
+import 'package:frontend/ui/views/AnalyticsScreen.dart';
 
 class FilterView extends StatefulWidget {
   @override
   _FilterViewState createState() => _FilterViewState();
 }
 
-class _FilterViewState extends State<FilterView> {
+class _FilterViewState extends State<FilterView> with AnalyticsScreen{
   final UserCategories userCategories = locator<UserCategories>();
   final Map<int, Category> categories =
       locator<UserCategories>().getCategories();
 
   @override
+  get screenName => 'filter_item';
+
+  @override
   Widget build(BuildContext context) {
+    logEvent();
     final List<int> categoryIds = categories.keys.toList();
 
     return Scaffold(
