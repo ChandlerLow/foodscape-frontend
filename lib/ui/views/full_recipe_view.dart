@@ -127,7 +127,7 @@ class RecipeView extends StatelessWidget {
                 children: <Widget>[
                   const Divider(height: 10),
                   const Text('Ingredients that can be found on FoodScape'),
-                  _buildRowUsed(recipe.usedIngredients),
+                  _buildRowUsed(recipe.usedIngredients, context),
                   const Divider(height: 10),
                   const Text('Ingredients that can be found outside of FoodScape'),
                   _buildRowMissed(recipe.missingIngredients),
@@ -140,11 +140,13 @@ class RecipeView extends StatelessWidget {
     );
   }
   
-  Widget _buildRowUsed(List<Item> ingredients) {
+  Widget _buildRowUsed(List<Item> ingredients, BuildContext context) {
     List<Widget> chips = <Widget>[];
     for (Item i in ingredients) {
-      Color color =  Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
-      chips.add(Chip(label: Text(i.name.toLowerCase(), style: TextStyle(color: getTextColor(color)),),
+      final Color color =  Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
+      chips.add(ActionChip(
+          label: Text(i.name.toLowerCase(), style: TextStyle(color: getTextColor(color)),),
+      onPressed: () {Navigator.pushNamed(context, '/item', arguments: i); },
       backgroundColor: color));
       chips.add(Container(width: 10,));
     }
