@@ -25,14 +25,4 @@ class ItemsModel extends BaseModel {
     setState(ViewState.Idle);
   }
 
-  //generates itemMap from catergories
-  Map<String, Item> getItemMap() {
-    final Map<String, Item> itemMap = <String, Item>{};
-    for (List<Item> items in categories.values) {
-      for (Item item in items) {
-        itemMap.putIfAbsent(item.name, () =>item);
-      }
-    }
-    return itemMap;
-  }
 }

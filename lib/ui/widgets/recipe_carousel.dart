@@ -3,8 +3,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/categories.dart';
+import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/models/recipe.dart';
+import 'package:frontend/core/models/recipe_recommendation.dart';
 import 'package:frontend/core/view_models/recipe_model.dart';
+import 'package:frontend/core/view_models/recipe_recommendation_model.dart';
 import 'package:frontend/core/view_models/view_state.dart';
 import 'package:frontend/ui/shared/ui_helpers.dart';
 import 'package:frontend/ui/views/base_view.dart';
@@ -128,15 +131,32 @@ class RecipeCarousel extends StatelessWidget {
 }
 
 class MultiRecipeCarousel extends StatelessWidget {
+
+  const MultiRecipeCarousel({this.categoryValues});
+
+  final dynamic categoryValues;
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    return BaseView<RecipeRecommendationModel>(
+      onModelReady: (RecipeRecommendationModel model) {
+        model.getRecipes(categoryValues);
+      },
+      builder: (BuildContext context, RecipeRecommendationModel model, Widget child) {
+        return RefreshIndicator(
+          child: model.state == ViewState.Idle
+              ? recipeCarousel(model.recipes)
+              : Center(child: const CircularProgressIndicator()),
+          onRefresh: () => model.getRecipes(categoryValues),
+        );
+      },
+
+    );
   }
 
-  Widget recipeCarousel(List<Recipe> recipes) => CarouselSlider(
+  Widget recipeCarousel(List<RecipeRecommendation> recipes) => CarouselSlider(
       height: 160,
-      items: recipes.map((Recipe recipe) {
+      items: recipes.map((RecipeRecommendation recipe) {
         return Builder(
           builder: (BuildContext context) {
             return GestureDetector(
@@ -161,7 +181,7 @@ class MultiRecipeCarousel extends StatelessWidget {
                             Hero(
                               tag: 'recipe-${recipe.recipeTitle}',
                               child: Container(
-                                child: recipe.recipeURL == null || recipe.recipeURL == ''
+                                child: recipe.imageURL == null || recipe.imageURL == ''
                                     ? Container(
                                   child: Icon(
                                     defaultCategories[0].icon,

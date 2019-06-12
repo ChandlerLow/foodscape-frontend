@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/category.dart';
+import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/models/recipe.dart';
+import 'package:frontend/core/models/recipe_recommendation.dart';
 import 'package:frontend/locator.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:shimmer/shimmer.dart';
@@ -9,7 +11,7 @@ import 'dart:math';
 
 class RecipeView extends StatelessWidget {
   const RecipeView({this.recipe});
-  final Recipe recipe;
+  final RecipeRecommendation recipe;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class RecipeView extends StatelessWidget {
               Container(
                 child: Hero(
                   tag: 'recipe-${recipe.recipeTitle}',
-                  child: recipe.recipeURL == null || recipe.recipeURL == ''
+                  child: recipe.imageURL == null || recipe.imageURL == ''
                       ? Container(
                           child: Icon(
                             defaultCategories[0].icon,
@@ -125,10 +127,10 @@ class RecipeView extends StatelessWidget {
                 children: <Widget>[
                   const Divider(height: 10),
                   const Text('Ingredients that can be found on FoodScape'),
-                  //_buildRow(recipe.usedIngredients),
+               //   _buildRow(recipe.usedIngredients),
                   const Divider(height: 10),
                   const Text('Ingredients that can be found outside of FoodScape'),
-                  //_buildRow(recipe.usedIngredients),
+                 // _buildRow(recipe.usedIngredients),
                 ],
               )
             ],
@@ -138,11 +140,14 @@ class RecipeView extends StatelessWidget {
     );
   }
   
-  Widget _buildRow(List<String> ingredients) {
+  Widget _buildRow(List<Item> ingredients) {
+    if (ingredients.isEmpty) {
+      return Row(children: <Widget>[Container(child: Text('non'))]);
+    }
     List<Widget> chips = <Widget>[];
-    for (String i in ingredients) {
+    for (Item i in ingredients) {
       Color color =  Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
-      chips.add(Chip(label: Text(i, style: TextStyle(color: getTextColor(color)),),
+      chips.add(Chip(label: Text(i.name, style: TextStyle(color: getTextColor(color)),),
       backgroundColor: color));
       chips.add(Container(width: 10,));
     }

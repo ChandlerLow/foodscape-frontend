@@ -21,10 +21,10 @@ class RecipeRecommendation {
 
 
   static List<Item> getUsedIngredients(List<dynamic> ingredientsList, Map<String, Item> itemMap) {
-    return ingredientsList = ingredientsList.map((dynamic i) => itemMap[RecipeRecommendation.getIngredient(i)]).toList();
+    return ingredientsList.map<Item>((dynamic i) => itemMap[RecipeRecommendation.getIngredient(i)]).toList();
   }
   static List<String> getMissingIngredients(List<dynamic> ingredientsList) {
-    return ingredientsList = ingredientsList.map<dynamic>((dynamic i) => i['name']).toList();
+    return ingredientsList.map<String>((dynamic i) => i['name']).toList();
   }
 
   static String getIngredient(Map<String, dynamic> ingredient) {
@@ -32,7 +32,7 @@ class RecipeRecommendation {
     if (ingredientName[ingredientName.length - 1] == 's') {
       ingredientName = ingredientName.substring(0, ingredientName.length - 1);
     }
-    print(ingredientName);
+    //print(ingredientName);
     return ingredientName;
   }
 }
