@@ -51,46 +51,43 @@ class RecipeCarousel extends StatelessWidget {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Hero(
-                              tag: '',
-                              child: Container(
-                                child: recipe.recipeURL == null || recipe.recipeURL == ''
-                                    ? Container(
-                                  child: Icon(
-                                    defaultCategories[0].icon,
-                                    size: 50,
-                                    color: Colors.black,
-                                  ),
-                                  alignment: Alignment.center,
-                                  height: 150,
-                                  width: 275,
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFFFABBC5),
-                                  ),
-                                )
-                                    : Container(
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Shimmer.fromColors(
-                                        baseColor: Colors.grey[300],
-                                        highlightColor: Colors.grey[100],
-                                        child: Container(
-                                          height: 120,
-                                          width: 275,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      FadeInImage.assetNetwork(
-                                        placeholder: 'assets/1x1.png',
-                                        image: recipe.imageURL,
-                                        fit: BoxFit.cover,
+                            Container(
+                              child: recipe.recipeURL == null || recipe.recipeURL == ''
+                                  ? Container(
+                                child: Icon(
+                                  defaultCategories[0].icon,
+                                  size: 50,
+                                  color: Colors.black,
+                                ),
+                                alignment: Alignment.center,
+                                height: 150,
+                                width: 275,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFFABBC5),
+                                ),
+                              )
+                                  : Container(
+                                child: Stack(
+                                  children: <Widget>[
+                                    Shimmer.fromColors(
+                                      baseColor: Colors.grey[300],
+                                      highlightColor: Colors.grey[100],
+                                      child: Container(
                                         height: 120,
                                         width: 275,
+                                        color: Colors.white,
                                       ),
-                                    ],
-                                  ),
-                                  alignment: Alignment.center,
+                                    ),
+                                    FadeInImage.assetNetwork(
+                                      placeholder: 'assets/1x1.png',
+                                      image: recipe.imageURL,
+                                      fit: BoxFit.cover,
+                                      height: 120,
+                                      width: 275,
+                                    ),
+                                  ],
                                 ),
+                                alignment: Alignment.center,
                               ),
                             ),
                             UIHelper.verticalSpaceSmall(),
