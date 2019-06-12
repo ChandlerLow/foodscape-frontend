@@ -35,11 +35,11 @@ class RecipeApi {
   }
 /*
   Future<List<Recipe>> getRecipesFromMap(Map<String, Item> itemMap) async {
-
+    final Map<String, String> requestHeaders = {'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com', 'X-RapidAPI-Key' : '811ef08dd6msh1e111c963829c02p1a6df3jsn2302f50aa016'};
     final String ingredients = itemMap.keys.join('%2C');
-
-    final Response response = await client.get(spoonEndpoint + ingredients);
-
+    final Response response = await client.get(spoonEndpoint + ingredients,
+    headers: requestHeaders,
+    );
     if (response.statusCode != 200) {
       throw Exception('Failed to load recipes - ${response.statusCode} - '
           '${response.body}');

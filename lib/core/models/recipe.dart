@@ -21,6 +21,7 @@ class Recipe {
   final List<String> usedIngredients;
 
 
+  // this is the new factory method for the spoontacular api
   /*
   Recipe({this.recipeTitle, this.imageURL, this.recipeURL, this.missingIngredients, this.usedIngredients});
 
@@ -30,13 +31,11 @@ class Recipe {
       imageURL: json['image'],
       missingIngredients: Recipe.getIngredients(json['missedIngredients'], itemMap),
       usedIngredients: Recipe.getIngredients(json['usedIngredients'], itemMap),
-      recipeURL: 'https://www.imperial.ac.uk/',
     );
   }
 
   final String recipeTitle;
   final String imageURL;
-  final String recipeURL;
   final List<Item> missingIngredients;
   final List<Item> usedIngredients;
 
