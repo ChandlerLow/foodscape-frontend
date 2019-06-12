@@ -1,13 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/categories.dart';
-import 'package:frontend/core/models/category.dart';
 import 'package:frontend/core/models/item.dart';
-import 'package:frontend/core/models/recipe.dart';
 import 'package:frontend/core/models/recipe_recommendation.dart';
-import 'package:frontend/locator.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:shimmer/shimmer.dart';
-import 'dart:math';
 
 class RecipeView extends StatelessWidget {
   const RecipeView({this.recipe});
@@ -126,10 +124,10 @@ class RecipeView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   const Divider(height: 10),
-                  const Text('Ingredients that can be found on FoodScape'),
+                  const Text('Ingredients on FoodScape!', style: TextStyle(fontWeight: FontWeight.bold)),
                   _buildRowUsed(recipe.usedIngredients, context),
                   const Divider(height: 10),
-                  const Text('Ingredients that can be found outside of FoodScape'),
+                  const Text('Ingredients not on FoodScape!', style: TextStyle(fontWeight: FontWeight.bold),),
                   _buildRowMissed(recipe.missingIngredients),
                 ],
               )
@@ -141,7 +139,7 @@ class RecipeView extends StatelessWidget {
   }
   
   Widget _buildRowUsed(List<Item> ingredients, BuildContext context) {
-    List<Widget> chips = <Widget>[];
+    final List<Widget> chips = <Widget>[];
     for (Item i in ingredients) {
       chips.add(ActionChip(
           label: Text(i.name.toLowerCase(), style: const TextStyle(color: Colors.white),),
@@ -164,8 +162,8 @@ class RecipeView extends StatelessWidget {
     List<Widget> chips = <Widget>[];
     for (String i in ingredients) {
       final Color color =  Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
-      chips.add(Chip(label: Text(i, style: TextStyle(color: getTextColor(color)),),
-          backgroundColor: color));
+      chips.add(Chip(label: Text(i, style: const TextStyle(color: Colors.white),),
+          backgroundColor: Colors.green));
       chips.add(Container(width: 10,));
     }
 

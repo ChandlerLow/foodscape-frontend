@@ -49,7 +49,7 @@ class ItemsView extends StatelessWidget {
                           child: Text('No items match your specifications! '
                               'Why not filter fewer items?'),
                         )
-                      : getCategoriesUi(model.categories))
+                      : getCategoriesUi(model.categories, model))
                   : const Center(child: CircularProgressIndicator()),
               onRefresh: model.getItems,
             ),
@@ -59,23 +59,7 @@ class ItemsView extends StatelessWidget {
     );
   }
 
-  Widget getItemsUi(List<Item> items) => Container(
-        child: ListView.builder(
-          padding: const EdgeInsets.all(16.0),
-          itemBuilder: (BuildContext context, int i) {
-            final Widget item = ItemsListItem(
-              item: items[i],
-              onTap: () {
-                Navigator.pushNamed(context, '/item', arguments: items[i]);
-              },
-            );
-            return item;
-          },
-          itemCount: items.length,
-        ),
-      );
-
-  Widget getCategoriesUi(Map<int, List<Item>> categories) {
+  Widget getCategoriesUi(Map<int, List<Item>> categories, ItemsModel model) {
     final List<int> categoryKeys = categories.keys.toList();
     final List<List<Item>> categoryValues = categories.values.toList();
     return Container(
@@ -159,6 +143,7 @@ class ItemsView extends StatelessWidget {
                           return ItemsListItem(
                             item: item,
                             onTap: () {
+                              model.sendItemMetric(item.id);
                               Navigator.pushNamed(
                                 context,
                                 '/item',

@@ -25,4 +25,11 @@ class ItemsModel extends BaseModel {
     setState(ViewState.Idle);
   }
 
+  Future<void> sendItemMetric(int itemId) async {
+    await _api.sendItemMetric(
+      'open_item',
+      source: 'home',
+      additional: itemId.toString(),
+    );
+  }
 }

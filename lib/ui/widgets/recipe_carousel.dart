@@ -1,9 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/categories.dart';
-import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/models/recipe.dart';
 import 'package:frontend/core/models/recipe_recommendation.dart';
 import 'package:frontend/core/view_models/recipe_model.dart';
@@ -42,9 +40,7 @@ class RecipeCarousel extends StatelessWidget {
         return Builder(
           builder: (BuildContext context) {
             return GestureDetector(
-              onTap: () {
-                _launchURL(recipe.recipeURL);
-              },
+              onTap: () => _launchURL(recipe.recipeURL),
               child:Card(
                 semanticContainer: true,
                 clipBehavior: Clip.antiAliasWithSaveLayer,

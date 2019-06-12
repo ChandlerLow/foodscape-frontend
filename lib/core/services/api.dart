@@ -193,13 +193,13 @@ class Api {
       '$endpoint/items/$itemId/collected',
       headers: {
         HttpHeaders.authorizationHeader:
-          'Bearer ${prefs.getString('user.token')}',
+            'Bearer ${prefs.getString('user.token')}',
       },
       body: {
         'is_collected': isCollected.toString(),
       },
     );
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       throw Exception('Failed to set collected');
     }
 
@@ -213,11 +213,11 @@ class Api {
       '$endpoint/items/$itemId',
       headers: {
         HttpHeaders.authorizationHeader:
-          'Bearer ${prefs.getString('user.token')}',
+            'Bearer ${prefs.getString('user.token')}',
       },
     );
 
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       throw Exception('Could not delete item');
     }
 
@@ -263,5 +263,27 @@ class Api {
     }
 
     return User.fromJson(json.decode(response.body));
+  }
+
+  // ignore: missing_return
+  Future<void> sendItemMetric(
+    String action, {
+    String source,
+    String additional,
+  }) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await client.post(
+      '$endpoint/metrics',
+      headers: {
+        HttpHeaders.authorizationHeader:
+            'Bearer ${prefs.getString('user.token')}',
+      },
+      body: {
+        'action': action,
+        'source': source,
+        'additional': additional,
+      },
+    );
   }
 }
