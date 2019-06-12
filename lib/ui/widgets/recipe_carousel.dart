@@ -40,11 +40,7 @@ class RecipeCarousel extends StatelessWidget {
           builder: (BuildContext context) {
             return GestureDetector(
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/recipe',
-                  arguments: recipe,
-                );
+                _launchURL(recipe.recipeURL);
               },
               child:Card(
                 semanticContainer: true,
@@ -129,4 +125,101 @@ class RecipeCarousel extends StatelessWidget {
       throw 'Could not launch $url';
     }
   }
+}
+
+class MultiRecipeCarousel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return null;
+  }
+
+  Widget recipeCarousel(List<Recipe> recipes) => CarouselSlider(
+      height: 160,
+      items: recipes.map((Recipe recipe) {
+        return Builder(
+          builder: (BuildContext context) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/recipe',
+                  arguments: recipe,
+                );
+              },
+              child:Card(
+                semanticContainer: true,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: InkWell(
+                  child: Container(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Hero(
+                              tag: 'recipe-${recipe.recipeTitle}',
+                              child: Container(
+                                child: recipe.recipeURL == null || recipe.recipeURL == ''
+                                    ? Container(
+                                  child: Icon(
+                                    defaultCategories[0].icon,
+                                    size: 50,
+                                    color: Colors.black,
+                                  ),
+                                  alignment: Alignment.center,
+                                  height: 150,
+                                  width: 275,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFFABBC5),
+                                  ),
+                                )
+                                    : Container(
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Shimmer.fromColors(
+                                        baseColor: Colors.grey[300],
+                                        highlightColor: Colors.grey[100],
+                                        child: Container(
+                                          height: 120,
+                                          width: 275,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      FadeInImage.assetNetwork(
+                                        placeholder: 'assets/1x1.png',
+                                        image: recipe.imageURL,
+                                        fit: BoxFit.cover,
+                                        height: 120,
+                                        width: 275,
+                                      ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.center,
+                                ),
+                              ),
+                            ),
+                            UIHelper.verticalSpaceSmall(),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              width: 275,
+                              child: Text(
+                                recipe.recipeTitle,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ]
+                      )),
+                ),
+              ),
+            );
+          },
+        );
+      }).toList());
+
 }

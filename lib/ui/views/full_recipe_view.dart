@@ -125,10 +125,10 @@ class RecipeView extends StatelessWidget {
                 children: <Widget>[
                   const Divider(height: 10),
                   const Text('Ingredients that can be found on FoodScape'),
-                  _buildRow(recipe.usedIngredients),
+                  //_buildRow(recipe.usedIngredients),
                   const Divider(height: 10),
                   const Text('Ingredients that can be found outside of FoodScape'),
-                  _buildRow(recipe.usedIngredients),
+                  //_buildRow(recipe.usedIngredients),
                 ],
               )
             ],
