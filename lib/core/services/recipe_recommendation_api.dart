@@ -16,6 +16,7 @@ class RecipeRecommendationApi {
   Future<List<RecipeRecommendation>> getRecipesFromMap(Map<String, Item> itemMap) async {
     final Map<String, String> requestHeaders = {'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com', 'X-RapidAPI-Key' : '811ef08dd6msh1e111c963829c02p1a6df3jsn2302f50aa016'};
     final String ingredients = itemMap.keys.join('%2C');
+    final List<RecipeRecommendation> recipes = <RecipeRecommendation>[];
     final Response response = await client.get(spoonEndpoint + ingredients,
       headers: requestHeaders,
     );
@@ -26,8 +27,27 @@ class RecipeRecommendationApi {
 
     final List<dynamic> recipesJson =
     json.decode(response.body);
-    return recipesJson
-        .map((dynamic recipeJson) => RecipeRecommendation.fromJson(recipeJson, itemMap))
-        .toList();
+
+
+    for(dynamic recipeJson in recipesJson) {
+      List<dynamic> usedIngredientsJson = recipeJson['usedIngredients'];
+      bool isValid = true;
+      List<Item> usedItems = <Item>[];
+      for(Map<String, dynamic> usedIngredientJson in usedIngredientsJson) {
+        String ingredientName = usedIngredientJson['name'];
+        if (ingredientName[ingredientName.length - 1] == 's') {
+          ingredientName = ingredientName.substring(0, ingredientName.length - 1);
+        }
+        if (!itemMap.containsKey(ingredientName)) {
+          isValid = false;
+        }
+        usedItems.add(itemMap[ingredientName]);
+      }
+      if(isValid) {
+        recipes.add(RecipeRecommendation.fromJson(recipeJson, itemMap, usedItems));
+      }
+    }
+    return recipes;
   }
+
 }

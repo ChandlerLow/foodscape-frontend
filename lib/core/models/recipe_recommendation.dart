@@ -3,15 +3,14 @@ import 'item.dart';
 
 class RecipeRecommendation {
 
-  RecipeRecommendation({this.recipeTitle, this.imageURL, this.missingIngredients, this.usedIngredients, this.isValid});
+  RecipeRecommendation({this.recipeTitle, this.imageURL, this.missingIngredients, this.usedIngredients});
 
-  factory RecipeRecommendation.fromJson(Map<String, dynamic> json, Map<String, Item> itemMap) {
+  factory RecipeRecommendation.fromJson(Map<String, dynamic> json, Map<String, Item> itemMap, List<Item> usedItems) {
     return RecipeRecommendation(
       recipeTitle: json['title'],
       imageURL: json['image'],
       missingIngredients: RecipeRecommendation.getMissingIngredients(json['missedIngredients']),
-      usedIngredients: RecipeRecommendation.getUsedIngredients(json['usedIngredients'], itemMap),
-      isValid: true,
+      usedIngredients: usedItems,
     );
   }
 
@@ -19,12 +18,7 @@ class RecipeRecommendation {
   final String imageURL;
   final List<String> missingIngredients;
   final List<Item> usedIngredients;
-  final bool isValid;
 
-
-  static List<Item> getUsedIngredients(List<dynamic> ingredientsList, Map<String, Item> itemMap) {
-    return ingredientsList.map<Item>((dynamic i) => itemMap[RecipeRecommendation.getIngredient(i)]).toList();
-  }
   static List<String> getMissingIngredients(List<dynamic> ingredientsList) {
     return ingredientsList.map<String>((dynamic i) => i['name']).toList();
   }
