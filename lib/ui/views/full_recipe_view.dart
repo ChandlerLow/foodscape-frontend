@@ -143,11 +143,10 @@ class RecipeView extends StatelessWidget {
   Widget _buildRowUsed(List<Item> ingredients, BuildContext context) {
     List<Widget> chips = <Widget>[];
     for (Item i in ingredients) {
-      final Color color =  Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
       chips.add(ActionChip(
-          label: Text(i.name.toLowerCase(), style: TextStyle(color: getTextColor(color)),),
+          label: Text(i.name.toLowerCase(), style: const TextStyle(color: Colors.white),),
       onPressed: () {Navigator.pushNamed(context, '/item', arguments: i); },
-      backgroundColor: color));
+      backgroundColor: defaultCategories[i.categoryId].color));
       chips.add(Container(width: 10,));
     }
 

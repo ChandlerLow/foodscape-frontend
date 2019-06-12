@@ -49,5 +49,4 @@ class RecipeRecommendationApi {
     }
     return recipes;
   }
-
 }
