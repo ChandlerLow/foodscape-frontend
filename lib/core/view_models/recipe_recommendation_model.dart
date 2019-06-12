@@ -23,7 +23,11 @@ class RecipeRecommendationModel extends BaseModel {
     final Map<String, Item> itemMap = <String, Item>{};
     for (List<Item> items in categories) {
       for (Item item in items) {
-        itemMap.putIfAbsent(item.name, () =>item);
+        String ingredientName = item.name;
+        if (ingredientName[ingredientName.length - 1] == 's') {
+          ingredientName = ingredientName.substring(0, ingredientName.length - 1);
+        }
+        itemMap.putIfAbsent(ingredientName.toLowerCase(), () =>item);
       }
     }
     return itemMap;

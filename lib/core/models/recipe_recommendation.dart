@@ -3,7 +3,7 @@ import 'item.dart';
 
 class RecipeRecommendation {
 
-  RecipeRecommendation({this.recipeTitle, this.imageURL, this.missingIngredients, this.usedIngredients});
+  RecipeRecommendation({this.recipeTitle, this.imageURL, this.missingIngredients, this.usedIngredients, this.isValid});
 
   factory RecipeRecommendation.fromJson(Map<String, dynamic> json, Map<String, Item> itemMap) {
     return RecipeRecommendation(
@@ -11,6 +11,7 @@ class RecipeRecommendation {
       imageURL: json['image'],
       missingIngredients: RecipeRecommendation.getMissingIngredients(json['missedIngredients']),
       usedIngredients: RecipeRecommendation.getUsedIngredients(json['usedIngredients'], itemMap),
+      isValid: true,
     );
   }
 
@@ -18,6 +19,7 @@ class RecipeRecommendation {
   final String imageURL;
   final List<String> missingIngredients;
   final List<Item> usedIngredients;
+  final bool isValid;
 
 
   static List<Item> getUsedIngredients(List<dynamic> ingredientsList, Map<String, Item> itemMap) {
@@ -32,7 +34,7 @@ class RecipeRecommendation {
     if (ingredientName[ingredientName.length - 1] == 's') {
       ingredientName = ingredientName.substring(0, ingredientName.length - 1);
     }
-    //print(ingredientName);
+   // print(ingredientName);
     return ingredientName;
   }
 }

@@ -127,10 +127,10 @@ class RecipeView extends StatelessWidget {
                 children: <Widget>[
                   const Divider(height: 10),
                   const Text('Ingredients that can be found on FoodScape'),
-               //   _buildRow(recipe.usedIngredients),
+                  _buildRowUsed(recipe.usedIngredients),
                   const Divider(height: 10),
                   const Text('Ingredients that can be found outside of FoodScape'),
-                 // _buildRow(recipe.usedIngredients),
+                  _buildRowMissed(recipe.missingIngredients),
                 ],
               )
             ],
@@ -140,15 +140,31 @@ class RecipeView extends StatelessWidget {
     );
   }
   
-  Widget _buildRow(List<Item> ingredients) {
-    if (ingredients.isEmpty) {
-      return Row(children: <Widget>[Container(child: Text('non'))]);
-    }
+  Widget _buildRowUsed(List<Item> ingredients) {
     List<Widget> chips = <Widget>[];
     for (Item i in ingredients) {
       Color color =  Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
-      chips.add(Chip(label: Text(i.name, style: TextStyle(color: getTextColor(color)),),
+      chips.add(Chip(label: Text(i.name.toLowerCase(), style: TextStyle(color: getTextColor(color)),),
       backgroundColor: color));
+      chips.add(Container(width: 10,));
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: chips,
+      ),
+    );
+  }
+
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
+  Widget _buildRowMissed(List<String> ingredients) {
+    List<Widget> chips = <Widget>[];
+    for (String i in ingredients) {
+      final Color color =  Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
+      chips.add(Chip(label: Text(i, style: TextStyle(color: getTextColor(color)),),
+          backgroundColor: color));
       chips.add(Container(width: 10,));
     }
 
