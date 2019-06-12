@@ -61,6 +61,7 @@ class ItemsView extends StatelessWidget {
 
   Widget getCategoriesUi(Map<int, List<Item>> categories, ItemsModel model) {
     final List<int> categoryKeys = categories.keys.toList();
+    final List<List<Item>> categoryValues = categories.values.toList();
     return Container(
       margin: const EdgeInsets.only(bottom: 25),
       child: ListView.builder(
@@ -90,15 +91,15 @@ class ItemsView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const <Widget>[
-                    Text(
+                  children: <Widget>[
+                    const Text(
                       'Discover recipes',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
                       ),
                     ),
-                    RecipeCarousel(ingredient: 'Apple'),
+                    MultiRecipeCarousel(categoryValues: categoryValues),
                   ],
                 ),
               ),
