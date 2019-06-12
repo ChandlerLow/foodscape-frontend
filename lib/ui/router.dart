@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/models/item.dart';
+import 'package:frontend/core/models/recipe.dart';
 import 'package:frontend/ui/views/filter_view.dart';
+import 'package:frontend/ui/views/full_recipe_view.dart';
 import 'package:frontend/ui/views/home_view.dart';
 import 'package:frontend/ui/views/item_creation_view.dart';
 import 'package:frontend/ui/views/item_editing_view.dart';
@@ -41,6 +43,9 @@ class Router {
         return MaterialPageRoute<dynamic>(
           builder: (_) => ItemOperationsView(item: item),
         );
+      case '/recipe':
+        final Recipe recipe = settings.arguments;
+        return MaterialPageRoute<dynamic>(builder: (_) => RecipeView(recipe: recipe));
       default:
         return MaterialPageRoute<dynamic>(builder: (_) {
           return Scaffold(

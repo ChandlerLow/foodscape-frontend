@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class RecipeApi {
-  static const String APIKEY = '2a87a63977b906c19b235d59bde976f3';
+  static const String APIKEY = 'a292391b38d9f11537efa3871ed824ea';
   static const String endpoint =
       'https://www.food2fork.com/api/search?key=$APIKEY&q=';
 
@@ -28,7 +28,7 @@ class RecipeApi {
     }
 
     final List<dynamic> recipesJson =
-    json.decode(response.body);
+    json.decode(response.body)['recipes'];
     return recipesJson
         .map((dynamic recipeJson) => Recipe.fromJson(recipeJson))
         .toList();

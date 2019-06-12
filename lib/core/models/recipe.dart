@@ -4,19 +4,22 @@ import 'item.dart';
 
 class Recipe {
 
-  Recipe({this.recipeTitle, this.imageURL, this.recipeURL});
+  Recipe({this.recipeTitle, this.imageURL, this.recipeURL, this.usedIngredients});
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
       recipeTitle: json['title'],
       imageURL: json['image_url'],
-      recipeURL: json['f2f_url']
+      recipeURL: json['f2f_url'],
+      usedIngredients: ['apple','apple','apple','apple','apple','apple','apple','apple']
     );
   }
 
   final String recipeTitle;
   final String imageURL;
   final String recipeURL;
+  final List<String> usedIngredients;
+
 
   /*
   Recipe({this.recipeTitle, this.imageURL, this.recipeURL, this.missingIngredients, this.usedIngredients});

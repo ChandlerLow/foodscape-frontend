@@ -39,7 +39,13 @@ class RecipeCarousel extends StatelessWidget {
         return Builder(
           builder: (BuildContext context) {
             return GestureDetector(
-              onTap: () => _launchURL(recipe.recipeURL),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/recipe',
+                  arguments: recipe,
+                );
+              },
               child:Card(
                 semanticContainer: true,
                 clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -52,7 +58,7 @@ class RecipeCarousel extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Hero(
-                              tag: '',
+                              tag: 'recipe-${recipe.recipeTitle}',
                               child: Container(
                                 child: recipe.recipeURL == null || recipe.recipeURL == ''
                                     ? Container(
