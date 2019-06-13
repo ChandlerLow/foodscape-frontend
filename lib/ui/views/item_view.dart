@@ -170,7 +170,8 @@ class ItemView extends StatelessWidget {
               ),
               const Divider(height: 10),
               ListTile(
-                title: const Text('Stuck for choice? Try one of these'),
+                title:
+                    const Text('Stuck for choice? Try one of these recipes:'),
               ),
               RecipeCarousel(ingredient: item.name),
             ],

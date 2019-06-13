@@ -20,7 +20,7 @@ class ItemCreationModel extends BaseModel {
     setState(ViewState.Busy);
 
     final List<Future<void>> futures = [];
-    futures.add(Future<void>.delayed(Duration(seconds: 1)));
+    futures.add(Future<void>.delayed(const Duration(seconds: 1)));
     futures.add(_api
         .createItem(
           itemName,

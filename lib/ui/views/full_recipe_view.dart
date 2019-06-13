@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/models/recipe_recommendation.dart';
+import 'package:frontend/core/services/api.dart';
+import 'package:frontend/locator.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
 import 'package:shimmer/shimmer.dart';
 
 class RecipeView extends StatelessWidget {
   const RecipeView({this.recipe});
+
   final RecipeRecommendation recipe;
 
   @override
@@ -124,10 +127,14 @@ class RecipeView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   const Divider(height: 10),
-                  const Text('Ingredients on FoodScape!', style: TextStyle(fontWeight: FontWeight.bold)),
-                  _buildRowUsed(recipe.usedIngredients, context),
+                  const Text('Ingredients on FoodScape',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  _buildRowUsed(recipe.usedIngredients, recipe, context),
                   const Divider(height: 10),
-                  const Text('Ingredients not on FoodScape!', style: TextStyle(fontWeight: FontWeight.bold),),
+                  const Text(
+                    'Ingredients not on FoodScape',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   _buildRowMissed(recipe.missingIngredients),
                 ],
               )
@@ -137,15 +144,24 @@ class RecipeView extends StatelessWidget {
       ),
     );
   }
-  
-  Widget _buildRowUsed(List<Item> ingredients, BuildContext context) {
+
+  Widget _buildRowUsed(List<Item> ingredients, RecipeRecommendation recipe,
+      BuildContext context) {
     final List<Widget> chips = <Widget>[];
     for (Item i in ingredients) {
       chips.add(ActionChip(
-          label: Text(i.name.toLowerCase(), style: const TextStyle(color: Colors.white),),
-      onPressed: () {Navigator.pushNamed(context, '/item', arguments: i); },
-      backgroundColor: defaultCategories[i.categoryId].color));
-      chips.add(Container(width: 10,));
+          label: Text(
+            i.name.toLowerCase(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            sendItemMetric(i.id, recipe.recipeTitle);
+            Navigator.pushNamed(context, '/item', arguments: i);
+          },
+          backgroundColor: defaultCategories[i.categoryId].color));
+      chips.add(Container(
+        width: 10,
+      ));
     }
 
     return SingleChildScrollView(
@@ -161,10 +177,17 @@ class RecipeView extends StatelessWidget {
   Widget _buildRowMissed(List<String> ingredients) {
     List<Widget> chips = <Widget>[];
     for (String i in ingredients) {
-      final Color color =  Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
-      chips.add(Chip(label: Text(i, style: const TextStyle(color: Colors.white),),
-          backgroundColor: Colors.green));
-      chips.add(Container(width: 10,));
+      final Color color = Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
+          .withOpacity(1.0);
+      chips.add(Chip(
+          label: Text(
+            i,
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.black45));
+      chips.add(Container(
+        width: 10,
+      ));
     }
 
     return SingleChildScrollView(
@@ -188,5 +211,14 @@ class RecipeView extends StatelessWidget {
       d = 255; // dark colors - white font
 
     return Color.fromARGB(color.alpha, d, d, d);
+  }
+
+  Future<void> sendItemMetric(int itemId, String recipeName) async {
+    final Api _api = locator<Api>();
+    await _api.sendItemMetric(
+      'open_item',
+      source: 'recipe',
+      additional: '{\'item: ${itemId.toString()}\', recipe: \'$recipeName\'}',
+    );
   }
 }

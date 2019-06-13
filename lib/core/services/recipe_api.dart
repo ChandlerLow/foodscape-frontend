@@ -23,7 +23,7 @@ class RecipeApi {
     }
 
     final List<dynamic> recipesJson = json.decode(response.body)['recipes'];
-    return recipesJson
+    return recipesJson == null ? <Recipe>[] : recipesJson
         .map((dynamic recipeJson) => Recipe.fromJson(recipeJson))
         .toList();
   }
