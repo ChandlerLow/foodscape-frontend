@@ -1,23 +1,21 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:frontend/constants.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
-import 'package:frontend/core/models/user.dart';
+import 'package:frontend/core/models/recipe_recommendation.dart';
+import 'package:frontend/core/services/api.dart';
+import 'package:frontend/locator.dart';
 import 'package:frontend/ui/shared/app_colors.dart' as app_colors;
-import 'package:frontend/ui/widgets/recipe_carousel.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class ItemView extends StatelessWidget {
-  const ItemView({this.item});
+class RecipeView extends StatelessWidget {
+  const RecipeView({this.recipe});
 
-  final Item item;
+  final RecipeRecommendation recipe;
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -25,23 +23,6 @@ class ItemView extends StatelessWidget {
         ),
         backgroundColor: app_colors.backgroundColorPink,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: !isExpired(item.expiryDate) && !item.isCollected
-          ? FloatingActionButton.extended(
-              heroTag: 'main-fab',
-              backgroundColor: app_colors.backgroundColorPink,
-              elevation: 2.0,
-              label: const Text('Message'),
-              onPressed: () async {
-                String uri = 'sms:${item.userPhoneNumber}';
-                if (await canLaunch(uri)) {
-                  await launch(uri);
-                } else {
-                  throw 'Could not launch $uri';
-                }
-              },
-            )
-          : null,
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -66,11 +47,11 @@ class ItemView extends StatelessWidget {
               // Item image
               Container(
                 child: Hero(
-                  tag: 'item-photo-${item.id}',
-                  child: item.photo == null || item.photo == ''
+                  tag: 'recipe-${recipe.recipeTitle}',
+                  child: recipe.imageURL == null || recipe.imageURL == ''
                       ? Container(
                           child: Icon(
-                            defaultCategories[item.categoryId].icon,
+                            defaultCategories[0].icon,
                             size: 50,
                             color: Colors.black,
                           ),
@@ -103,7 +84,7 @@ class ItemView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/1x1.png',
-                                  image: '$SPACES_BASE_URL/${item.photo}',
+                                  image: recipe.imageURL,
                                   fit: BoxFit.cover,
                                   height: 170.0,
                                   width: 300.0,
@@ -132,7 +113,7 @@ class ItemView extends StatelessWidget {
               // Item name
               Container(
                 child: Text(
-                  item.name,
+                  recipe.recipeTitle,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -141,55 +122,22 @@ class ItemView extends StatelessWidget {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 10),
               ),
-              Card(
-                color: Colors.yellow[200],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: true
-                    ? Container(
-                        margin: const EdgeInsets.all(10),
-                        width: 200,
-                        height: 50,
-                        child: const Text(
-                            'Heads up! This item got a lot of messages in'
-                            ' the past hour. Why not check back later?'),
-                      )
-                    : null,
-              ),
-              // Tiles for user information
-              makeListTile(
-                'Expires in',
-                isExpired(item.expiryDate)
-                    ? 'Expired'
-                    : getDaysLeft(item.expiryDate).toString() +
-                        (getDaysLeft(item.expiryDate) <= 1 ? ' day' : ' days'),
-              ),
-              const Divider(height: 10),
-              makeListTile('Quantity', item.quantity),
-              const Divider(height: 10),
-              makeListTile('Owner', item.userName),
-              const Divider(height: 10),
-              makeListTile('Location', item.userLocation),
-              const Divider(height: 10),
-              ListTile(
-                leading: const Text(
-                  'Description',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                title: Text(
-                  item.description == ''
-                      ? 'No description provided'
-                      : item.description,
-                  textAlign: TextAlign.right,
-                ),
-              ),
-              const Divider(height: 10),
-              ListTile(
-                title:
-                    const Text('Stuck for choice? Try one of these recipes:'),
-              ),
-              RecipeCarousel(ingredient: item.name),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  const Divider(height: 10),
+                  const Text('Ingredients on FoodScape',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  _buildRowUsed(recipe.usedIngredients, recipe, context),
+                  const Divider(height: 10),
+                  const Text(
+                    'Ingredients not on FoodScape',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  _buildRowMissed(recipe.missingIngredients),
+                ],
+              )
             ],
           ),
         ),
@@ -197,21 +145,80 @@ class ItemView extends StatelessWidget {
     );
   }
 
-  ListTile makeListTile(String leading, String title) {
-    return ListTile(
-      leading: Text(
-        leading,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+  Widget _buildRowUsed(List<Item> ingredients, RecipeRecommendation recipe,
+      BuildContext context) {
+    final List<Widget> chips = <Widget>[];
+    for (Item i in ingredients) {
+      chips.add(ActionChip(
+          label: Text(
+            i.name.toLowerCase(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            sendItemMetric(i.id, recipe.recipeTitle);
+            Navigator.pushNamed(context, '/item', arguments: i);
+          },
+          backgroundColor: defaultCategories[i.categoryId].color));
+      chips.add(Container(
+        width: 10,
+      ));
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: chips,
       ),
-      title: Text(title, textAlign: TextAlign.right),
     );
   }
 
-  int getDaysLeft(DateTime expiryDate) {
-    return expiryDate.difference(DateTime.now()).inDays;
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
+  Widget _buildRowMissed(List<String> ingredients) {
+    List<Widget> chips = <Widget>[];
+    for (String i in ingredients) {
+      final Color color = Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
+          .withOpacity(1.0);
+      chips.add(Chip(
+          label: Text(
+            i,
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.black45));
+      chips.add(Container(
+        width: 10,
+      ));
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: chips,
+      ),
+    );
   }
 
-  bool isExpired(DateTime expiryDate) {
-    return expiryDate.isBefore(DateTime.now());
+  Color getTextColor(Color color) {
+    int d = 0;
+
+// Counting the perceptive luminance - human eye favors green color...
+    final double luminance =
+        (0.299 * color.red + 0.587 * color.green + 0.114 * color.blue) / 255;
+
+    if (luminance > 0.5)
+      d = 0; // bright colors - black font
+    else
+      d = 255; // dark colors - white font
+
+    return Color.fromARGB(color.alpha, d, d, d);
+  }
+
+  Future<void> sendItemMetric(int itemId, String recipeName) async {
+    final Api _api = locator<Api>();
+    await _api.sendItemMetric(
+      'open_item',
+      source: 'recipe',
+      additional: '{\'item: ${itemId.toString()}\', recipe: \'$recipeName\'}',
+    );
   }
 }

@@ -12,7 +12,6 @@ class RecipeApi {
   Client client = http.Client();
 
   Future<List<Recipe>> getRecipes(String ingredients) async {
-   //final Map<String, String> requestHeaders = {'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com', 'X-RapidAPI-Key' : '811ef08dd6msh1e111c963829c02p1a6df3jsn2302f50aa016'};
    ingredients = ingredients.split(' ').join('%20');
     final Response response = await client.get(
       endpoint + ingredients,
@@ -23,11 +22,9 @@ class RecipeApi {
           '${response.body}');
     }
 
-    final List<dynamic> recipesJson =
-    json.decode(response.body)['recipes'];
-    return recipesJson
+    final List<dynamic> recipesJson = json.decode(response.body)['recipes'];
+    return recipesJson == null ? <Recipe>[] : recipesJson
         .map((dynamic recipeJson) => Recipe.fromJson(recipeJson))
         .toList();
   }
-
 }

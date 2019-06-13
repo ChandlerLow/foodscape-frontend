@@ -32,7 +32,11 @@ class UserItemsView extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               child: RefreshIndicator(
                 child: model.state == ViewState.Idle
-                    ? getItemsUi(model.items, model)
+                    ? (model.items.isNotEmpty
+                        ? getItemsUi(model.items, model)
+                        : const Center(
+                            child: Text('None found! Why not add an item?'),
+                          ))
                     : const Center(child: CircularProgressIndicator()),
                 onRefresh: model.getItems,
               ),
