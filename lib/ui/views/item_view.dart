@@ -164,7 +164,9 @@ class ItemView extends StatelessWidget {
                 'Expires in',
                 isExpired(item.expiryDate)
                     ? 'Expired'
-                    : getDaysLeft(item.expiryDate).toString() +
+                    : isToday(item.expiryDate)
+                      ? 'Today'
+                      : getDaysLeft(item.expiryDate).toString() +
                         (getDaysLeft(item.expiryDate) <= 1 ? ' day' : ' days'),
               ),
               const Divider(height: 10),
@@ -207,6 +209,10 @@ class ItemView extends StatelessWidget {
       ),
       title: Text(title, textAlign: TextAlign.right),
     );
+  }
+
+  bool isToday(DateTime expiryDate) {
+    return expiryDate.difference(DateTime.now()).inDays == 0;
   }
 
   int getDaysLeft(DateTime expiryDate) {

@@ -119,7 +119,26 @@ class UserListItem extends StatelessWidget {
                             ],
                           ),
                         )
-                      : Container(
+                      : isToday(item.expiryDate)
+                          ? Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 4),
+                                    child: const Icon(Icons.alarm, size: 16),
+                                  ),
+                                  const Text(
+                                    'Expires Today',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: Row(
                             children: <Widget>[
@@ -159,6 +178,10 @@ class UserListItem extends StatelessWidget {
       ),
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
     );
+  }
+
+  bool isToday(DateTime expiryDate) {
+    return expiryDate.difference(DateTime.now()).inDays == 0;
   }
 
   bool isExpired(DateTime expiryDate) {
