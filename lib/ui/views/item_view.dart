@@ -141,6 +141,24 @@ class ItemView extends StatelessWidget {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 10),
               ),
+              item.interest > 2
+                  ? Card(
+                      color: Colors.yellow[200],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        margin: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        child: const Text(
+                          'Heads up! This item might already be gone as it '
+                          'received a lot of messages in the past hour. '
+                          'Why not check back later?',
+                          style: TextStyle(fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ))
+                  : Container(),
               // Tiles for user information
               makeListTile(
                 'Expires in',
