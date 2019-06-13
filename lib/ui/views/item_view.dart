@@ -141,7 +141,7 @@ class ItemView extends StatelessWidget {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 10),
               ),
-              item.interest > 2
+              item.interest != null && item.interest > 2
                   ? Card(
                       color: Colors.yellow[200],
                       shape: RoundedRectangleBorder(

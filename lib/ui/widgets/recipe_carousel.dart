@@ -153,93 +153,101 @@ class MultiRecipeCarousel extends StatelessWidget {
     );
   }
 
-  Widget recipeCarousel(List<RecipeRecommendation> recipes) => CarouselSlider(
-      height: 160,
-      items: recipes.map((RecipeRecommendation recipe) {
-        return Builder(
-          builder: (BuildContext context) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/recipe',
-                  arguments: recipe,
-                );
-              },
-              child: Card(
-                semanticContainer: true,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: InkWell(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Hero(
-                          tag: 'recipe-${recipe.recipeTitle}',
-                          child: Container(
-                            child:
-                                recipe.imageURL == null || recipe.imageURL == ''
-                                    ? Container(
-                                        child: Icon(
-                                          defaultCategories[0].icon,
-                                          size: 50,
-                                          color: Colors.black,
-                                        ),
-                                        alignment: Alignment.center,
-                                        height: 150,
+  Widget recipeCarousel(List<RecipeRecommendation> recipes) {
+    if(recipes.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: const Text('No recipes to show!', style: TextStyle(fontSize: 16)),
+      );
+    }
+    return CarouselSlider(
+        height: 160,
+        items: recipes.map((RecipeRecommendation recipe) {
+          return Builder(
+            builder: (BuildContext context) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/recipe',
+                    arguments: recipe,
+                  );
+                },
+                child: Card(
+                  semanticContainer: true,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: InkWell(
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Hero(
+                            tag: 'recipe-${recipe.recipeTitle}',
+                            child: Container(
+                              child:
+                              recipe.imageURL == null || recipe.imageURL == ''
+                                  ? Container(
+                                child: Icon(
+                                  defaultCategories[0].icon,
+                                  size: 50,
+                                  color: Colors.black,
+                                ),
+                                alignment: Alignment.center,
+                                height: 150,
+                                width: 300,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFFABBC5),
+                                ),
+                              )
+                                  : Container(
+                                child: Stack(
+                                  children: <Widget>[
+                                    Shimmer.fromColors(
+                                      baseColor: Colors.grey[300],
+                                      highlightColor: Colors.grey[100],
+                                      child: Container(
+                                        height: 120,
                                         width: 300,
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xFFFABBC5),
-                                        ),
-                                      )
-                                    : Container(
-                                        child: Stack(
-                                          children: <Widget>[
-                                            Shimmer.fromColors(
-                                              baseColor: Colors.grey[300],
-                                              highlightColor: Colors.grey[100],
-                                              child: Container(
-                                                height: 120,
-                                                width: 300,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            FadeInImage.assetNetwork(
-                                              placeholder: 'assets/1x1.png',
-                                              image: recipe.imageURL,
-                                              fit: BoxFit.cover,
-                                              height: 120,
-                                              width: 300,
-                                            ),
-                                          ],
-                                        ),
-                                        alignment: Alignment.center,
+                                        color: Colors.white,
                                       ),
-                          ),
-                        ),
-                        UIHelper.verticalSpaceSmall(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          width: 275,
-                          child: Text(
-                            recipe.recipeTitle,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                                    ),
+                                    FadeInImage.assetNetwork(
+                                      placeholder: 'assets/1x1.png',
+                                      image: recipe.imageURL,
+                                      fit: BoxFit.cover,
+                                      height: 120,
+                                      width: 300,
+                                    ),
+                                  ],
+                                ),
+                                alignment: Alignment.center,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                          UIHelper.verticalSpaceSmall(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                            width: 275,
+                            child: Text(
+                              recipe.recipeTitle,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
-        );
-      }).toList());
+              );
+            },
+          );
+        }).toList());
+  }
 }
