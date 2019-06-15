@@ -74,7 +74,7 @@ class ItemsView extends StatelessWidget {
         itemCount: categories.length + 2,
         itemBuilder: (BuildContext context, int i) {
           if (i == 0) {
-            return model.broadcast.hasBroadcast
+            return model.broadcast != null && model.broadcast.hasBroadcast
                 ? Card(
                     margin: const EdgeInsets.only(
                       top: 10,
