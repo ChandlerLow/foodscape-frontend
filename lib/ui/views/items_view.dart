@@ -15,6 +15,7 @@ class ItemsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<ItemsModel>(
       onModelReady: (ItemsModel model) {
+        model.getBroadcast();
         model.getItems();
       },
       builder: (BuildContext context, ItemsModel model, Widget child) {
@@ -43,7 +44,7 @@ class ItemsView extends StatelessWidget {
           backgroundColor: backgroundColor,
           body: Container(
             child: RefreshIndicator(
-              child: model.state == ViewState.Idle
+              child: model.state == ViewState.Idle && model.categories != null
                   ? (model.categories.isEmpty
                       ? const Center(
                           child: Text('No items match your specifications! '
@@ -51,7 +52,10 @@ class ItemsView extends StatelessWidget {
                         )
                       : getCategoriesUi(model.categories, model))
                   : const Center(child: CircularProgressIndicator()),
-              onRefresh: model.getItems,
+              onRefresh: () async {
+                model.getItems();
+                model.getBroadcast();
+              },
             ),
           ),
         );
@@ -67,9 +71,49 @@ class ItemsView extends StatelessWidget {
       child: ListView.builder(
         shrinkWrap: true,
         padding: const EdgeInsets.only(bottom: 50),
-        itemCount: categories.length + 1,
+        itemCount: categories.length + 2,
         itemBuilder: (BuildContext context, int i) {
           if (i == 0) {
+            return model.broadcast.hasBroadcast
+                ? Card(
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                      left: 5,
+                      right: 5,
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        return showDialog<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Text(model.broadcast.message),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: const Text('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 10.0),
+                        width: double.infinity,
+                        child: Text(
+                          model.broadcast.summary,
+                          style: const TextStyle(fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ))
+                : Container();
+          } else if (i == 1) {
             return ConstrainedBox(
               constraints: const BoxConstraints(minWidth: double.infinity),
               child: Container(
@@ -129,7 +173,7 @@ class ItemsView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    defaultCategories[categoryKeys[i - 1]].name,
+                    defaultCategories[categoryKeys[i - 2]].name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
@@ -138,7 +182,7 @@ class ItemsView extends StatelessWidget {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: categories[categoryKeys[i - 1]].map<Widget>(
+                      children: categories[categoryKeys[i - 2]].map<Widget>(
                         (Item item) {
                           return ItemsListItem(
                             item: item,

@@ -1,3 +1,4 @@
+import 'package:frontend/core/models/broadcast.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/item.dart';
 import 'package:frontend/core/services/api.dart';
@@ -9,6 +10,7 @@ class ItemsModel extends BaseModel {
   final Api _api = locator<Api>();
   Map<int, List<Item>> categories;
   Map<int, List<Item>> nonEmptyCategories;
+  Broadcast broadcast;
 
   Future<void> getItems() async {
     setState(ViewState.Busy);
@@ -22,6 +24,12 @@ class ItemsModel extends BaseModel {
       ..removeWhere((int key, _) => !selectedCategories.contains(key))
       ..removeWhere((_, List<Item> items) => items.isEmpty);
 
+    setState(ViewState.Idle);
+  }
+
+  Future<void> getBroadcast() async {
+    setState(ViewState.Busy);
+    broadcast = await _api.getBroadcast();
     setState(ViewState.Idle);
   }
 

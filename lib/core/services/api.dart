@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:frontend/core/models/broadcast.dart';
 import 'package:frontend/core/models/categories.dart';
 import 'package:frontend/core/models/category.dart';
 import 'package:frontend/core/models/user.dart';
@@ -16,6 +17,16 @@ class Api {
   static const String endpoint = 'https://foodscape.iamkelv.in';
 
   Client client = http.Client();
+
+  Future<Broadcast> getBroadcast() async {
+    final Response response = await client.get('$endpoint/broadcast');
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load broadcast - ${response.statusCode} - '
+          '${response.body}');
+    }
+
+    return Broadcast.fromJson(json.decode(response.body));
+  }
 
   Future<List<Item>> getUserItems() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
