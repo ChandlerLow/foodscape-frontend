@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/constants.dart';
@@ -222,6 +221,33 @@ class _ItemEditingViewState extends State<ItemEditingView> {
                             ),
                             onPressed: model.state == ViewState.Idle
                                 ? () async {
+                                    if (itemNameController.text == '' ||
+                                        quantityController.text == '' ||
+                                        expiryController.text == '' ||
+                                        descriptionController.text == '') {
+                                      return showDialog<dynamic>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                                  title: const Text(
+                                                      'Invalid Input'),
+                                                  content: const Text(
+                                                    'Make sure no fields are empty and try again!',
+                                                  ),
+                                                  actions: <Widget>[
+                                                    FlatButton(
+                                                      child: const Text('OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop(false);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                          ) ??
+                                          false;
+                                    }
+
                                     await model.edit(
                                       item,
                                       itemNameController.text,

@@ -72,12 +72,37 @@ class _LoginViewState extends State<LoginView> {
                             elevation: 0,
                             label: Text(
                               model.state == ViewState.Idle
-                                  ? 'Sign In' : 'Signing In...',
+                                  ? 'Sign In'
+                                  : 'Signing In...',
                               style: const TextStyle(
                                 color: app_colors.backgroundColorPink,
                               ),
                             ),
                             onPressed: () async {
+                              if (_usernameController.text == '' ||
+                                  _passwordController.text == '') {
+                                return showDialog<dynamic>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                            title: const Text('Invalid Input'),
+                                            content: const Text(
+                                              'Make sure no fields are empty and try again!',
+                                            ),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                child: const Text('OK'),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(false);
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                    ) ??
+                                    false;
+                              }
+
                               final bool loginSuccess = await model.login(
                                 _usernameController.text,
                                 _passwordController.text,

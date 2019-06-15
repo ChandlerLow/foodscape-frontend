@@ -187,23 +187,48 @@ class _ItemCreationViewState extends State<ItemCreationView> {
                               ? const Text('Submitted!')
                               : const Text('Submit Item'))
                           : const Text('Submitting...'),
-                      onPressed:
-                          model.state == ViewState.Idle && !model.isCreated
-                              ? () async {
-                                  await model.create(
-                                    itemNameController.text,
-                                    quantityController.text,
-                                    expiryController.text,
-                                    descriptionController.text,
-                                    _photo,
-                                    category.id,
-                                  );
-                                  await Future<Duration>.delayed(
-                                      Duration(seconds: 1));
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/user/items');
-                                }
-                              : null,
+                      onPressed: model.state == ViewState.Idle &&
+                              !model.isCreated
+                          ? () async {
+                              if (itemNameController.text == '' ||
+                                  quantityController.text == '' ||
+                                  expiryController.text == '' ||
+                                  descriptionController.text == '') {
+                                return showDialog<dynamic>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                            title: const Text('Invalid Input'),
+                                            content: const Text(
+                                              'Make sure no fields are empty and try again!',
+                                            ),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                child: const Text('OK'),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(false);
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                    ) ??
+                                    false;
+                              }
+                              await model.create(
+                                itemNameController.text,
+                                quantityController.text,
+                                expiryController.text,
+                                descriptionController.text,
+                                _photo,
+                                category.id,
+                              );
+                              await Future<Duration>.delayed(
+                                  Duration(seconds: 1));
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/user/items');
+                            }
+                          : null,
                     )
                   : null,
               floatingActionButtonLocation:

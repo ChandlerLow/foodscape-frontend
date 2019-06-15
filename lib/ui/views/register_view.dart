@@ -72,6 +72,33 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                       onPressed: model.state == ViewState.Idle
                           ? () async {
+                              if (_fullNameController.text == '' ||
+                                  _usernameController.text == '' ||
+                                  _passwordController.text == '' ||
+                                  _locationController.text == '' ||
+                                  _phoneNumController.text == '') {
+                                return showDialog<dynamic>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                            title: const Text('Invalid Input'),
+                                            content: const Text(
+                                              'Make sure no fields are empty and try again!',
+                                            ),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                child: const Text('OK'),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(false);
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                    ) ??
+                                    false;
+                              }
+
                               final bool loginSuccess = await model.register(
                                 _fullNameController.text,
                                 _usernameController.text,
