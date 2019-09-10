@@ -1,16 +1,8 @@
-# frontend
+# FoodScape - Backend <img src="assets/doughnut.png" width="50">
 
-A new Flutter project.
+FoodScape is a cross-platform mobile app developed to help students living in halls of residence reduce food waste. FoodScape acts as a forum where students can post their soon-to-expire foodstuffs, and can request to collect and use food that other students have posted on the app.
 
-## Getting Started
+Developed by Chandler Low, Viet Nguyen, Kelvin Zhang and Fawaz Shah.
 
-This project is a starting point for a Flutter application.
+Frontend written with Flutter.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
